@@ -27,21 +27,6 @@ public class communityFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_community);
 
-        // 컴포넌트 초기화
-        reg_button = getView().findViewById(R.id.reg_button);
-
-        // 버튼 이벤트 추가
-        reg_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), CommunityUploaded.class);
-                startActivity(intent);
-            }
-        });
-    }
-
-    private Context getApplicationContext() {
-        return null;
     }
 
     private void setContentView(int fragment_community) {
@@ -51,9 +36,21 @@ public class communityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_community, container, false);
+
         View v = inflater.inflate(R.layout.fragment_community, container, false);
+
+        // 컴포넌트 초기화
+        reg_button = v.findViewById(R.id.reg_button);
+
+        // 버튼 이벤트 추가
+        reg_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), CommunityUploaded.class);
+                startActivity(intent);
+            }
+        });
+
         return v;
     }
 }

@@ -22,6 +22,8 @@
         </activity>
 
         <activity android:name=".CommunityComment"/>
+
+        <activity android:name=".CommunityUploaded" />
     </application>
 
 </manifest>
