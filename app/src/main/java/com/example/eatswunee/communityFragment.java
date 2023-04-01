@@ -1,5 +1,7 @@
 package com.example.eatswunee;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -25,23 +27,21 @@ public class communityFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_community);
 
-        // ListActivity 에서 넘긴 userid 를 변수로 받음
-        userid = getIntent().getStringExtra("userid");
-
         // 컴포넌트 초기화
-        title_et = findViewById(R.id.title_et);
-        content_et = findViewById(R.id.content_et);
-        reg_button = findViewById(R.id.reg_button);
+        reg_button = getView().findViewById(R.id.reg_button);
 
         // 버튼 이벤트 추가
         reg_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // 게시물 등록 함수
-                RegBoard regBoard = new RegBoard();
-                regBoard.execute(userid, title_et.getText().toString(), content_et.getText().toString());
+                Intent intent = new Intent(getApplicationContext(), CommunityUploaded.class);
+                startActivity(intent);
             }
         });
+    }
+
+    private Context getApplicationContext() {
+        return null;
     }
 
     private void setContentView(int fragment_community) {
@@ -52,6 +52,8 @@ public class communityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_community, container, false);
+        //return inflater.inflate(R.layout.fragment_community, container, false);
+        View v = inflater.inflate(R.layout.fragment_community, container, false);
+        return v;
     }
 }
