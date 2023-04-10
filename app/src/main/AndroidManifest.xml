@@ -12,6 +12,12 @@
         android:theme="@style/Theme.Eatswunee"
         tools:targetApi="31">
         <activity
+            android:name=".bistro.ReviewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".bistro.menu_infoActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -20,10 +26,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".CommunityComment"/>
-
-        <activity android:name=".CommunityUploaded" />
+        <activity android:name=".community.CommunityComment" />
+        <activity android:name=".community.CommunityUploaded" />
     </application>
 
 </manifest>
