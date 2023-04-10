@@ -75,15 +75,21 @@
 
         <LinearLayout
             android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="475dp"
+            android:layout_width="409dp"
+            android:layout_height="464dp"
             android:layout_weight="8"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/myPageviewPager"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal" />
+            </androidx.viewpager.widget.ViewPager>
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
