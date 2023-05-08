@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,7 +13,8 @@ import com.example.eatswunee.R;
 
 import java.util.ArrayList;
 
-public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.ViewHolder> {
+public class MyBistroAdapter extends RecyclerView.Adapter<MyBistroAdapter.ViewHolder> {
+
     // OnClickListener Custom --------------------------------------
     public interface OnItemClickListener {
         void onItemClick(ViewHolder holder, View v, int pos);
@@ -37,13 +37,13 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
     @NonNull
     @Override
-    public MyRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyBistroAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_bistro_recyclerview, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyRecyclerAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyBistroAdapter.ViewHolder holder, int position) {
         holder.onBind(mMenu_item.get(position));
     }
 
@@ -85,8 +85,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         }
 
         void onBind(menu_item item) {
-
-            MyRecyclerAdapter adapter = new MyRecyclerAdapter();
 
             menu_image.setImageResource(item.getResourceId());
             bistro_name.setText(item.getBistro_name());
