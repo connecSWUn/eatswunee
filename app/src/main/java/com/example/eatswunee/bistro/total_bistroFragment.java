@@ -11,19 +11,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.eatswunee.R;
-import com.example.eatswunee.bistro.recyclerView.MyRecyclerAdapter;
+import com.example.eatswunee.bistro.recyclerView.MyBistroAdapter;
 import com.example.eatswunee.bistro.recyclerView.menu_item;
-
-import java.util.ArrayList;
 
 
 public class total_bistroFragment extends Fragment {
 
     private View v;
-    private MyRecyclerAdapter adapter;
+    private MyBistroAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,11 +35,11 @@ public class total_bistroFragment extends Fragment {
         // Inflate the layout for this fragment
         v =  inflater.inflate(R.layout.fragment_total_bistro, container, false);
 
-        adapter = new MyRecyclerAdapter();
+        adapter = new MyBistroAdapter();
 
-        adapter.setOnItemClickListener(new MyRecyclerAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new MyBistroAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(MyRecyclerAdapter.ViewHolder holder, View v, int pos) {
+            public void onItemClick(MyBistroAdapter.ViewHolder holder, View v, int pos) {
                 menu_item item = adapter.getItem(pos);
 
                 // 화면 전환 구현, intent 전달 필요

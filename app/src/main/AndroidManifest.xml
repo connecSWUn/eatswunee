@@ -12,6 +12,18 @@
         android:theme="@style/Theme.Eatswunee"
         tools:targetApi="31">
         <activity
+            android:name=".mypage.settingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".mypage.order_listActivity"
+            android:exported="false" />
+        <activity
+            android:name=".community.friend_writeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".mypage.profile_editActivity"
+            android:exported="false" />
+        <activity
             android:name=".bistro.ReviewActivity"
             android:exported="false" />
         <activity
@@ -26,8 +38,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".community.CommunityComment" />
-        <activity android:name=".community.CommunityUploaded" />
     </application>
 
 </manifest>

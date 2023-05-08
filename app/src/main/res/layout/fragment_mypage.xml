@@ -13,16 +13,120 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/order_title2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="mypage"
-            android:textSize="24sp"
+            android:text="먹어보슌"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.26" />
+            app:layout_constraintVertical_bias="0.039" />
+
+        <ImageButton
+            android:id="@+id/shoppingBtn5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:background="#00ff0000"
+            android:backgroundTint="@color/white"
+            android:src="@drawable/baseline_notifications_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/order_title2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#BDBDBD"
+            app:layout_constraintBottom_toTopOf="@+id/profile_edit_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/profile_edit_btn"
+            android:layout_width="0dp"
+            android:layout_height="106dp"
+            android:layout_marginTop="76dp"
+            android:background="#00ff0000"
+            android:drawableLeft="@drawable/mypage_profile"
+            android:drawableRight="@drawable/baseline_keyboard_arrow_right_24"
+            android:drawablePadding="20dp"
+            android:gravity="center|left"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:text="user23"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#BDBDBD"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profile_edit_btn" />
+
+        <Button
+            android:id="@+id/list_btn"
+            android:layout_width="0dp"
+            android:layout_height="75dp"
+            android:background="#00ff0000"
+            android:drawableLeft="@drawable/baseline_list_alt_24"
+            android:drawablePadding="30dp"
+            android:gravity="center|left"
+            android:paddingLeft="30dp"
+            android:text="주문 목록 &amp; 별점"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view" />
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#BDBDBD"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/list_btn" />
+
+        <Button
+            android:id="@+id/setting_btn"
+            android:layout_width="0dp"
+            android:layout_height="75dp"
+            android:background="#00ff0000"
+            android:drawableLeft="@drawable/baseline_settings_24"
+            android:drawablePadding="30dp"
+            android:gravity="center|left|center_vertical"
+            android:paddingLeft="30dp"
+            android:text="설정"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/list_btn" />
+
+        <View
+            android:id="@+id/view3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#BDBDBD"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/setting_btn" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
