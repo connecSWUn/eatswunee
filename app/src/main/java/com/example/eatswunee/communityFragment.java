@@ -1,9 +1,9 @@
 package com.example.eatswunee;
 
-import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,9 +15,19 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toolbar;
 
-import com.example.eatswunee.bistro.recyclerView.MyCommunityAdapter;
-import com.example.eatswunee.bistro.recyclerView.community_item;
+import com.example.eatswunee.mypage.MyCommunityAdapter;
+import com.example.eatswunee.mypage.community_item;
+import com.example.eatswunee.server.Result;
+import com.example.eatswunee.server.ServiceApi;
 import com.google.android.material.navigation.NavigationView;
+
+import java.time.LocalDateTime;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class communityFragment extends Fragment {
@@ -36,6 +46,34 @@ public class communityFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://ec2-43-201-201-163.ap-northeast-2.compute.amazonaws.com:8080")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ServiceApi serviceApi = retrofit.create(ServiceApi.class);
+        serviceApi.getData("10003040", "all").enqueue(new Callback<Result>() {
+            @Override
+            public void onResponse(@NonNull Call<Result> call, @NonNull Response<Result> response) {
+                if(response.isSuccessful()) {
+                    Result data = response.body();
+                    int recruitId = data.getRecruitId();
+                    LocalDateTime createdAt = data.getCreatedAt();
+                    String title = data.getTitle();
+                    String status = data.getStatus();
+                    String spot = data.getSpot();
+                    LocalDateTime startTime = data.getStartTime();
+                    LocalDateTime endTime = data.getEndTime();
+
+                    setData(recruitId, createdAt, title, status, spot, startTime, endTime);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Result> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
 
@@ -57,7 +95,6 @@ public class communityFragment extends Fragment {
         total.setSelected(true);
 
         init();
-        getData();
 
         total.setOnClickListener(new totalOnClickListener());
         gusia.setOnClickListener(new gusiaOnClickListener());
@@ -98,32 +135,10 @@ public class communityFragment extends Fragment {
         mRecyclerView.setAdapter(adapter);
     }
 
-    /* 예시 */
-    private void getData() {
-        /* adapt data : example */
-        community_item data = new community_item("밥 같이 먹을 사람 구해요", "구시아",
-                "오후 12:30 - 오후 1:30",
-                "2023.03.27 11:45", "F");
-        adapter.addItem(data);
-        data = new community_item("밥 먹을 사람", "50주년",
-                "오후 12:00 - 오후 12:30",
-                "2023.03.27 12:00", "T");
-        adapter.addItem(data);
-        data = new community_item("샌드위치 드실 분", "구시아",
-                "오후 1:00 - 오후 1:30",
-                "2023.03.28 12:00", "F");
-        adapter.addItem(data);
-        data = new community_item("떡볶이 먹고 싶다", "구시아",
-                "오후 1:00 - 2:00",
-                "2023.03.28 12:23", "D");
-        adapter.addItem(data);
-        data = new community_item("커피 마실 사람", "50주년",
-                "오후 3:00 - 3:30",
-                "2023.03.28 14:40", "D");
-        adapter.addItem(data);
-        data = new community_item("학식 드실 사람", "샬롬",
-                "오후 3:30 - 4:00",
-                "2023.03.28 15:23", "D");
+    private void setData(int recruitId, LocalDateTime createdAt, String title, String status,
+                         String spot, LocalDateTime startTime, LocalDateTime endTime) {
+        community_item data = new community_item(title, spot, startTime + " - " + endTime,
+                createdAt.toString(), status);
         adapter.addItem(data);
     }
 
