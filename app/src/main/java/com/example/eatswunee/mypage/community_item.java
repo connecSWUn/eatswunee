@@ -1,4 +1,4 @@
-package com.example.eatswunee.bistro.recyclerView;
+package com.example.eatswunee.mypage;
 
 public class community_item {
 

@@ -1,4 +1,4 @@
-package com.example.eatswunee.bistro.recyclerView;
+package com.example.eatswunee.mypage;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,13 +65,13 @@ public class MyCommunityAdapter extends RecyclerView.Adapter<MyCommunityAdapter.
             app_time.setText(item.getApp_time());
             post_date.setText(item.getPost_date());
 
-            if(item.getState() == "F") {
+            if(item.getState() == "FINDING") {
                 state.setText("찾는 중...");
                 state.setBackgroundResource(R.drawable.community_state_finding);
-            } else if (item.getState() == "T") {
+            } else if (item.getState() == "CONNECTING") {
                 state.setText("연락 중...");
                 state.setBackgroundResource(R.drawable.community_state_talking);
-            } else if (item.getState() == "D") {
+            } else if (item.getState() == "FOUND") {
                 state.setText("구했어요!");
                 state.setBackgroundResource(R.drawable.community_state_done);
             }
