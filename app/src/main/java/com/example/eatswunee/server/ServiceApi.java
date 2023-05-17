@@ -8,5 +8,5 @@ import retrofit2.http.Query;
 public interface ServiceApi {
     /* Get 방식 - @GET(URI) */
     @GET("/recruit/list/{category}")
-    Call<CommunityResponse> getData(@Path("category") String category);
+    Call<Result> getData(@Path("category") String category);
 }

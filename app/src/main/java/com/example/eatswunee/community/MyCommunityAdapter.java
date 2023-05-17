@@ -1,4 +1,4 @@
-package com.example.eatswunee.mypage;
+package com.example.eatswunee.community;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,13 +9,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.eatswunee.R;
-import com.example.eatswunee.community.community_item;
+import com.example.eatswunee.server.Post;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MyCommunityAdapter extends RecyclerView.Adapter<MyCommunityAdapter.ViewHolder> {
 
-    private ArrayList<community_item> communityItems = new ArrayList<>();
+    private List<Post> items;
+
+    public MyCommunityAdapter(List<Post> items) {
+        this.items = items;
+    }
 
     @NonNull
     @Override
@@ -27,28 +32,19 @@ public class MyCommunityAdapter extends RecyclerView.Adapter<MyCommunityAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull MyCommunityAdapter.ViewHolder holder, int position) {
-        holder.onBind(communityItems.get(position));
+        Post item = items.get(position);
+        holder.setItem(item);
     }
 
     @Override
     public int getItemCount() {
-        return communityItems.size();
-    }
-
-    public void addItem(community_item data) { communityItems.add(data); }
-
-    public community_item getItem(int position) {
-        return communityItems.get(position); // 아이템 가져오기
+        return items.size();
     }
 
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView title;
-        TextView place;
-        TextView app_time;
-        TextView post_date;
-        TextView state;
+        private TextView title, place, app_time, post_date, state;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -60,19 +56,19 @@ public class MyCommunityAdapter extends RecyclerView.Adapter<MyCommunityAdapter.
             state = (TextView) itemView.findViewById(R.id.com_state);
         }
 
-        void onBind(community_item item) {
+        void setItem(Post item) {
             title.setText(item.getTitle());
-            place.setText(item.getPlace());
-            app_time.setText(item.getApp_time());
-            post_date.setText(item.getPost_date());
+            place.setText(item.getSpot());
+            app_time.setText(item.getStartTime() + "-" + item.getEndTime());
+            post_date.setText(item.getCreatedAt());
 
-            if(item.getState() == "FINDING") {
+            if(item.getStatus() == "FINDING") {
                 state.setText("찾는 중...");
                 state.setBackgroundResource(R.drawable.community_state_finding);
-            } else if (item.getState() == "CONNECTING") {
+            } else if (item.getStatus() == "CONNECTING") {
                 state.setText("연락 중...");
                 state.setBackgroundResource(R.drawable.community_state_talking);
-            } else if (item.getState() == "FOUND") {
+            } else if (item.getStatus() == "FOUND") {
                 state.setText("구했어요!");
                 state.setBackgroundResource(R.drawable.community_state_done);
             }
