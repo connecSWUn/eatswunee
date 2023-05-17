@@ -5,6 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_finish3"
+        android:layout_width="0dp"
+        android:layout_height="62dp"
+        android:background="@color/softColor"
+        android:drawableLeft="@drawable/baseline_chat_24"
+        android:paddingLeft="10dp"
+        android:text="채팅하기"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <ImageButton
         android:id="@+id/setting_backBtn2"
         android:layout_width="wrap_content"
@@ -185,23 +199,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view8" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/button3"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:text="채팅하기"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:backgroundTint="@color/softColor"
-        app:icon="@drawable/baseline_chat_24"
-        app:iconGravity="textStart"
-        app:iconPadding="10dp"
-        app:iconTint="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

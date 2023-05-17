@@ -1,28 +1,37 @@
 package com.example.eatswunee.server;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class CommunityDto {
+public class Post {
+
     @SerializedName("recruitId")
-    private int recruitId;
+    @Expose
+    private String recruitId;
     @SerializedName("createdAt")
+    @Expose
     private String createdAt;
     @SerializedName("title")
+    @Expose
     private String title;
     @SerializedName("status")
+    @Expose
     private String status;
     @SerializedName("spot")
+    @Expose
     private String spot;
     @SerializedName("startTime")
+    @Expose
     private String startTime;
     @SerializedName("endTime")
+    @Expose
     private String endTime;
 
-    public int getRecruitId() {
+    public String getRecruitId() {
         return recruitId;
     }
 
-    public void setRecruitId(int recruitId) {
+    public void setRecruitId(String recruitId) {
         this.recruitId = recruitId;
     }
 
