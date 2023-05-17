@@ -3,32 +3,29 @@ package com.example.eatswunee;
 import android.graphics.Rect;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toolbar;
 
 import com.example.eatswunee.mypage.MyCommunityAdapter;
-import com.example.eatswunee.mypage.community_item;
-import com.example.eatswunee.server.Result;
+import com.example.eatswunee.community.community_item;
+import com.example.eatswunee.server.CommunityDto;
+import com.example.eatswunee.server.CommunityResponse;
 import com.example.eatswunee.server.ServiceApi;
-import com.google.android.material.navigation.NavigationView;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
 
 public class communityFragment extends Fragment {
 
@@ -38,42 +35,37 @@ public class communityFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private MyCommunityAdapter adapter;
 
-    Toolbar toolbar;
-    DrawerLayout drawerLayout;
-    NavigationView navigationView;
+    // baseUrl은 반드시 '/'로 마무리되어야 함
+    private String baseUrl = "http://43.201.201.163:8080/";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://ec2-43-201-201-163.ap-northeast-2.compute.amazonaws.com:8080")
+                .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        ServiceApi serviceApi = retrofit.create(ServiceApi.class);
-        serviceApi.getData("10003040", "all").enqueue(new Callback<Result>() {
-            @Override
-            public void onResponse(@NonNull Call<Result> call, @NonNull Response<Result> response) {
-                if(response.isSuccessful()) {
-                    Result data = response.body();
-                    int recruitId = data.getRecruitId();
-                    LocalDateTime createdAt = data.getCreatedAt();
-                    String title = data.getTitle();
-                    String status = data.getStatus();
-                    String spot = data.getSpot();
-                    LocalDateTime startTime = data.getStartTime();
-                    LocalDateTime endTime = data.getEndTime();
+        ServiceApi api = retrofit.create(ServiceApi.class);
+        api.getData("ALL")
+                .enqueue(new Callback<CommunityResponse>() {
+                    @Override
+                    public void onResponse(Call<CommunityResponse> call, Response<CommunityResponse> response) {
+                        if(response.isSuccessful()) {
+                            CommunityResponse communityResponse = response.body();
+                            Log.d("##", "Successed!, Result \n" + communityResponse.toString());
 
-                    setData(recruitId, createdAt, title, status, spot, startTime, endTime);
-                }
-            }
+                            List<CommunityDto> list = new CommunityResponse().getPost().getPost();
+                            Log.d("MY", list.toString());
+                        }
+                    }
 
-            @Override
-            public void onFailure(Call<Result> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
+                    @Override
+                    public void onFailure(Call<CommunityResponse> call, Throwable t) {
+
+                    }
+                });
     }
 
 
@@ -135,10 +127,10 @@ public class communityFragment extends Fragment {
         mRecyclerView.setAdapter(adapter);
     }
 
-    private void setData(int recruitId, LocalDateTime createdAt, String title, String status,
-                         String spot, LocalDateTime startTime, LocalDateTime endTime) {
+    private void setData(int recruitId, String createdAt, String title, String status,
+                         String spot, String startTime, String endTime) {
         community_item data = new community_item(title, spot, startTime + " - " + endTime,
-                createdAt.toString(), status);
+                createdAt, status);
         adapter.addItem(data);
     }
 
