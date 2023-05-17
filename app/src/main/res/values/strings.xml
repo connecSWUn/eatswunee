@@ -14,8 +14,8 @@
 
     <!-- write spinner -->
     <string name="babfriendwrite">eatswunee</string>
-    <string-array name="spinner_array_ing">
-        <item>찾는중</item>
+    <string-array name="spinner_array_status">
+        <item>찾는 중</item>
         <item>구함</item>
     </string-array>
     <string-array name="spinner_array_place">

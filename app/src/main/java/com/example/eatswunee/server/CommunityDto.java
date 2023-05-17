@@ -2,13 +2,11 @@ package com.example.eatswunee.server;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.time.LocalDateTime;
-
-public class Result {
+public class CommunityDto {
     @SerializedName("recruitId")
     private int recruitId;
     @SerializedName("createdAt")
-    private LocalDateTime createdAt;
+    private String createdAt;
     @SerializedName("title")
     private String title;
     @SerializedName("status")
@@ -16,9 +14,9 @@ public class Result {
     @SerializedName("spot")
     private String spot;
     @SerializedName("startTime")
-    private LocalDateTime startTime;
+    private String startTime;
     @SerializedName("endTime")
-    private LocalDateTime endTime;
+    private String endTime;
 
     public int getRecruitId() {
         return recruitId;
@@ -28,11 +26,11 @@ public class Result {
         this.recruitId = recruitId;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -60,19 +58,19 @@ public class Result {
         this.spot = spot;
     }
 
-    public LocalDateTime getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 
-    public LocalDateTime getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
 }

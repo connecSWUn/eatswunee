@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.eatswunee.R;
+import com.example.eatswunee.community.community_item;
 
 import java.util.ArrayList;
 
