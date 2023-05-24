@@ -78,7 +78,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/com_state"
+            android:id="@+id/com_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/community_state_finding"

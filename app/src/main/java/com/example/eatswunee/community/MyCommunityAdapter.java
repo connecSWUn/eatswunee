@@ -1,5 +1,6 @@
 package com.example.eatswunee.community;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.eatswunee.R;
 import com.example.eatswunee.server.Post;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MyCommunityAdapter extends RecyclerView.Adapter<MyCommunityAdapter.ViewHolder> {
@@ -21,6 +21,7 @@ public class MyCommunityAdapter extends RecyclerView.Adapter<MyCommunityAdapter.
     public MyCommunityAdapter(List<Post> items) {
         this.items = items;
     }
+
 
     @NonNull
     @Override
@@ -34,6 +35,17 @@ public class MyCommunityAdapter extends RecyclerView.Adapter<MyCommunityAdapter.
     public void onBindViewHolder(@NonNull MyCommunityAdapter.ViewHolder holder, int position) {
         Post item = items.get(position);
         holder.setItem(item);
+
+        holder.serviceItemClickListener = new ServiceItemClickListener() {
+
+            @Override
+            public void onItemClickListener(View v, int position) {
+                Long recruitId = items.get(position).getRecruitId();
+                Intent intent = new Intent(v.getContext(), friend_viewActivity.class);
+                intent.putExtra("recruitId", recruitId);
+                v.getContext().startActivity(intent);
+            }
+        };
     }
 
     @Override
@@ -42,9 +54,10 @@ public class MyCommunityAdapter extends RecyclerView.Adapter<MyCommunityAdapter.
     }
 
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private TextView title, place, app_time, post_date, state;
+        private TextView title, place, app_time, post_date, status;
+        ServiceItemClickListener serviceItemClickListener;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -53,7 +66,9 @@ public class MyCommunityAdapter extends RecyclerView.Adapter<MyCommunityAdapter.
             place = (TextView) itemView.findViewById(R.id.com_place);
             app_time = (TextView) itemView.findViewById(R.id.com_time);
             post_date = (TextView) itemView.findViewById(R.id.com_date);
-            state = (TextView) itemView.findViewById(R.id.com_state);
+            status = (TextView) itemView.findViewById(R.id.com_status);
+
+            itemView.setOnClickListener(this);
         }
 
         void setItem(Post item) {
@@ -62,16 +77,21 @@ public class MyCommunityAdapter extends RecyclerView.Adapter<MyCommunityAdapter.
             app_time.setText(item.getStartTime() + "-" + item.getEndTime());
             post_date.setText(item.getCreatedAt());
 
-            if(item.getStatus() == "FINDING") {
-                state.setText("찾는 중...");
-                state.setBackgroundResource(R.drawable.community_state_finding);
-            } else if (item.getStatus() == "CONNECTING") {
-                state.setText("연락 중...");
-                state.setBackgroundResource(R.drawable.community_state_talking);
-            } else if (item.getStatus() == "FOUND") {
-                state.setText("구했어요!");
-                state.setBackgroundResource(R.drawable.community_state_done);
+            if(item.getRecruitStatus() == "ONGOING") {
+                status.setText("찾는 중...");
+                status.setBackgroundResource(R.drawable.community_state_finding);
+            } else if (item.getRecruitStatus() == "CONNECTING") {
+                status.setText("연락 중...");
+                status.setBackgroundResource(R.drawable.community_state_talking);
+            } else if (item.getRecruitStatus() == "COMPLETED") {
+                status.setText("구했어요!");
+                status.setBackgroundResource(R.drawable.community_state_done);
             }
+        }
+
+        @Override
+        public void onClick(View v) {
+            this.serviceItemClickListener.onItemClickListener(v, getLayoutPosition());
         }
     }
 }

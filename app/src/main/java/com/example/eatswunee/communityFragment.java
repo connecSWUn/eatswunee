@@ -59,6 +59,9 @@ public class communityFragment extends Fragment {
         gyo = v.findViewById(R.id.community_gyo);
         writeBtn = v.findViewById(R.id.write_button);
 
+        /* 초기 세팅
+         * 어플리케이션 실행 시 커뮤니티 화면 기본 선택 버튼 : 전체 버튼
+         */
         total.setSelected(true);
         gusia.setSelected(false);
         nuri.setSelected(false);
@@ -68,6 +71,7 @@ public class communityFragment extends Fragment {
 
         init("ALL");
 
+        /* 커뮤니티 버튼 리스너 */
         total.setOnClickListener(new totalOnClickListener());
         gusia.setOnClickListener(new gusiaOnClickListener());
         nuri.setOnClickListener(new nuriOnClickListener());
@@ -75,9 +79,10 @@ public class communityFragment extends Fragment {
         shalom.setOnClickListener(new shalomOnClickListener());
         gyo.setOnClickListener(new gyoOnClickListener());
 
+        /* 글 쓰기 버튼 리스너 */
         writeBtn.setOnClickListener(new writeOnClickListener());
 
-        // RecyclerView
+        /* RecyclerView */
         mRecyclerView = (RecyclerView) v.findViewById(R.id.recyclerView2);
         mRecyclerView.addItemDecoration(new RecyclerViewDecoration(20));
 
@@ -123,7 +128,7 @@ public class communityFragment extends Fragment {
 
             @Override
             public void onFailure(Call<Result> call, Throwable t) {
-
+                t.printStackTrace();
             }
         });
     }
