@@ -13,6 +13,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView; // 바텀 네비게이션 뷰
+    // String selectedItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,5 +47,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /*
+         * 화면 전환 수정 필요
+        Intent intent = getIntent();
+        if(intent != null) {
+            selectedItem = intent.getStringExtra("selectedItem");
+
+            if (selectedItem == "order")
+                bottomNavigationView.setSelectedItemId(R.id.item_cafeteria);
+            else if (selectedItem == "community")
+                bottomNavigationView.setSelectedItemId(R.id.item_community);
+            else if (selectedItem == "mypage")
+                bottomNavigationView.setSelectedItemId(R.id.item_mypage);
+        }
+         */
     }
 }

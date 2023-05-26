@@ -112,17 +112,16 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
+            android:gravity="center"
             android:orientation="horizontal"
             android:paddingLeft="25dp"
-            android:paddingTop="15dp"
-            android:paddingRight="15dp">
+            android:paddingRight="25dp">
 
             <TextView
                 android:id="@+id/textView_place"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:paddingRight="10dp"
                 android:text="장소:"
                 android:textColor="@color/black" />
@@ -132,7 +131,6 @@
                 android:layout_width="91dp"
                 android:layout_height="48dp"
                 android:layout_weight="1"
-                android:contentDescription="하고 싶은 설명"
                 android:entries="@array/spinner_array_place"
                 android:padding="10dp" />
 
@@ -145,31 +143,34 @@
                 android:text="시간대 :"
                 android:textColor="@color/black" />
 
-            <Spinner
-                android:id="@+id/spinner_time1"
+            <Button
+                android:id="@+id/start_time"
                 android:layout_width="51dp"
                 android:layout_height="48dp"
-                android:layout_weight="1"
-                android:contentDescription="하고 싶은 설명"
-                android:entries="@array/spinner_array_time"
-                android:padding="5dp" />
+                android:layout_weight="2"
+                android:background="#00ff0000"
+                android:padding="5dp"
+                android:text="시작 시간 선택"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textView_time2"
                 android:layout_width="wrap_content"
                 android:layout_height="47dp"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:text="~"
                 android:textSize="20sp" />
 
-            <Spinner
-                android:id="@+id/spinner_time2"
-                android:layout_width="61dp"
+            <Button
+                android:id="@+id/end_time"
+                android:layout_width="51dp"
                 android:layout_height="48dp"
-                android:layout_weight="1"
-                android:contentDescription="하고 싶은 설명"
-                android:entries="@array/spinner_array_time2"
-                android:padding="5dp" />
+                android:layout_weight="2"
+                android:background="#00ff0000"
+                android:padding="5dp"
+                android:text="마감 시간 선택"
+                android:textStyle="bold" />
         </LinearLayout>
 
     </LinearLayout>
@@ -187,9 +188,8 @@
         android:text="예시 게시글"
         app:layout_constraintBottom_toTopOf="@+id/button_finish2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.156" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

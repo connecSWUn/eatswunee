@@ -17,21 +17,15 @@ public class friend_write_spinner extends AppCompatActivity {
         //final TextView textView = findViewById(R.id.textView);
         Spinner spinner = findViewById(R.id.spinner_status);
         Spinner spinner1 = findViewById(R.id.spinner_place);
-        Spinner spinner2 = findViewById(R.id.spinner_time1);
-        Spinner spinner3 = findViewById(R.id.spinner_time2);
 
 
         String[] kind1 = getResources().getStringArray(R.array.spinner_array_status);
         String[] kind2 = getResources().getStringArray(R.array.spinner_array_place);
-        String[] kind3 = getResources().getStringArray(R.array.spinner_array_time);
-        String[] kind4 = getResources().getStringArray(R.array.spinner_array_time2);
 
         ArrayAdapter adapter = new ArrayAdapter(getBaseContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
         adapter.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner1.setAdapter(adapter);
-        spinner2.setAdapter(adapter);
-        spinner3.setAdapter(adapter);
         spinner.setSelection(0);
     }
 }

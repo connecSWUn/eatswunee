@@ -29,11 +29,14 @@ public class MyBistroAdapter extends RecyclerView.Adapter<MyBistroAdapter.ViewHo
 
     private ArrayList<menu_item> mMenu_item = new ArrayList<>();
 
+    /*
     public interface OnItemClickEventListener {
         void onItemClick(ViewHolder holder, View a_view, int a_position);
     }
 
     private OnItemClickEventListener mItemClickListener;
+
+     */
 
     @NonNull
     @Override
@@ -60,9 +63,11 @@ public class MyBistroAdapter extends RecyclerView.Adapter<MyBistroAdapter.ViewHo
         return mMenu_item.get(position); // 아이템 가져오기
     }
 
+    /*
     public void setOnItemClickListener(OnItemClickEventListener a_listener) {
         mItemClickListener = a_listener;
     }
+     */
 
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

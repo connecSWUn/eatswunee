@@ -7,16 +7,16 @@ public class Post {
 
     @SerializedName("recruitId")
     @Expose
-    private String recruitId;
+    private Long recruitId;
     @SerializedName("createdAt")
     @Expose
     private String createdAt;
     @SerializedName("title")
     @Expose
     private String title;
-    @SerializedName("status")
+    @SerializedName("recruitStatus")
     @Expose
-    private String status;
+    private String recruitStatus;
     @SerializedName("spot")
     @Expose
     private String spot;
@@ -27,11 +27,11 @@ public class Post {
     @Expose
     private String endTime;
 
-    public String getRecruitId() {
+    public Long getRecruitId() {
         return recruitId;
     }
 
-    public void setRecruitId(String recruitId) {
+    public void setRecruitId(Long recruitId) {
         this.recruitId = recruitId;
     }
 
@@ -51,12 +51,12 @@ public class Post {
         this.title = title;
     }
 
-    public String getStatus() {
-        return status;
+    public String getRecruitStatus() {
+        return recruitStatus;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setRecruitStatus(String recruitStatus) {
+        this.recruitStatus = recruitStatus;
     }
 
     public String getSpot() {
