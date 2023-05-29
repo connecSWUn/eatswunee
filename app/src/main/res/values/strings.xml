@@ -14,10 +14,6 @@
 
     <!-- write spinner -->
     <string name="babfriendwrite">eatswunee</string>
-    <string-array name="spinner_array_status">
-        <item>찾는 중</item>
-        <item>구함</item>
-    </string-array>
     <string-array name="spinner_array_place">
         <item>50주년</item>
         <item>구시아</item>

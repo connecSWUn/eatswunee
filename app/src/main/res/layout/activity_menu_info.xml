@@ -4,47 +4,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FAF9F7"
     tools:context=".bistro.menu_infoActivity">
 
-    <ImageButton
-        android:id="@+id/shoppingBtn2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        android:background="#00ff0000"
-        android:backgroundTint="@color/white"
-        android:src="@drawable/shopping_cart"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.89"
-        app:layout_constraintStart_toEndOf="@+id/order_title"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/info_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="먹어보슌"
-        android:textSize="20sp"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/put_btn"
+        android:layout_width="0dp"
+        android:layout_height="62dp"
+        android:background="#F2B089"
+        android:text="6,500원 담기"
+        android:textColor="#D75509"
+        android:textSize="22sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/menu_info_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="10dp"
+        android:background="#FAF9F7"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        app:menu="@menu/menuinfo_toolbar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <ImageView
         android:id="@+id/info_menu_image"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:paddingTop="80dp"
         android:paddingBottom="80dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="20"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/info_title"
+        app:layout_constraintTop_toBottomOf="@+id/menu_info_toolbar"
         app:srcCompat="@drawable/baseline_image_not_supported_24" />
 
     <TextView
@@ -54,7 +57,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
         android:text="만권화밥"
-        android:textColor="#040404"
+        android:textColor="#8E3B0B"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -71,8 +74,9 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="16dp"
         android:text="매운닭갈비덮밥"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:textColor="#45210D"
+        android:textSize="24sp"
+        android:textStyle="normal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -96,6 +100,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="4.5"
+        android:textColor="#45210D"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -111,6 +116,7 @@
         android:background="#00ff0000"
         android:gravity="top"
         android:text="리뷰 확인 >"
+        android:textColor="#45210D"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.047"
@@ -123,38 +129,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:text="6,500원"
+        android:textColor="#45210D"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.837"
         app:layout_constraintStart_toEndOf="@+id/info_menu_name"
         app:layout_constraintTop_toBottomOf="@+id/info_menu_image" />
-
-    <Button
-        android:id="@+id/putBtn"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:backgroundTint="@color/softColor"
-        android:minWidth="0dp"
-        android:minHeight="0dp"
-        android:text="6,500원 담기"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <ImageButton
-        android:id="@+id/backBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:background="#00ff0000"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/baseline_arrow_back_ios_new_24" />
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -175,33 +155,55 @@
             android:layout_height="wrap_content"
             android:layout_weight="40"
             android:text="수량"
+            android:textColor="#45210D"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="normal" />
 
         <Button
             android:id="@+id/minBtn"
-            android:layout_width="47dp"
-            android:layout_height="47dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_weight="1"
+            android:background="@drawable/menu_info_btn"
             android:gravity="center"
             android:text="-"
+            android:textColor="#D75509"
             android:textSize="24sp" />
 
-        <TextView
-            android:id="@+id/textView8"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="15"
+            android:layout_weight="10"
             android:gravity="center"
-            android:text="1"
-            android:textSize="18sp" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/menu_info_pcs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="#45210D"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="개"
+                android:textColor="#45210D"
+                android:textSize="18sp"
+                tools:gravity="center" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/plusBtn"
-            android:layout_width="47dp"
-            android:layout_height="47dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/menu_info_btn"
             android:gravity="center"
             android:text="+"
+            android:textColor="#D75509"
             android:textSize="20sp" />
     </LinearLayout>
 

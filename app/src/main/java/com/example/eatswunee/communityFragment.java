@@ -4,12 +4,20 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -28,9 +36,12 @@ import retrofit2.Response;
 
 public class communityFragment extends Fragment {
 
+    Toolbar toolbar;
     Button total, gusia, nuri, fiftieth, shalom, gyo;
     Button writeBtn;
     View v;
+
+    private long writer_id = 1;
 
     private RecyclerView mRecyclerView;
     private MyCommunityAdapter adapter;
@@ -41,7 +52,6 @@ public class communityFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
 
@@ -50,6 +60,17 @@ public class communityFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         v = inflater.inflate(R.layout.fragment_community, container, false);
+
+        /*
+        toolbar = (Toolbar) v.findViewById(R.id.community_toolbar);
+        MainActivity activity = (MainActivity) getActivity();
+        activity.setSupportActionBar(toolbar);
+        ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_24dp);
+         */
 
         total = v.findViewById(R.id.community_totalBtn);
         gusia = v.findViewById(R.id.community_gusia);
@@ -137,6 +158,7 @@ public class communityFragment extends Fragment {
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(getActivity(), friend_writeActivity.class);
+            intent.putExtra("writer_id", writer_id);
             startActivity(intent);
         }
     }

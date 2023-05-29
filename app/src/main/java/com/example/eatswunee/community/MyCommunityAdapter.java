@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -57,11 +58,13 @@ public class MyCommunityAdapter extends RecyclerView.Adapter<MyCommunityAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView title, place, app_time, post_date, status;
+        private ImageView statusImg;
         ServiceItemClickListener serviceItemClickListener;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            statusImg = (ImageView) itemView.findViewById(R.id.community_image);
             title = (TextView) itemView.findViewById(R.id.com_title);
             place = (TextView) itemView.findViewById(R.id.com_place);
             app_time = (TextView) itemView.findViewById(R.id.com_time);
@@ -79,12 +82,15 @@ public class MyCommunityAdapter extends RecyclerView.Adapter<MyCommunityAdapter.
 
             if(item.getRecruitStatus() == "ONGOING") {
                 status.setText("찾는 중...");
+                statusImg.setImageResource(R.drawable.baseline_search_24);
                 status.setBackgroundResource(R.drawable.community_state_finding);
             } else if (item.getRecruitStatus() == "CONNECTING") {
                 status.setText("연락 중...");
+                statusImg.setImageResource(R.drawable.baseline_question_answer_24);
                 status.setBackgroundResource(R.drawable.community_state_talking);
             } else if (item.getRecruitStatus() == "COMPLETED") {
                 status.setText("구했어요!");
+                statusImg.setImageResource(R.drawable.baseline_handshake_24);
                 status.setBackgroundResource(R.drawable.community_state_done);
             }
         }

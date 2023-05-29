@@ -1,12 +1,17 @@
 package com.example.eatswunee.bistro;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -26,21 +31,25 @@ public class ReviewActivity extends AppCompatActivity {
     // Intent로 전송받는 정보
     String bistro, menu, star, price_;
 
-    ImageButton backBtn;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.review_toolbar);
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_ios_new_24);
 
         // 메뉴 이름 및 이미지 반영 : 이미지 반영 이전
         menu_name = findViewById(R.id.review_menu_name);
 
         // 평균 별점
         star_rate = findViewById(R.id.review_star_rate);
-
-        // 뒤로가기 버튼
-        backBtn = findViewById(R.id.review_backBtn);
 
         /* initiate adapter */
         adapter = new MyReviewAdapter();
@@ -56,41 +65,31 @@ public class ReviewActivity extends AppCompatActivity {
 
         init();
         getData();
-
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ReviewActivity.this, menu_infoActivity.class);
-                intent.putExtra("bistro_name", bistro);
-                intent.putExtra("menu_name", menu);
-                intent.putExtra("star_rate", star);
-                intent.putExtra("price", price_);
-                startActivity(intent);
-            }
-        });
     }
 
-    public class RecyclerViewDecoration extends RecyclerView.ItemDecoration {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menuinfo_toolbar, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
-        private final int divHeight;
-
-        public RecyclerViewDecoration(int divHeight)
-        {
-            this.divHeight = divHeight;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                finish();
+                return true;
+            }
+            case R.id.menuinfo_shopping_basket:
+                return true;
         }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state)
-        {
-            super.getItemOffsets(outRect, view, parent, state);
-            outRect.top = divHeight;
-        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void init() {
         // RecyclerView
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        mRecyclerView.addItemDecoration(new RecyclerViewDecoration(15));
 
         /* initiate recyclerView */
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));

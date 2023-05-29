@@ -1,12 +1,15 @@
 package com.example.eatswunee.mypage;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -22,32 +25,37 @@ public class order_listActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private MyListAdapter adapter;
 
-    ImageButton backBtn;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_list);
 
-        // 뒤로가기 버튼
-        backBtn = findViewById(R.id.list_backBtn);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.order_list_toolbar);
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_ios_new_24);
 
         /* initiate adapter */
         adapter = new MyListAdapter();
 
         init();
         getData();
-
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(order_listActivity.this, MainActivity.class);
-                intent.putExtra("selectedItem", "mypage");
-                startActivity(intent);
-            }
-        });
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                finish();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     public class RecyclerViewDecoration extends RecyclerView.ItemDecoration {
 
@@ -69,7 +77,7 @@ public class order_listActivity extends AppCompatActivity {
     private void init() {
         // RecyclerView
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        mRecyclerView.addItemDecoration(new RecyclerViewDecoration(15));
+        mRecyclerView.addItemDecoration(new RecyclerViewDecoration(50));
 
         /* initiate recyclerView */
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -81,11 +89,11 @@ public class order_listActivity extends AppCompatActivity {
     /* 예시 */
     private void getData() {
         /* adapt data : example */
-        list_item data = new list_item("만권화밥", "매운닭갈비덮밥", 4.0, "6,500원", "2023.03.31");
+        list_item data = new list_item("만권화밥", "매운닭갈비덮밥","6,500원", "2023.03.31");
         adapter.addItem(data);
-        data = new list_item("포아이니", "차돌양지쌀국수", 3.5, "6,500원", "2023.03.05");
+        data = new list_item("포아이니", "차돌양지쌀국수", "6,500원", "2023.03.05");
         adapter.addItem(data);
-        data = new list_item("분식대첩", "김치볶음밥", 5.0, "5,900원", "2023.03.01");
+        data = new list_item("분식대첩", "김치볶음밥", "5,900원", "2023.03.01");
         adapter.addItem(data);
     }
 }
