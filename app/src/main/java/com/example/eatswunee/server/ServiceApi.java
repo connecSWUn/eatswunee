@@ -14,8 +14,20 @@ public interface ServiceApi {
     @GET("/recruit/list/{category}")
     Call<Result> getData(@Path("category") String category);
 
-    @GET("/recruit/{postId}")
-    Call<Result> getData(@Path("postId") long postId);
+    @GET("/menu/{menuId}")
+    Call<Result> getData(@Path("menuId") long menuId);
+
+    @GET("/{path}/{id}")
+    Call<Result> getData(@Path("path") String path, @Path("id") long id);
+
+    /*
+    @GET("/recruit/writer/{userId}")
+    Call<Result> getPost(@Path("userId") long userId);
+     */
+
+    /* 메뉴 검색 API */
+    @GET("/gusia/search/{restaurantId}/{keyword}")
+    Call<Result> getData(@Path("restaurantId") long restaurantId, @Path("keyword") String keyword);
 
     @FormUrlEncoded
     @POST("/recruit/save")

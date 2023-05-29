@@ -1,5 +1,9 @@
 package com.example.eatswunee.bistro.recyclerView;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,33 +14,26 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.eatswunee.R;
+import com.example.eatswunee.bistro.menu_infoActivity;
+import com.example.eatswunee.community.ServiceItemClickListener;
+import com.example.eatswunee.server.Data;
+import com.example.eatswunee.server.Post;
+import com.example.eatswunee.server.menus;
+import com.example.eatswunee.server.orders;
+import com.example.eatswunee.server.restaurants;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MyBistroAdapter extends RecyclerView.Adapter<MyBistroAdapter.ViewHolder> {
 
-    // OnClickListener Custom --------------------------------------
-    public interface OnItemClickListener {
-        void onItemClick(ViewHolder holder, View v, int pos);
-    }
+    private List<menus> menusList;
+    ImageView menu_image;
 
-    private OnItemClickListener onItemClickListener = null;
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.onItemClickListener = listener;
-    }
-    // OnClickListener Custom --------------------------------------
-
-    private ArrayList<menu_item> mMenu_item = new ArrayList<>();
-
-    /*
-    public interface OnItemClickEventListener {
-        void onItemClick(ViewHolder holder, View a_view, int a_position);
-    }
-
-    private OnItemClickEventListener mItemClickListener;
-
-     */
+    public MyBistroAdapter(List<menus> menusList) { this.menusList = menusList; }
 
     @NonNull
     @Override
@@ -47,66 +44,83 @@ public class MyBistroAdapter extends RecyclerView.Adapter<MyBistroAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull MyBistroAdapter.ViewHolder holder, int position) {
-        holder.onBind(mMenu_item.get(position));
+        menus item = menusList.get(position);
+        holder.setItem(item);
+
+        holder.serviceItemClickListener = new ServiceItemClickListener() {
+            @Override
+            public void onItemClickListener(View v, int position) {
+                long menuId = menusList.get(position).getMenuId();
+                Intent intent = new Intent(v.getContext(), menu_infoActivity.class);
+                intent.putExtra("menuId", menuId);
+                v.getContext().startActivity(intent);
+            }
+        };
     }
 
     @Override
     public int getItemCount() {
-        return mMenu_item.size();
+        return menusList.size();
     }
-
-    public void addItem(menu_item data) {
-        mMenu_item.add(data);
-    }
-
-    public menu_item getItem(int position) {
-        return mMenu_item.get(position); // 아이템 가져오기
-    }
-
-    /*
-    public void setOnItemClickListener(OnItemClickEventListener a_listener) {
-        mItemClickListener = a_listener;
-    }
-     */
 
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ImageView menu_image;
-        TextView bistro_name;
-        TextView star_rate;
-        TextView menu_name;
-        TextView price;
+        TextView restaurant_name, menu_name, menu_price, menu_avg_rating;
+
+        ServiceItemClickListener serviceItemClickListener;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             menu_image = (ImageView) itemView.findViewById(R.id.menu_image);
-            bistro_name = (TextView) itemView.findViewById(R.id.bistro_name);
-            star_rate = (TextView) itemView.findViewById(R.id.star_rate);
+            restaurant_name = (TextView) itemView.findViewById(R.id.bistro_name);
+            menu_avg_rating = (TextView) itemView.findViewById(R.id.star_rate);
             menu_name = (TextView) itemView.findViewById(R.id.menu_name);
-            price = (TextView) itemView.findViewById(R.id.price);
+            menu_price = (TextView) itemView.findViewById(R.id.price);
 
             itemView.setOnClickListener(this);
         }
 
-        void onBind(menu_item item) {
-
-            menu_image.setImageResource(item.getResourceId());
-            bistro_name.setText(item.getBistro_name());
-            star_rate.setText(item.getStar_rate());
-            menu_name.setText(item.getMenu_name());
-            price.setText(item.getPrice());
+        void setItem(menus menus) {
+            restaurant_name.setText(menus.getRestaurantName());
+            menu_avg_rating.setText(String.valueOf(menus.getMenuRating()));
+            menu_name.setText(menus.getMenuName());
+            menu_price.setText(menus.getMenuPrice());
+            new DownloadFilesTask().execute(menus.getMenuImg());
         }
 
         @Override
-        public void onClick(View view) {
-            int position = getAdapterPosition();
-            if(position != RecyclerView.NO_POSITION) {
-                if(onItemClickListener != null) {
-                    onItemClickListener.onItemClick(ViewHolder.this, view, position);
+        public void onClick(View v) {
+            this.serviceItemClickListener.onItemClickListener(v, getLayoutPosition());
+        }
+    }
 
-                }
+    class DownloadFilesTask extends AsyncTask<String, Void, Bitmap> {
+        @Override
+        protected Bitmap doInBackground(String... strings) {
+            Bitmap bmp = null;
+            try {
+                String img_url = strings[0]; //url of the image
+                URL url = new URL(img_url);
+                bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+            return bmp;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            // doInBackground 에서 받아온 total 값 사용 장소
+            menu_image.setImageBitmap(result);
         }
     }
 }

@@ -9,27 +9,48 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.eatswunee.R;
 import com.example.eatswunee.bistro.recyclerView.MyReviewAdapter;
 import com.example.eatswunee.bistro.recyclerView.reviewItem;
+import com.example.eatswunee.server.Data;
+import com.example.eatswunee.server.Result;
+import com.example.eatswunee.server.RetrofitClient;
+import com.example.eatswunee.server.ServiceApi;
+import com.example.eatswunee.server.reviewRating;
+
+import org.w3c.dom.Text;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ReviewActivity extends AppCompatActivity {
 
-    TextView menu_name;
-    TextView star_rate;
+    private RetrofitClient retrofitClient;
+    private ServiceApi serviceApi;
+
+    TextView menu_name, star_rate, review_num, review_title;
+    TextView score5Cnt, score4Cnt, score3Cnt, score2Cnt, score1Cnt;
+    ProgressBar score5, score4, score3, score2, score1;
+    ImageView menu_image;
 
     private RecyclerView mRecyclerView;
     private MyReviewAdapter adapter;
 
-    // Intent로 전송받는 정보
-    String bistro, menu, star, price_;
+    long menuId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,24 +68,38 @@ public class ReviewActivity extends AppCompatActivity {
 
         // 메뉴 이름 및 이미지 반영 : 이미지 반영 이전
         menu_name = findViewById(R.id.review_menu_name);
-
-        // 평균 별점
+        // 평균 별점 : TextView
         star_rate = findViewById(R.id.review_star_rate);
+        review_num = findViewById(R.id.review_num);
+        review_title = findViewById(R.id.review_title);
+        menu_image = findViewById(R.id.review_menu_image);
 
-        /* initiate adapter */
-        adapter = new MyReviewAdapter();
+        score5Cnt = findViewById(R.id.five_star_num);
+        score4Cnt = findViewById(R.id.four_star_num);
+        score3Cnt = findViewById(R.id.three_star_num);
+        score2Cnt = findViewById(R.id.two_star_num);
+        score1Cnt = findViewById(R.id.one_star_num);
+
+        score5 = findViewById(R.id.five_star);
+        score4 = findViewById(R.id.four_star);
+        score3 = findViewById(R.id.three_star);
+        score2 = findViewById(R.id.two_star);
+        score1 = findViewById(R.id.one_star);
+
 
         Intent intent = getIntent();
-        bistro = intent.getStringExtra("bistro_name");
-        menu = intent.getStringExtra("menu_name");
-        star = intent.getStringExtra("star_rate");
-        price_ = intent.getStringExtra("price");
+        menuId = intent.getExtras().getLong("menuId");
 
-        menu_name.setText(menu);
-        star_rate.setText(star);
+        init(menuId);
 
-        init();
-        getData();
+        // RecyclerView
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+
+        /* initiate recyclerView */
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+
+        mRecyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -87,59 +122,38 @@ public class ReviewActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void init() {
-        // RecyclerView
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+    private void init(long menuId) {
 
-        /* initiate recyclerView */
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+        retrofitClient = RetrofitClient.getInstance();
+        serviceApi = RetrofitClient.getServiceApi();
 
-        mRecyclerView.setAdapter(adapter);
-    }
+        serviceApi.getData("menu", menuId).enqueue(new Callback<Result>() {
+            @Override
+            public void onResponse(Call<Result> call, Response<Result> response) {
+                Result result = response.body();
+                Data data = result.getData();
 
-    /* 예시 */
-    private void getData() {
-        /* adapt data : example */
-        reviewItem data = new reviewItem(R.drawable.review_profile, "user1",
-                "정말 맛있었어요!!",
-                "2023.04.13", 5);
-        adapter.addItem(data);
-        data = new reviewItem(R.drawable.review_profile, "user1",
-                "정말 맛있었어요!!",
-                "2023.04.13", 5);
-        adapter.addItem(data);
-        data = new reviewItem(R.drawable.review_profile, "user1",
-                "정말 맛있었어요!!",
-                "2023.04.13", 5);
-        adapter.addItem(data);
-        data = new reviewItem(R.drawable.review_profile, "user1",
-                "정말 맛있었어요!!",
-                "2023.04.13", 5);
-        adapter.addItem(data);
-        data = new reviewItem(R.drawable.review_profile, "user1",
-                "정말 맛있었어요!!",
-                "2023.04.13", 5);
-        adapter.addItem(data);
-        data = new reviewItem(R.drawable.review_profile, "user2",
-                "두 줄을 작성하려면 말을 얼마나 적어야 할까 제대로 들어가는지 확인해야 할 것 같아서 쓰는 리뷰",
-                "2023.04.12", 5);
-        adapter.addItem(data);
-        data = new reviewItem(R.drawable.review_profile, "user3",
-                "진짜 너무 배고파요 집에 가고 싶어요",
-                "2023.04.11", 5);
-        adapter.addItem(data);
-        data = new reviewItem(R.drawable.review_profile, "user4",
-                "훌륭합니다 맛 양 전부 좋습니다",
-                "2023.04.10", 5);
-        adapter.addItem(data);
-        data = new reviewItem(R.drawable.review_profile, "user5",
-                "맛, 양 다 너무 좋았어요!!! 다음에도 또 시켜 먹어야겠네요~",
-                "2023.04.09", 5);
-        adapter.addItem(data);
-        data = new reviewItem(R.drawable.review_profile, "user6",
-                "두 번째 시겨서 먹었는데 \n 짱 맛집 \n 진짜 맛있어요 \n 꼭 시켜서 드셔 보세요~",
-                "2023.04.08", 5);
-        adapter.addItem(data);
+                menu_name.setText(data.getMenuName());
+                //menu_image.setImageResource(data.getMenuImg());
+                star_rate.setText(String.valueOf(data.getMenuAvgRating()));
+
+                score5Cnt.setText(String.valueOf(data.getReviewRating().getScore5Cnt()));
+                score4Cnt.setText(String.valueOf(data.getReviewRating().getScore4Cnt()));
+                score3Cnt.setText(String.valueOf(data.getReviewRating().getScore3Cnt()));
+                score2Cnt.setText(String.valueOf(data.getReviewRating().getScore2Cnt()));
+                score1Cnt.setText(String.valueOf(data.getReviewRating().getScore1Cnt()));
+
+                review_num.setText("리뷰" + data.getReviewCnt());
+                review_title.setText("리뷰(" + data.getReviewCnt() + ")");
+
+                // 이미지 주소가 안 되어있음 : 수정 필요
+                // new menu_infoActivity().DownloadFilesTask().execute(data.getWriters().getUser_profile_url());
+            }
+
+            @Override
+            public void onFailure(Call<Result> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 }

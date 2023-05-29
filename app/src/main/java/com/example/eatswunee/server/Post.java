@@ -43,6 +43,10 @@ public class Post {
     @SerializedName("post_created_at")
     @Expose
     private String post_created_at;
+    @SerializedName("post_recruit_status")
+    @Expose
+    private String post_recruit_status;
+
 
     public Long getRecruitId() {
         return recruitId;
@@ -140,5 +144,13 @@ public class Post {
 
     public void setPost_created_at(String post_created_at) {
         this.post_created_at = post_created_at;
+    }
+
+    public String getPost_recruit_status() {
+        return post_recruit_status;
+    }
+
+    public void setPost_recruit_status(String post_recruit_status) {
+        this.post_recruit_status = post_recruit_status;
     }
 }
