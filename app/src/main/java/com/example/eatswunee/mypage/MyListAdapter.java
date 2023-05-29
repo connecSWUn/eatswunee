@@ -44,14 +44,12 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
         TextView menu_name;
         TextView price;
         TextView date;
-        RatingBar star_rate;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             bistro_name = (TextView) itemView.findViewById(R.id.list_bistro_name);
             menu_name = (TextView) itemView.findViewById(R.id.list_menu_name);
-            star_rate = (RatingBar) itemView.findViewById(R.id.list_star_rate);
             price = (TextView) itemView.findViewById(R.id.list_price);
             date = (TextView) itemView.findViewById(R.id.list_date);
         }
@@ -59,7 +57,6 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
         void onBind(list_item item) {
             bistro_name.setText("[" + item.getBistro_name() + "]");
             menu_name.setText(item.getMenu_name());
-            star_rate.setTag(item.getStar_rate());
             price.setText(item.getPrice());
             date.setText(item.getDate());
         }

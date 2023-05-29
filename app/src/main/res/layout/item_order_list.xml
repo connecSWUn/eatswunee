@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="380dp"
+    android:layout_width="350dp"
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="vertical"
@@ -14,12 +14,13 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:paddingLeft="10dp"
-        android:text="2023.03.31" />
+        android:text="2023.03.31"
+        android:textColor="#808E3B0B" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/list_item_background"
+        android:background="@drawable/profile_background"
         android:orientation="vertical"
         android:padding="10dp">
 
@@ -29,7 +30,8 @@
             android:gravity="center"
             android:orientation="horizontal"
             android:paddingTop="8dp"
-            android:paddingBottom="15dp">
+            android:paddingRight="10dp"
+            android:paddingBottom="20dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -44,7 +46,7 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="3dp"
                     android:text="[만권화밥]"
-                    android:textColor="@color/black"
+                    android:textColor="#8E3B0B"
                     android:textStyle="bold" />
 
                 <TextView
@@ -53,15 +55,17 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="매운닭갈비덮밥"
-                    android:textColor="@color/black" />
-            </LinearLayout>
+                    android:textColor="#45210D"
+                    android:textStyle="bold" />
 
-            <RatingBar
-                android:id="@+id/list_star_rate"
-                style="@style/Widget.AppCompat.RatingBar.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2" />
+                <Button
+                    android:id="@+id/detail_btn"
+                    android:layout_width="72dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/order_list_btn"
+                    android:text="리뷰 쓰기"
+                    android:textColor="#FFFFFF" />
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -69,7 +73,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:paddingBottom="5dp">
+            android:paddingRight="10dp"
+            android:paddingBottom="15dp">
 
             <TextView
                 android:id="@+id/textView19"
@@ -78,8 +83,8 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="3dp"
                 android:text="결제금액:"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
+                android:textColor="#808E3B0B"
+                android:textStyle="normal" />
 
             <TextView
                 android:id="@+id/list_price"
@@ -87,15 +92,18 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="6,500원"
-                android:textColor="@color/black" />
+                android:textColor="#808E3B0B" />
 
-            <Button
-                android:id="@+id/detail_btn"
-                android:layout_width="72dp"
-                android:layout_height="30dp"
-                android:background="@drawable/list_button_background"
-                android:text="주문상세" />
         </LinearLayout>
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/order_list_btn"
+            android:text="주문 상세"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
     </LinearLayout>
 
 </LinearLayout>

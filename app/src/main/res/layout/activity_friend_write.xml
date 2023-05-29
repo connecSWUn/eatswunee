@@ -3,21 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <TextView
-        android:id="@+id/write_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="먹어보슌"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+    android:layout_height="match_parent"
+    android:background="#FAF9F7">
 
     <Button
         android:id="@+id/button_cancel"
@@ -25,9 +12,9 @@
         android:layout_height="wrap_content"
         android:background="#00ff0000"
         android:text="취소"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:textStyle="normal"
+        android:textColor="#45210D"
+        android:textSize="18sp"
+        android:textStyle="normal|bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -36,32 +23,20 @@
         app:layout_constraintVertical_bias="0.026" />
 
     <Button
-        android:id="@+id/button_finish"
+        android:id="@+id/button_done"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#00ff0000"
         android:text="완료"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:textStyle="normal"
+        android:textColor="#D75509"
+        android:textSize="18sp"
+        android:textStyle="normal|bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.026" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button_finish2"
-        android:layout_width="0dp"
-        android:layout_height="62dp"
-        android:background="@color/softColor"
-        android:text="완료"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -75,38 +50,35 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:gravity="left"
             android:orientation="horizontal"
-            android:paddingLeft="25dp"
-            android:paddingRight="15dp">
+            android:paddingLeft="22dp"
+            android:paddingRight="22dp">
 
             <TextView
                 android:id="@+id/textView_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingRight="10dp"
+                android:paddingRight="5dp"
                 android:text="제목:"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
+                android:textColor="#45210D"
+                android:textSize="15sp" />
 
             <EditText
                 android:id="@+id/editText_title"
-                android:layout_width="220dp"
+                android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginRight="5dp"
                 android:background="@drawable/profile_stroke_background"
                 android:ems="10"
                 android:hint="제목을 입력하세요"
                 android:inputType="text"
-                android:paddingLeft="5dp"
+                android:paddingLeft="10dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
                 android:text=""
-                android:textSize="14sp" />
-
-            <Spinner
-                android:id="@+id/spinner_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:entries="@array/spinner_array_status" />
+                android:textColorHint="#808E3B0B"
+                android:textSize="15sp" />
 
         </LinearLayout>
 
@@ -115,81 +87,95 @@
             android:layout_height="70dp"
             android:gravity="center"
             android:orientation="horizontal"
-            android:paddingLeft="25dp"
-            android:paddingRight="25dp">
+            android:paddingLeft="22dp"
+            android:paddingRight="22dp">
 
             <TextView
                 android:id="@+id/textView_place"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingRight="10dp"
+                android:paddingRight="5dp"
                 android:text="장소:"
-                android:textColor="@color/black" />
+                android:textColor="#45210D"
+                android:textSize="15sp" />
 
-            <Spinner
-                android:id="@+id/spinner_place"
-                android:layout_width="91dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:entries="@array/spinner_array_place"
-                android:padding="10dp" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/profile_stroke_background"
+                android:orientation="vertical">
+
+                <Spinner
+                    android:id="@+id/spinner_spot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/spinner_array_place"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/textView_time"
-                android:layout_width="58dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingLeft="10dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="5dp"
                 android:text="시간대 :"
-                android:textColor="@color/black" />
+                android:textColor="#45210D"
+                android:textSize="15sp" />
 
             <Button
                 android:id="@+id/start_time"
-                android:layout_width="51dp"
-                android:layout_height="48dp"
-                android:layout_weight="2"
-                android:background="#00ff0000"
+                android:layout_width="70dp"
+                android:layout_height="30dp"
+                android:background="@drawable/profile_stroke_background"
+                android:drawableLeft="@drawable/baseline_access_time_24"
+                android:gravity="center"
                 android:padding="5dp"
-                android:text="시작 시간 선택"
-                android:textStyle="bold" />
+                android:text="선택"
+                android:textColor="#808E3B0B"
+                android:textStyle="normal" />
 
             <TextView
                 android:id="@+id/textView_time2"
                 android:layout_width="wrap_content"
                 android:layout_height="47dp"
-                android:layout_weight="1"
                 android:gravity="center"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
                 android:text="~"
-                android:textSize="20sp" />
+                android:textSize="15sp" />
 
             <Button
                 android:id="@+id/end_time"
-                android:layout_width="51dp"
-                android:layout_height="48dp"
-                android:layout_weight="2"
-                android:background="#00ff0000"
+                android:layout_width="70dp"
+                android:layout_height="30dp"
+                android:background="@drawable/profile_stroke_background"
+                android:drawableLeft="@drawable/baseline_access_time_24"
+                android:gravity="center"
                 android:padding="5dp"
-                android:text="마감 시간 선택"
-                android:textStyle="bold" />
+                android:text="선택"
+                android:textColor="#808E3B0B"
+                android:textStyle="normal" />
         </LinearLayout>
 
     </LinearLayout>
 
     <EditText
-        android:id="@+id/editTextTextPersonName5"
+        android:id="@+id/write_content"
         android:layout_width="0dp"
-        android:layout_height="350dp"
-        android:layout_margin="25dp"
+        android:layout_height="370dp"
+        android:layout_margin="23dp"
         android:background="@drawable/profile_stroke_background"
         android:ems="10"
         android:gravity="top"
+        android:hint="내용을 입력해 주세요"
         android:inputType="textPersonName"
         android:padding="15dp"
-        android:text="예시 게시글"
-        app:layout_constraintBottom_toTopOf="@+id/button_finish2"
+        android:textColorHint="#808E3B0B"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
-        app:layout_constraintVertical_bias="0.156" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

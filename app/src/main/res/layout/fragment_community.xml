@@ -1,10 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FAF9F7">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/community_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="10dp"
+        android:background="#FAF9F7"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:menu="@menu/community_toolbar"
+        app:navigationIcon="@drawable/ic_menu_24dp"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/write_button"
@@ -16,7 +34,7 @@
         android:textColor="@color/white"
         android:textSize="14sp"
         android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar"
-        app:backgroundTint="@color/mainColor"
+        app:backgroundTint="#F56714"
         app:icon="@drawable/baseline_create_24"
         app:iconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -25,63 +43,24 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
-    <ImageButton
-        android:id="@+id/shoppingBtn3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        android:background="#00ff0000"
-        android:backgroundTint="@color/white"
-        android:src="@drawable/baseline_notifications_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/community_title"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="22dp"
-        android:background="#00ff0000"
-        app:layout_constraintEnd_toStartOf="@+id/community_title"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/baseline_format_list_bulleted_24" />
-
-    <TextView
-        android:id="@+id/community_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="먹어보슌"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.039" />
-
     <LinearLayout
         android:id="@+id/linearLayout10"
         android:layout_width="412dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="7dp"
+        android:layout_marginTop="8dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/community_title">
+        app:layout_constraintTop_toBottomOf="@+id/textView24">
 
         <HorizontalScrollView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="15dp"
-            android:layout_marginRight="15dp"
+            android:layout_marginRight="20dp"
             android:layout_marginBottom="10dp"
             android:scrollbars="none">
 
@@ -92,9 +71,9 @@
 
                 <Button
                     android:id="@+id/community_totalBtn"
-                    android:layout_width="65dp"
-                    android:layout_height="38dp"
-                    android:layout_marginRight="2dp"
+                    android:layout_width="50dp"
+                    android:layout_height="35dp"
+                    android:layout_marginRight="4dp"
                     android:background="@drawable/community_button"
                     android:text="전체"
                     android:textColor="@color/white"
@@ -103,9 +82,9 @@
 
                 <Button
                     android:id="@+id/community_gusia"
-                    android:layout_width="75dp"
-                    android:layout_height="38dp"
-                    android:layout_marginRight="2dp"
+                    android:layout_width="60dp"
+                    android:layout_height="35dp"
+                    android:layout_marginRight="4dp"
                     android:layout_weight="1"
                     android:background="@drawable/community_button"
                     android:text="구시아"
@@ -115,9 +94,9 @@
 
                 <Button
                     android:id="@+id/community_nuri"
-                    android:layout_width="75dp"
-                    android:layout_height="38dp"
-                    android:layout_marginRight="2dp"
+                    android:layout_width="60dp"
+                    android:layout_height="35dp"
+                    android:layout_marginRight="4dp"
                     android:background="@drawable/community_button"
                     android:text="누리관"
                     android:textColor="@color/white"
@@ -126,9 +105,9 @@
 
                 <Button
                     android:id="@+id/community_shalom"
-                    android:layout_width="65dp"
-                    android:layout_height="38dp"
-                    android:layout_marginRight="2dp"
+                    android:layout_width="50dp"
+                    android:layout_height="35dp"
+                    android:layout_marginRight="4dp"
                     android:layout_weight="1"
                     android:background="@drawable/community_button"
                     android:text="샬롬"
@@ -138,9 +117,9 @@
 
                 <Button
                     android:id="@+id/community_50th"
-                    android:layout_width="80dp"
-                    android:layout_height="38dp"
-                    android:layout_marginRight="2dp"
+                    android:layout_width="65dp"
+                    android:layout_height="35dp"
+                    android:layout_marginRight="4dp"
                     android:background="@drawable/community_button"
                     android:text="50주년"
                     android:textColor="@color/white"
@@ -149,8 +128,8 @@
 
                 <Button
                     android:id="@+id/community_gyo"
-                    android:layout_width="75dp"
-                    android:layout_height="38dp"
+                    android:layout_width="60dp"
+                    android:layout_height="35dp"
                     android:layout_weight="1"
                     android:background="@drawable/community_button"
                     android:text="교직원"
@@ -164,13 +143,28 @@
             android:id="@+id/recyclerView2"
             android:layout_width="match_parent"
             android:layout_height="515dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="10dp" />
+            android:paddingLeft="25dp"
+            android:paddingRight="20dp" />
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="100dp" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView24"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:paddingLeft="25dp"
+        android:text="밥 친구 찾기"
+        android:textColor="#45210D"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/community_toolbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
