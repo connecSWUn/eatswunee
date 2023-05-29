@@ -2,6 +2,9 @@ package com.example.eatswunee.bistro;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,19 +17,32 @@ import android.view.ViewGroup;
 
 import com.example.eatswunee.R;
 import com.example.eatswunee.bistro.recyclerView.MyBistroAdapter;
-import com.example.eatswunee.bistro.recyclerView.menu_item;
+import com.example.eatswunee.community.friend_viewActivity;
+import com.example.eatswunee.server.Data;
+import com.example.eatswunee.server.Result;
+import com.example.eatswunee.server.RetrofitClient;
+import com.example.eatswunee.server.ServiceApi;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class total_bistroFragment extends Fragment {
 
     private View v;
+    private RecyclerView mRecyclerView;
     private MyBistroAdapter adapter;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    private RetrofitClient retrofitClient;
+    private ServiceApi serviceApi;
 
-    }
+    @Override
+    public void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); }
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -35,58 +51,36 @@ public class total_bistroFragment extends Fragment {
         // Inflate the layout for this fragment
         v =  inflater.inflate(R.layout.fragment_total_bistro, container, false);
 
-        adapter = new MyBistroAdapter();
+        init(0);
 
-        adapter.setOnItemClickListener(new MyBistroAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(MyBistroAdapter.ViewHolder holder, View v, int pos) {
-                menu_item item = adapter.getItem(pos);
+        mRecyclerView = v.findViewById(R.id.recyclerView);
 
-                // 화면 전환 구현, intent 전달 필요
-                Intent intent = new Intent(getActivity(), menu_infoActivity.class);
-                // 사진은 따로 옮겨야 함
-                intent.putExtra("bistro_name",item.getBistro_name());
-                intent.putExtra("menu_name", item.getMenu_name());
-                intent.putExtra("star_rate", item.getStar_rate());
-                intent.putExtra("price", item.getPrice());
-                startActivity(intent);
-            }
-        });
-
-        init();
-        getData();
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
+        mRecyclerView.setLayoutManager(gridLayoutManager);
 
         return v;
     }
 
-    private void init() {
-        RecyclerView recyclerView = v.findViewById(R.id.recyclerView);
+    private void init(long restaurantId) {
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
-        recyclerView.setLayoutManager(gridLayoutManager);
+        retrofitClient = RetrofitClient.getInstance();
+        serviceApi = RetrofitClient.getServiceApi();
 
-        recyclerView.setAdapter(adapter);
-    }
+        serviceApi.getData("gusia", restaurantId).enqueue(new Callback<Result>() {
+            @Override
+            public void onResponse(Call<Result> call, Response<Result> response) {
+                Result result = response.body();
+                Data data = result.getData();
+                adapter = new MyBistroAdapter(data.getMenusList());
 
-    /** 예시 **/
-    private void getData() {
-        menu_item data = new menu_item(R.drawable.baseline_image_not_supported_24,
-                "포아이니", "3.5", "차돌양지쌀국수", "6,500원");
-        adapter.addItem(data);
-        data = new menu_item(R.drawable.baseline_image_not_supported_24,
-                "분식대첩", "3.0", "김치볶음밥", "5,900원");
-        adapter.addItem(data);
-        data = new menu_item(R.drawable.baseline_image_not_supported_24,
-                "만권화밥", "4.5", "매운닭갈비덮밥", "6,500원");
-        adapter.addItem(data);
-        data = new menu_item(R.drawable.baseline_image_not_supported_24,
-                "최고당돈가스", "3.5", "수제생등심돈가스", "6,400원");
-        adapter.addItem(data);
-        data = new menu_item(R.drawable.baseline_image_not_supported_24,
-                "포아이니", "3.5", "차돌양지쌀국수", "6,900원");
-        adapter.addItem(data);
-        data = new menu_item(R.drawable.baseline_image_not_supported_24,
-                "분식대첩", "4.5", "라면", "3,500원");
-        adapter.addItem(data);
+                mRecyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFailure(Call<Result> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+
     }
 }

@@ -36,6 +36,52 @@ public class Data {
     @SerializedName("content")
     private String content;
 
+    /* 식당별 메뉴 리스트 조회 API */
+    @SerializedName("menus")
+    private List<menus> menusList = null;
+    @SerializedName("restaurants")
+    private List<restaurants> restaurantsList = null;
+
+    /* 메뉴 내용 조회 API */
+    @SerializedName("menuId")
+    @Expose
+    private long menuId;
+    @SerializedName("RestaurantName")
+    @Expose
+    private String RestaurantName;
+    @SerializedName("menuName")
+    @Expose
+    private String menuName;
+    @SerializedName("menuPrice")
+    @Expose
+    private int menuPrice;
+    @SerializedName("menuRating")
+    @Expose
+    private float menuRating;
+    @SerializedName("menuReviewCnt")
+    @Expose
+    private float menuReviewCnt;
+
+    /* 메뉴 검색 API */
+    @SerializedName("searchedMenus")
+    @Expose
+    private List<searchedMenus> searchedMenusList;
+
+    /* 메뉴의 리뷰 조회 */
+    @SerializedName("reviewCnt")
+    @Expose
+    private long reviewCnt;
+    @SerializedName("menuImg")
+    @Expose
+    private String menuImg;
+    @SerializedName("menuAvgRating")
+    @Expose
+    private float menuAvgRating;
+    @SerializedName("reviewRating")
+    private reviewRating reviewRating;
+    @SerializedName("reviews")
+    private List<reviews> reviewsList;
+
 
     public String getCategory() {
         return category;
@@ -132,5 +178,124 @@ public class Data {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+
+    /* 식당별 메뉴 조회 */
+    public List<menus> getMenusList() {
+        return menusList;
+    }
+
+    public void setMenusList(List<menus> menusList) {
+        this.menusList = menusList;
+    }
+
+    public List<restaurants> getRestaurantsList() {
+        return restaurantsList;
+    }
+
+    public void setRestaurantsList(List<restaurants> restaurantsList) {
+        this.restaurantsList = restaurantsList;
+    }
+
+    /* 메뉴 내용 조회 */
+    public long getMenuId() {
+        return menuId;
+    }
+
+    public void setMenuId(long menuId) {
+        this.menuId = menuId;
+    }
+
+    public String getRestaurantName() {
+        return RestaurantName;
+    }
+
+    public void setRestaurantName(String restaurantName) {
+        RestaurantName = restaurantName;
+    }
+
+    public String getMenuName() {
+        return menuName;
+    }
+
+    public void setMenuName(String menuName) {
+        this.menuName = menuName;
+    }
+
+    public int getMenuPrice() {
+        return menuPrice;
+    }
+
+    public void setMenuPrice(int menuPrice) {
+        this.menuPrice = menuPrice;
+    }
+
+    public float getMenuRating() {
+        return menuRating;
+    }
+
+    public void setMenuRating(float menuRating) {
+        this.menuRating = menuRating;
+    }
+
+    public float getMenuReviewCnt() {
+        return menuReviewCnt;
+    }
+
+    public void setMenuReviewCnt(float menuReviewCnt) {
+        this.menuReviewCnt = menuReviewCnt;
+    }
+
+
+    /* 메뉴 검색 API */
+    public List<searchedMenus> getSearchedMenusList() {
+        return searchedMenusList;
+    }
+
+    public void setSearchedMenusList(List<searchedMenus> searchedMenusList) {
+        this.searchedMenusList = searchedMenusList;
+    }
+
+    /* 메뉴 리뷰 조회 */
+
+    public long getReviewCnt() {
+        return reviewCnt;
+    }
+
+    public void setReviewCnt(long reviewCnt) {
+        this.reviewCnt = reviewCnt;
+    }
+
+    public String getMenuImg() {
+        return menuImg;
+    }
+
+    public void setMenuImg(String menuImg) {
+        this.menuImg = menuImg;
+    }
+
+    public float getMenuAvgRating() {
+        return menuAvgRating;
+    }
+
+    public void setMenuAvgRating(float menuAvgRating) {
+        this.menuAvgRating = menuAvgRating;
+    }
+
+    public reviewRating getReviewRating() {
+        return reviewRating;
+    }
+
+    public void setReviewRating(reviewRating reviewRating) {
+        this.reviewRating = reviewRating;
+    }
+
+    public List<reviews> getReviewsList() {
+        return reviewsList;
+    }
+
+    public void setReviewsList(List<reviews> reviewsList) {
+        this.reviewsList = reviewsList;
     }
 }

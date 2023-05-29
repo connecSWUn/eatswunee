@@ -1,6 +1,8 @@
 package com.example.eatswunee.community;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -8,9 +10,11 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.eatswunee.MainActivity;
@@ -34,6 +38,7 @@ public class friend_viewActivity extends AppCompatActivity {
     private ServiceApi serviceApi;
 
     TextView title, spot, time, created_at, status, name, content;
+    LinearLayout background, inside;
     ImageView profile;
     ImageButton backBtn;
 
@@ -41,6 +46,15 @@ public class friend_viewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_view);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.friend_view_toolbar);
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_ios_new_24);
 
         title = findViewById(R.id.view_title);
         spot = findViewById(R.id.view_spot);
@@ -51,8 +65,8 @@ public class friend_viewActivity extends AppCompatActivity {
         content = findViewById(R.id.view_content);
         profile = findViewById(R.id.view_profile);
 
-        backBtn = findViewById(R.id.view_backBtn);
-        backBtn.setOnClickListener(new backOnClickListener());
+        background = findViewById(R.id.friend_view_bottom_back);
+        inside = findViewById(R.id.friend_view_bottom_in);
 
         Intent intent = getIntent();
         long postId = intent.getExtras().getLong("recruitId");
@@ -65,7 +79,7 @@ public class friend_viewActivity extends AppCompatActivity {
         retrofitClient = RetrofitClient.getInstance();
         serviceApi = RetrofitClient.getServiceApi();
 
-        serviceApi.getData(postId).enqueue(new Callback<Result>() {
+        serviceApi.getData("recruit", postId).enqueue(new Callback<Result>() {
             @Override
             public void onResponse(Call<Result> call, Response<Result> response) {
                 Result result = response.body();
@@ -80,14 +94,20 @@ public class friend_viewActivity extends AppCompatActivity {
                 name.setText(data.getWriters().getUser_name());
 
                 if(data.getRecruit_status() == "ONGOING") {
-                    status.setText("찾는 중...");
-                    status.setBackgroundResource(R.drawable.community_state_finding);
+                    status.setText("찾는 중이군요!");
+                    status.setBackgroundResource(R.drawable.com_finding_chat_theme);
+                    background.setBackgroundColor(getResources().getColor(R.color.finding));
+                    inside.setBackgroundResource(R.drawable.com_finding_theme_bottom_s);
                 } else if (data.getRecruit_status() == "CONNECTING") {
-                    status.setText("연락 중...");
-                    status.setBackgroundResource(R.drawable.community_state_talking);
+                    status.setText("연락 중이군요!");
+                    status.setBackgroundResource(R.drawable.com_talking_chat_theme);
+                    background.setBackgroundColor(getResources().getColor(R.color.talking));
+                    inside.setBackgroundResource(R.drawable.com_talking_theme_bottom_s);
                 } else if (data.getRecruit_status() == "COMPLETED") {
-                    status.setText("구했어요!");
-                    status.setBackgroundResource(R.drawable.community_state_done);
+                    status.setText("이미 구했군요!");
+                    status.setBackgroundResource(R.drawable.com_done_chat_theme);
+                    background.setBackgroundColor(getResources().getColor(R.color.done));
+                    inside.setBackgroundResource(R.drawable.com_done_theme_bottom_s);
                 }
 
                 // 이미지 주소가 안 되어있음 : 수정 필요
@@ -99,6 +119,17 @@ public class friend_viewActivity extends AppCompatActivity {
                 t.printStackTrace();
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                finish();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     class DownloadFilesTask extends AsyncTask<String, Void, Bitmap> {
@@ -127,15 +158,6 @@ public class friend_viewActivity extends AppCompatActivity {
         protected void onPostExecute(Bitmap result) {
             // doInBackground 에서 받아온 total 값 사용 장소
             profile.setImageBitmap(result);
-        }
-    }
-
-    private class backOnClickListener implements View.OnClickListener {
-        @Override
-        public void onClick(View view) {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            intent.putExtra("selectedItem", "community");
-            startActivity(intent);
         }
     }
 }

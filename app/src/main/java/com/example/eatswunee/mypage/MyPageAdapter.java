@@ -1,9 +1,15 @@
-package com.example.eatswunee.bistro;
+package com.example.eatswunee.mypage;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+
+import com.example.eatswunee.bistro.bunsik_bistroFragment;
+import com.example.eatswunee.bistro.choigodang_bistroFragment;
+import com.example.eatswunee.bistro.mankwon_bistroFragment;
+import com.example.eatswunee.bistro.phoini_bistroFragment;
+import com.example.eatswunee.bistro.total_bistroFragment;
 
 public class MyPageAdapter extends FragmentStatePagerAdapter {
     private int numberOfFragment;

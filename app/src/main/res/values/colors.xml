@@ -9,4 +9,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="finding">#B6DF42</color>
+    <color name="talking">#F9C662</color>
+    <color name="done">#E07878</color>
 </resources>

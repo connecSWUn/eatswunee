@@ -13,17 +13,16 @@
         <!-- 메뉴 이미지 -->
         <ImageView
             android:id="@+id/menu_image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_margin="20dp"
             android:layout_weight="100"
-            android:padding="30dp"
             app:srcCompat="@drawable/baseline_image_not_supported_24" />
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="300"
             android:orientation="vertical">
 

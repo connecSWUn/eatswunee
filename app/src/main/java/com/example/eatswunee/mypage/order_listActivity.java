@@ -19,11 +19,16 @@ import com.example.eatswunee.R;
 import com.example.eatswunee.bistro.ReviewActivity;
 import com.example.eatswunee.bistro.recyclerView.MyReviewAdapter;
 import com.example.eatswunee.bistro.recyclerView.reviewItem;
+import com.example.eatswunee.server.RetrofitClient;
+import com.example.eatswunee.server.ServiceApi;
 
 public class order_listActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private MyListAdapter adapter;
+
+    private RetrofitClient retrofitClient;
+    private ServiceApi serviceApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +49,14 @@ public class order_listActivity extends AppCompatActivity {
 
         init();
         getData();
+
+        // RecyclerView
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        mRecyclerView.addItemDecoration(new RecyclerViewDecoration(50));
+
+        /* initiate recyclerView */
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
     }
 
     @Override
@@ -75,15 +88,11 @@ public class order_listActivity extends AppCompatActivity {
     }
 
     private void init() {
-        // RecyclerView
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        mRecyclerView.addItemDecoration(new RecyclerViewDecoration(50));
-
-        /* initiate recyclerView */
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
 
         mRecyclerView.setAdapter(adapter);
+
+        retrofitClient = RetrofitClient.getInstance();
+        serviceApi = RetrofitClient.getServiceApi();
     }
 
     /* 예시 */
