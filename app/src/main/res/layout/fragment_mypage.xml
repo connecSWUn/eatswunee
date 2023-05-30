@@ -13,23 +13,6 @@
         android:layout_height="match_parent"
         android:background="#FAF9F7">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/mypage_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="10dp"
-            android:background="#FAF9F7"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            app:menu="@menu/community_toolbar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
-
         <TextView
             android:id="@+id/textView26"
             android:layout_width="0dp"
@@ -43,7 +26,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mypage_toolbar" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/profile_edit_btn"

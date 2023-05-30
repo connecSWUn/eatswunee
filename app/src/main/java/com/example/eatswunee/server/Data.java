@@ -37,6 +37,8 @@ public class Data {
     private String content;
 
     /* 식당별 메뉴 리스트 조회 API */
+    @SerializedName("orders")
+    private List<orders> ordersList = null;
     @SerializedName("menus")
     private List<menus> menusList = null;
     @SerializedName("restaurants")
@@ -182,6 +184,15 @@ public class Data {
 
 
     /* 식당별 메뉴 조회 */
+
+    public List<orders> getOrdersList() {
+        return ordersList;
+    }
+
+    public void setOrdersList(List<orders> ordersList) {
+        this.ordersList = ordersList;
+    }
+
     public List<menus> getMenusList() {
         return menusList;
     }

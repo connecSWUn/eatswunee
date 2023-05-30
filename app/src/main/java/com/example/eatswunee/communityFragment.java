@@ -39,8 +39,6 @@ import retrofit2.Response;
 
 
 public class communityFragment extends Fragment {
-
-    Toolbar toolbar;
     Button total, gusia, nuri, fiftieth, shalom, gyo;
     Button writeBtn;
     View v;
@@ -49,7 +47,6 @@ public class communityFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private MyCommunityAdapter adapter;
-    private DrawerLayout mDrawerLayout;
 
     private RetrofitClient retrofitClient;
     private ServiceApi serviceApi;
@@ -66,14 +63,6 @@ public class communityFragment extends Fragment {
 
         v = inflater.inflate(R.layout.fragment_community, container, false);
 
-        Toolbar toolbar = (Toolbar) v.findViewById(R.id.community_toolbar);
-        ((MainActivity)getActivity()).setSupportActionBar(toolbar);
-
-        ActionBar actionBar = ((MainActivity)getActivity()).getSupportActionBar();
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-
         total = v.findViewById(R.id.community_totalBtn);
         gusia = v.findViewById(R.id.community_gusia);
         nuri = v.findViewById(R.id.community_nuri);
@@ -81,31 +70,6 @@ public class communityFragment extends Fragment {
         shalom = v.findViewById(R.id.community_shalom);
         gyo = v.findViewById(R.id.community_gyo);
         writeBtn = v.findViewById(R.id.write_button);
-
-        mDrawerLayout = v.findViewById(R.id.drawer_layout);
-
-        NavigationView navigationView = (NavigationView) v.findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                item.setChecked(true);
-                mDrawerLayout.closeDrawers();
-
-                int id = item.getItemId();
-
-                if(id == R.id.item_info){
-                    Intent intent = new Intent(getActivity(), articlesActivity.class);
-                    startActivity(intent);
-                }
-                else if(id == R.id.item_report){
-
-                }
-
-                return true;
-            }
-        });
-
-
 
         /* 초기 세팅
          * 어플리케이션 실행 시 커뮤니티 화면 기본 선택 버튼 : 전체 버튼
@@ -140,17 +104,6 @@ public class communityFragment extends Fragment {
 
 
         return v;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {
-                mDrawerLayout.openDrawer(GravityCompat.START);
-                return true;
-            }
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     public class RecyclerViewDecoration extends RecyclerView.ItemDecoration {

@@ -20,11 +20,6 @@ public interface ServiceApi {
     @GET("/{path}/{id}")
     Call<Result> getData(@Path("path") String path, @Path("id") long id);
 
-    /*
-    @GET("/recruit/writer/{userId}")
-    Call<Result> getPost(@Path("userId") long userId);
-     */
-
     /* 메뉴 검색 API */
     @GET("/gusia/search/{restaurantId}/{keyword}")
     Call<Result> getData(@Path("restaurantId") long restaurantId, @Path("keyword") String keyword);
