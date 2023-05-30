@@ -12,14 +12,8 @@ import android.view.ViewGroup;
 
 import com.example.eatswunee.R;
 import com.example.eatswunee.bistro.recyclerView.MyBistroAdapter;
-import com.example.eatswunee.server.Data;
-import com.example.eatswunee.server.Result;
 import com.example.eatswunee.server.RetrofitClient;
 import com.example.eatswunee.server.ServiceApi;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class bunsik_bistroFragment extends Fragment {
@@ -44,7 +38,7 @@ public class bunsik_bistroFragment extends Fragment {
 
         init(2);
 
-        mRecyclerView = v.findViewById(R.id.recyclerView);
+        mRecyclerView = v.findViewById(R.id.total_RecyclerView);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(gridLayoutManager);
