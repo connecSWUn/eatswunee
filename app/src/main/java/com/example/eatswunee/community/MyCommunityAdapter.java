@@ -65,10 +65,10 @@ public class MyCommunityAdapter extends RecyclerView.Adapter<MyCommunityAdapter.
             super(itemView);
 
             statusImg = (ImageView) itemView.findViewById(R.id.community_image);
-            title = (TextView) itemView.findViewById(R.id.com_title);
+            title = (TextView) itemView.findViewById(R.id.shopbag_menu_name);
             place = (TextView) itemView.findViewById(R.id.com_place);
-            app_time = (TextView) itemView.findViewById(R.id.com_time);
-            post_date = (TextView) itemView.findViewById(R.id.com_date);
+            app_time = (TextView) itemView.findViewById(R.id.shopbag_price);
+            post_date = (TextView) itemView.findViewById(R.id.my_photoR_date);
             status = (TextView) itemView.findViewById(R.id.com_status);
 
             itemView.setOnClickListener(this);

@@ -58,7 +58,6 @@ public class TimePickerPopupDialogTwoButton extends Dialog {
             public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
                 setHourValue = hourOfDay;
                 setMinuteValue = minute;
-                Log.d(TAG, setHourValue + "시" + setMinuteValue + "분");
             }
         });
 

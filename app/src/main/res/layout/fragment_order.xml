@@ -10,7 +10,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#FAF9F7">
 
         <EditText
             android:id="@+id/editTextTextPersonName"
@@ -57,7 +58,7 @@
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
-            android:layout_height="480dp"
+            android:layout_height="400dp"
             android:layout_marginEnd="2dp"
             android:layout_weight="8"
             app:layout_constraintEnd_toEndOf="parent"

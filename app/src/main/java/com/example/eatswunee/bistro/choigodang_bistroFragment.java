@@ -12,8 +12,14 @@ import android.view.ViewGroup;
 
 import com.example.eatswunee.R;
 import com.example.eatswunee.bistro.recyclerView.MyBistroAdapter;
+import com.example.eatswunee.server.Data;
+import com.example.eatswunee.server.Result;
 import com.example.eatswunee.server.RetrofitClient;
 import com.example.eatswunee.server.ServiceApi;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class choigodang_bistroFragment extends Fragment {
 
@@ -35,9 +41,9 @@ public class choigodang_bistroFragment extends Fragment {
                              Bundle savedInstanceState) {
         v =  inflater.inflate(R.layout.fragment_total_bistro, container, false);
 
-        init(3);
+        init(4);
 
-        mRecyclerView = v.findViewById(R.id.total_RecyclerView);
+        mRecyclerView = v.findViewById(R.id.shopbag_RecyclerView);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(gridLayoutManager);
@@ -47,7 +53,9 @@ public class choigodang_bistroFragment extends Fragment {
 
     private void init(long restaurantId) {
 
-        /*
+        retrofitClient = RetrofitClient.getInstance();
+        serviceApi = RetrofitClient.getServiceApi();
+
         serviceApi.getData("gusia", restaurantId).enqueue(new Callback<Result>() {
             @Override
             public void onResponse(Call<Result> call, Response<Result> response) {
@@ -63,6 +71,5 @@ public class choigodang_bistroFragment extends Fragment {
                 t.printStackTrace();
             }
         });
-        */
     }
 }

@@ -12,8 +12,14 @@ import android.view.ViewGroup;
 
 import com.example.eatswunee.R;
 import com.example.eatswunee.bistro.recyclerView.MyBistroAdapter;
+import com.example.eatswunee.server.Data;
+import com.example.eatswunee.server.Result;
 import com.example.eatswunee.server.RetrofitClient;
 import com.example.eatswunee.server.ServiceApi;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class mankwon_bistroFragment extends Fragment {
 
@@ -34,7 +40,7 @@ public class mankwon_bistroFragment extends Fragment {
 
         init(3);
 
-        mRecyclerView = v.findViewById(R.id.total_RecyclerView);
+        mRecyclerView = v.findViewById(R.id.shopbag_RecyclerView);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(gridLayoutManager);
@@ -44,7 +50,9 @@ public class mankwon_bistroFragment extends Fragment {
 
     private void init(long restaurantId) {
 
-        /*
+        retrofitClient = RetrofitClient.getInstance();
+        serviceApi = RetrofitClient.getServiceApi();
+
         serviceApi.getData("gusia", restaurantId).enqueue(new Callback<Result>() {
             @Override
             public void onResponse(Call<Result> call, Response<Result> response) {
@@ -60,6 +68,6 @@ public class mankwon_bistroFragment extends Fragment {
                 t.printStackTrace();
             }
         });
-         */
+
     }
 }

@@ -27,6 +27,8 @@ import com.example.eatswunee.server.Data;
 import com.example.eatswunee.server.Result;
 import com.example.eatswunee.server.RetrofitClient;
 import com.example.eatswunee.server.ServiceApi;
+import com.example.eatswunee.server.sqlite.DBManager;
+import com.example.eatswunee.shopbagActivity;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -41,11 +43,12 @@ public class menu_infoActivity extends AppCompatActivity {
     private RetrofitClient retrofitClient;
     private ServiceApi serviceApi;
 
-    TextView RestaurantName, menuName, menuRating, menuPrice;
-    Button putBtn, reviewBtn;
+    TextView RestaurantName, menuName, menuRating, menuPrice, menuCnt;
+    Button putBtn, reviewBtn, cnt_plus, cnt_minus;
     ImageView menuImage;
 
     long menuId;
+    String menu_image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,17 +70,49 @@ public class menu_infoActivity extends AppCompatActivity {
         menuName = findViewById(R.id.info_menu_name);
         menuRating = findViewById(R.id.info_star_rate);
         menuPrice = findViewById(R.id.info_price);
+        menuCnt = findViewById(R.id.menu_info_pcs);
         putBtn = findViewById(R.id.put_btn);
 
         // 리뷰 확인 버튼 : 리뷰 페이지로 이동
         reviewBtn = findViewById(R.id.reviewBtn);
 
+        // 수량 변경 버튼
+        cnt_plus = findViewById(R.id.plusBtn);
+        cnt_minus = findViewById(R.id.minBtn);
+
         Intent intent = getIntent();
         menuId = intent.getExtras().getLong("menuId");
+        menu_image = intent.getExtras().getString("menuImage");
 
         init(menuId);
 
         reviewBtn.setOnClickListener(new reviewOnClickListener());
+        putBtn.setOnClickListener(new putOnClickListener());
+
+        cnt_plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int cnt = Integer.parseInt((String) menuCnt.getText());
+                int price = Integer.parseInt((String) menuPrice.getText());
+
+                menuCnt.setText(String.valueOf(cnt + 1));
+                putBtn.setText((price * (cnt + 1)) + "원 담기");
+            }
+        });
+
+        cnt_minus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int cnt = Integer.parseInt((String) menuCnt.getText());
+                int price = Integer.parseInt((String) menuPrice.getText());
+
+                if(cnt == 1) Toast.makeText(menu_infoActivity.this, "최소 수량입니다.", Toast.LENGTH_SHORT).show();
+                else {
+                    menuCnt.setText(String.valueOf(cnt - 1));
+                    putBtn.setText((price * (cnt - 1)) + "원 담기");
+                }
+            }
+        });
     }
 
     private void init(long menuId) {
@@ -95,10 +130,9 @@ public class menu_infoActivity extends AppCompatActivity {
                 menuName.setText(data.getMenuName());
                 menuRating.setText(String.valueOf(data.getMenuRating()));
                 menuPrice.setText(String.valueOf(data.getMenuPrice()));
-                putBtn.setText(data.getMenuPrice() + "원 담기");
+                putBtn.setText(data.getMenuPrice()  + "원 담기");
 
-                // 이미지 주소가 안 되어있음 : 수정 필요
-                // new menu_infoActivity().DownloadFilesTask().execute(data.getWriters().getUser_profile_url());
+                //new DownloadFilesTask().execute(data.getMenuImg());
             }
 
             @Override
@@ -132,8 +166,7 @@ public class menu_infoActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Bitmap result) {
-            // doInBackground 에서 받아온 total 값 사용 장소
-            //profile.setImageBitmap(result);
+            menuImage.setImageBitmap(result);
         }
     }
 
@@ -163,6 +196,25 @@ public class menu_infoActivity extends AppCompatActivity {
             Intent intent = new Intent(menu_infoActivity.this, ReviewActivity.class);
             intent.putExtra("menuId", menuId);
             startActivity(intent);
+        }
+    }
+
+    private class putOnClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            String res_name = RestaurantName.getText().toString();
+            String menu_name = menuName.getText().toString();
+            int menu_price = Integer.parseInt((String) menuPrice.getText());
+            int menu_cnt = Integer.parseInt((String) menuCnt.getText());
+
+            // DB 객체 생성
+            DBManager dbManager = new DBManager(menu_infoActivity.this);
+            // DB에 저장하기
+            dbManager.addBag(menuId, menu_name, menu_image, menu_price, res_name, menu_cnt);
+
+            Intent intent = new Intent(menu_infoActivity.this, shopbagActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
 }

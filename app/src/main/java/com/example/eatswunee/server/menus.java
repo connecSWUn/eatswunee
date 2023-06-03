@@ -24,6 +24,20 @@ public class menus {
     @Expose
     private String menuPrice;
 
+    /* 주문 내역 조회 : 메뉴 */
+    @SerializedName("menu_name")
+    @Expose
+    private String menu_name;
+    @SerializedName("menu_price")
+    @Expose
+    private int menu_price;
+    @SerializedName("menu_cnt")
+    @Expose
+    private int menu_cnt;
+    @SerializedName("menu_total_price")
+    @Expose
+    private int menu_total_price;
+
 
     public long getMenuId() {
         return menuId;

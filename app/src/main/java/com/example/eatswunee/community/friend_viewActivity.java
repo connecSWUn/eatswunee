@@ -40,7 +40,6 @@ public class friend_viewActivity extends AppCompatActivity {
     TextView title, spot, time, created_at, status, name, content;
     LinearLayout background, inside;
     ImageView profile;
-    ImageButton backBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

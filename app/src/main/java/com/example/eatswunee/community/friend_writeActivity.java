@@ -31,11 +31,11 @@ import retrofit2.Response;
 public class friend_writeActivity extends AppCompatActivity {
 
     public static String TAG;
-    Button start_time, end_time, done, cancel;
-    EditText title, content;
+    Button start_time_btn, end_time_btn, done, cancel;
+    EditText article_title, article_content;
     Spinner spot;
 
-    String spot_en;
+    String title, recruitStatus, start_time, end_time, recruit_spot, content;
 
     private long writer_id = 1;
     private RetrofitClient retrofitClient;
@@ -49,17 +49,19 @@ public class friend_writeActivity extends AppCompatActivity {
 
         spot = (Spinner) findViewById(R.id.spinner_spot);
 
-        start_time = findViewById(R.id.start_time);
-        end_time = findViewById(R.id.end_time);
+        start_time_btn = findViewById(R.id.start_time);
+        end_time_btn = findViewById(R.id.end_time);
         done = findViewById(R.id.button_done);
         cancel = findViewById(R.id.button_cancel);
+        article_title = findViewById(R.id.editText_title);
+        article_content = findViewById(R.id.write_content);
 
         Intent intent = getIntent();
         writer_id = intent.getExtras().getLong("writer_id");
 
         done.setOnClickListener(new doneBtnOnClickListener());
-        start_time.setOnClickListener(new startOnClickListener());
-        end_time.setOnClickListener(new endOnClickListener());
+        start_time_btn.setOnClickListener(new startOnClickListener());
+        end_time_btn.setOnClickListener(new endOnClickListener());
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,41 +70,43 @@ public class friend_writeActivity extends AppCompatActivity {
             }
         });
 
-
-        if(spot.getSelectedItem().toString() == "구시아") spot_en = "gusia";
-        else if(spot.getSelectedItem().toString() == "50주년") spot_en = "fiftieth";
-        else if(spot.getSelectedItem().toString() == "누리관") spot_en = "nuri";
-        else if(spot.getSelectedItem().toString() == "샬롬") spot_en = "shalom";
-        else if(spot.getSelectedItem().toString() == "교직원") spot_en = "gyo";
     }
 
 
-    private class doneBtnOnClickListener implements View.OnClickListener {
-
+    public class doneBtnOnClickListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
 
             retrofitClient = RetrofitClient.getInstance();
             serviceApi = RetrofitClient.getServiceApi();
 
-            HashMap<String, Object> input = new HashMap<>();
-            input.put("title", title.getText());
-            input.put("spot", spot_en);
-            input.put("start_time", start_time.getText());
-            input.put("end_time", end_time.getText());
-            input.put("content", content.getText());
-            input.put("writer_id", writer_id);
 
-            serviceApi.postData(input).enqueue(new Callback<Result>() {
+            title = article_title.getText().toString();
+            recruitStatus = "CONNECTING";
+            start_time = start_time_btn.getText().toString();
+            end_time = end_time_btn.getText().toString();
+            content = article_content.getText().toString();
+
+            if(spot.getSelectedItem().toString() == "구시아") recruit_spot = "gusia";
+            else if(spot.getSelectedItem().toString() == "50주년") recruit_spot = "fiftieth";
+            else if(spot.getSelectedItem().toString() == "누리관") recruit_spot = "nuri";
+            else if(spot.getSelectedItem().toString() == "샬롬") recruit_spot = "shalom";
+            else if(spot.getSelectedItem().toString() == "교직원") recruit_spot = "gyo";
+
+            article article = new article(title, recruitStatus, start_time, end_time, recruit_spot, content);
+
+            serviceApi.postArticle(article).enqueue(new Callback<Result>() {
                 @Override
                 public void onResponse(Call<Result> call, Response<Result> response) {
                     if(response.isSuccessful()) {
                         Result result = response.body();
-                        Log.d("TEST", "POST Success");
-                        Log.d("TEST", result.getData().getTitle());
+                        Log.d("article", "POST Success");
+
+                        long post_id = result.getData().getPost_id();
 
                         Toast.makeText(friend_writeActivity.this, "게시글이 등록되었습니다.", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(friend_writeActivity.this, MainActivity.class);
+                        Intent intent = new Intent(friend_writeActivity.this, friend_viewActivity.class);
+                        intent.putExtra("recruitId", post_id);
                         startActivity(intent);
                     }
                 }
@@ -111,8 +115,11 @@ public class friend_writeActivity extends AppCompatActivity {
                 public void onFailure(Call<Result> call, Throwable t) {
                     t.printStackTrace();
                     Toast.makeText(friend_writeActivity.this, "게시글 저장에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+
                 }
             });
+
+            finish();
         }
     }
 
@@ -124,8 +131,8 @@ public class friend_writeActivity extends AppCompatActivity {
                 @Override
                 public void onPositiveClick(int setHourValue, int setMinuteValue) {
                     Log.d(TAG, "onPositiveClick : " + setHourValue + "시 " + setMinuteValue + "분");
-                    if(setMinuteValue < 10) start_time.setText(setHourValue + ":0" + setMinuteValue);
-                    else start_time.setText(setHourValue + ":" + setMinuteValue);
+                    if(setMinuteValue < 10) start_time_btn.setText(setHourValue + ":0" + setMinuteValue);
+                    else start_time_btn.setText(setHourValue + ":" + setMinuteValue);
                 }
 
                 @Override
@@ -150,8 +157,8 @@ public class friend_writeActivity extends AppCompatActivity {
                 @Override
                 public void onPositiveClick(int setHourValue, int setMinuteValue) {
                     Log.d(TAG, "onPositiveClick : " + setHourValue + "시 " + setMinuteValue + "분");
-                    if(setMinuteValue < 10) end_time.setText(setHourValue + ":0" + setMinuteValue);
-                    else end_time.setText(setHourValue + ":" + setMinuteValue);
+                    if(setMinuteValue < 10) end_time_btn.setText(setHourValue + ":0" + setMinuteValue);
+                    else end_time_btn.setText(setHourValue + ":" + setMinuteValue);
                 }
 
                 @Override

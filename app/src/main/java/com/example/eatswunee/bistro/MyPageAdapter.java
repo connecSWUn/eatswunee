@@ -1,4 +1,4 @@
-package com.example.eatswunee.mypage;
+package com.example.eatswunee.bistro;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

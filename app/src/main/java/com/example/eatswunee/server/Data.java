@@ -6,6 +6,39 @@ import java.util.List;
 
 public class Data {
 
+    /* 로그인 */
+    @SerializedName("grantType")
+    private String grantType;
+    @SerializedName("accessToken")
+    private String accessToken;
+    @SerializedName("refreshToken")
+    private String refreshToken;
+
+    public String getGrantType() {
+        return grantType;
+    }
+
+    public void setGrantType(String grantType) {
+        this.grantType = grantType;
+    }
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
+
     @SerializedName("category")
     @Expose
     private String category;
@@ -83,6 +116,79 @@ public class Data {
     private reviewRating reviewRating;
     @SerializedName("reviews")
     private List<reviews> reviewsList;
+
+    /* 주문 내역 조회 */
+    @SerializedName("order_num")
+    @Expose
+    private String order_num;
+    @SerializedName("order_created_at")
+    @Expose
+    private String order_created_at;
+    @SerializedName("order_total_price")
+    @Expose
+    private String order_total_price;
+
+    public String getOrder_num() {
+        return order_num;
+    }
+
+    public void setOrder_num(String order_num) {
+        this.order_num = order_num;
+    }
+
+    public String getOrder_created_at() {
+        return order_created_at;
+    }
+
+    public void setOrder_created_at(String order_created_at) {
+        this.order_created_at = order_created_at;
+    }
+
+    public String getOrder_total_price() {
+        return order_total_price;
+    }
+
+    public void setOrder_total_price(String order_total_price) {
+        this.order_total_price = order_total_price;
+    }
+
+
+    /* 마이페이지 화면 조회 */
+
+    @SerializedName("user_id")
+    @Expose
+    private String user_id;
+    @SerializedName("user_profile_url")
+    @Expose
+    private String user_profile_url;
+    @SerializedName("user_name")
+    @Expose
+    private String user_name;
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getUser_profile_url() {
+        return user_profile_url;
+    }
+
+    public void setUser_profile_url(String user_profile_url) {
+        this.user_profile_url = user_profile_url;
+    }
+
+    public String getUser_name() {
+        return user_name;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
+    }
+
 
 
     public String getCategory() {
