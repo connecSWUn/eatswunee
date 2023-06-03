@@ -46,7 +46,7 @@ public class ReviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.review_toolbar);
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();
@@ -75,20 +75,18 @@ public class ReviewActivity extends AppCompatActivity {
         score2 = findViewById(R.id.two_star);
         score1 = findViewById(R.id.one_star);
 
-
         Intent intent = getIntent();
         menuId = intent.getExtras().getLong("menuId");
 
         init(menuId);
 
         // RecyclerView
-        mRecyclerView = (RecyclerView) findViewById(R.id.total_RecyclerView);
+        mRecyclerView = (RecyclerView) findViewById(R.id.shopbag_RecyclerView);
 
         /* initiate recyclerView */
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
 
-        mRecyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -116,11 +114,15 @@ public class ReviewActivity extends AppCompatActivity {
         retrofitClient = RetrofitClient.getInstance();
         serviceApi = RetrofitClient.getServiceApi();
 
-        serviceApi.getData("menu", menuId).enqueue(new Callback<Result>() {
+        serviceApi.getData("menu", "reviews", menuId).enqueue(new Callback<Result>() {
             @Override
             public void onResponse(Call<Result> call, Response<Result> response) {
                 Result result = response.body();
                 Data data = result.getData();
+
+                adapter = new MyReviewAdapter(data.getReviewsList());
+                mRecyclerView.setAdapter(adapter);
+
 
                 menu_name.setText(data.getMenuName());
                 //menu_image.setImageResource(data.getMenuImg());
@@ -132,11 +134,8 @@ public class ReviewActivity extends AppCompatActivity {
                 score2Cnt.setText(String.valueOf(data.getReviewRating().getScore2Cnt()));
                 score1Cnt.setText(String.valueOf(data.getReviewRating().getScore1Cnt()));
 
-                review_num.setText("리뷰" + data.getReviewCnt());
+                review_num.setText("리뷰 " + data.getReviewCnt());
                 review_title.setText("리뷰(" + data.getReviewCnt() + ")");
-
-                // 이미지 주소가 안 되어있음 : 수정 필요
-                // new menu_infoActivity().DownloadFilesTask().execute(data.getWriters().getUser_profile_url());
             }
 
             @Override

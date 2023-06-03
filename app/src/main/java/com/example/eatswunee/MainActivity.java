@@ -9,25 +9,55 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.eatswunee.community.articlesActivity;
+import com.example.eatswunee.mypage.profile_editActivity;
+import com.example.eatswunee.server.Data;
+import com.example.eatswunee.server.Result;
+import com.example.eatswunee.server.RetrofitClient;
+import com.example.eatswunee.server.ServiceApi;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView; // 바텀 네비게이션 뷰
     private DrawerLayout mDrawerLayout;
+    NavigationView navigationView;
     ActionBarDrawerToggle mDrawerToggle;
+
+    private RetrofitClient retrofitClient;
+    private ServiceApi serviceApi;
+
+    TextView nav_header_text;
+    ImageView nav_header_image;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.review_toolbar);
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();
@@ -42,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout.addDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -61,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        init();
 
         // 초기 화면 : FrameLayout에 fragment.xml 띄우기
         getSupportFragmentManager().beginTransaction().add(R.id.mainFrameLayout, new orderFragment()).commit();
@@ -89,10 +121,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main_toolbar, menu);
+
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
                 mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
+            }
+            case R.id.menu_shopping_bag: {
+                Intent intent = new Intent(MainActivity.this, shopbagActivity.class);
+                startActivity(intent);
+                return true;
+            }
+            case R.id.menu_notification: {
+                Intent intent = new Intent(MainActivity.this, notificationActivity.class);
+                startActivity(intent);
                 return true;
             }
         }
@@ -106,6 +156,61 @@ public class MainActivity extends AppCompatActivity {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+        }
+    }
+
+    private void init() {
+
+        retrofitClient = RetrofitClient.getInstance();
+        serviceApi = RetrofitClient.getServiceApi();
+
+        serviceApi.getProfile().enqueue(new Callback<Result>() {
+            @Override
+            public void onResponse(Call<Result> call, Response<Result> response) {
+                Result result = response.body();
+                Data data = result.getData();
+                Log.d("retrofit", "Data fetch success");
+
+                View nav_header = navigationView.getHeaderView(0);
+                nav_header_text = nav_header.findViewById(R.id.navi_header_name);
+                nav_header_text.setText(data.getUser_name());
+                nav_header_image = nav_header.findViewById(R.id.navi_header_img);
+                new DownloadFilesTask().execute(data.getUser_profile_url());
+            }
+
+            @Override
+            public void onFailure(Call<Result> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+
+    class DownloadFilesTask extends AsyncTask<String, Void, Bitmap> {
+        @Override
+        protected Bitmap doInBackground(String... strings) {
+            Bitmap bmp = null;
+            try {
+                String img_url = strings[0]; //url of the image
+                URL url = new URL(img_url);
+                bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return bmp;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            nav_header_image.setImageBitmap(result);
         }
     }
 }

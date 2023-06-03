@@ -1,8 +1,11 @@
 package com.example.eatswunee.server;
 
+import com.example.eatswunee.community.article;
+
 import java.util.HashMap;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -17,6 +20,10 @@ public interface ServiceApi {
     @GET("/menu/{menuId}")
     Call<Result> getData(@Path("menuId") long menuId);
 
+    /* 리뷰 불러오기 */
+    @GET("{page}/{object}/{userId}")
+    Call<Result> getData(@Path("page") String page, @Path("object") String object, @Path("userId") long userId);
+
     @GET("/{path}/{id}")
     Call<Result> getData(@Path("path") String path, @Path("id") long id);
 
@@ -24,7 +31,14 @@ public interface ServiceApi {
     @GET("/gusia/search/{restaurantId}/{keyword}")
     Call<Result> getData(@Path("restaurantId") long restaurantId, @Path("keyword") String keyword);
 
-    @FormUrlEncoded
+    /* 마이페이지 화면 조회 */
+    @GET("/mypage")
+    Call<Result> getProfile();
+
+    /* 로그인 */
+    @POST("/login/user")
+    Call<Result> postData(@Body AccountLoginDto accountLoginDto);
+
     @POST("/recruit/save")
-    Call<Result> postData(@FieldMap HashMap<String, Object> param);
+    Call<Result> postArticle(@Body article article);
 }

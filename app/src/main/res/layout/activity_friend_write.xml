@@ -170,7 +170,7 @@
         android:ems="10"
         android:gravity="top"
         android:hint="내용을 입력해 주세요"
-        android:inputType="textPersonName"
+        android:inputType="text"
         android:padding="15dp"
         android:textColorHint="#808E3B0B"
         android:textSize="15sp"

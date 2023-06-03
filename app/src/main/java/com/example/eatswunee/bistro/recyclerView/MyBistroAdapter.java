@@ -51,8 +51,10 @@ public class MyBistroAdapter extends RecyclerView.Adapter<MyBistroAdapter.ViewHo
             @Override
             public void onItemClickListener(View v, int position) {
                 long menuId = menusList.get(position).getMenuId();
+                String menuImage = menusList.get(position).getMenuImg();
                 Intent intent = new Intent(v.getContext(), menu_infoActivity.class);
                 intent.putExtra("menuId", menuId);
+                intent.putExtra("menuImage", menuImage);
                 v.getContext().startActivity(intent);
             }
         };

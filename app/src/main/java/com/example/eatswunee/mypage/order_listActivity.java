@@ -12,8 +12,13 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.eatswunee.R;
+import com.example.eatswunee.server.Result;
 import com.example.eatswunee.server.RetrofitClient;
 import com.example.eatswunee.server.ServiceApi;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class order_listActivity extends AppCompatActivity {
 
@@ -37,19 +42,38 @@ public class order_listActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_ios_new_24);
 
-        /* initiate adapter */
-        adapter = new MyListAdapter();
 
-        init();
-        getData();
+        // 추후 수정 필요
+        init(1);
 
         // RecyclerView
-        mRecyclerView = (RecyclerView) findViewById(R.id.total_RecyclerView);
+        mRecyclerView = (RecyclerView) findViewById(R.id.shopbag_RecyclerView);
         mRecyclerView.addItemDecoration(new RecyclerViewDecoration(50));
 
         /* initiate recyclerView */
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+    }
+
+    private void init(long orderId) {
+
+        retrofitClient = RetrofitClient.getInstance();
+        serviceApi = RetrofitClient.getServiceApi();
+
+        serviceApi.getData("order", orderId).enqueue(new Callback<Result>() {
+            @Override
+            public void onResponse(Call<Result> call, Response<Result> response) {
+                Result result = response.body();
+
+                adapter = new MyListAdapter(result.getData());
+                mRecyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFailure(Call<Result> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
     @Override
@@ -78,24 +102,5 @@ public class order_listActivity extends AppCompatActivity {
             super.getItemOffsets(outRect, view, parent, state);
             outRect.top = divHeight;
         }
-    }
-
-    private void init() {
-
-        mRecyclerView.setAdapter(adapter);
-
-        retrofitClient = RetrofitClient.getInstance();
-        serviceApi = RetrofitClient.getServiceApi();
-    }
-
-    /* 예시 */
-    private void getData() {
-        /* adapt data : example */
-        list_item data = new list_item("만권화밥", "매운닭갈비덮밥","6,500원", "2023.03.31");
-        adapter.addItem(data);
-        data = new list_item("포아이니", "차돌양지쌀국수", "6,500원", "2023.03.05");
-        adapter.addItem(data);
-        data = new list_item("분식대첩", "김치볶음밥", "5,900원", "2023.03.01");
-        adapter.addItem(data);
     }
 }

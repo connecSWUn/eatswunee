@@ -53,13 +53,13 @@
 
                 <ImageView
                     android:id="@+id/review_profile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_weight="0.1"
                     app:srcCompat="@drawable/review_profile" />
 
                 <TextView
-                    android:id="@+id/com_title"
+                    android:id="@+id/shopbag_menu_name"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="5"
@@ -72,7 +72,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/com_time"
+                android:id="@+id/shopbag_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="30dp"
@@ -91,15 +91,16 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/com_date"
-                android:layout_width="wrap_content"
+                android:id="@+id/my_photoR_date"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="right"
                 android:paddingBottom="15dp"
                 android:text="2023.03.31"
                 android:textColor="#808E3B0B" />
 
             <RatingBar
-                android:id="@+id/review_rate"
+                android:id="@+id/my_photoR_rate"
                 style="?android:attr/ratingBarStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

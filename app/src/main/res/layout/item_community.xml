@@ -39,7 +39,7 @@
             android:paddingBottom="5dp">
 
             <TextView
-                android:id="@+id/com_title"
+                android:id="@+id/shopbag_menu_name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="left"
@@ -76,7 +76,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/com_time"
+                    android:id="@+id/shopbag_price"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingTop="5dp"
@@ -86,7 +86,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/com_date"
+                android:id="@+id/my_photoR_date"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="left"

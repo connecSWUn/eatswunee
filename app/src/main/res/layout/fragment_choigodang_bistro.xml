@@ -12,7 +12,7 @@
         android:orientation="horizontal">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/total_RecyclerView"
+            android:id="@+id/shopbag_RecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
