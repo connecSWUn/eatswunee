@@ -10,6 +10,8 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -36,6 +38,8 @@ public class friend_viewActivity extends AppCompatActivity {
 
     private RetrofitClient retrofitClient;
     private ServiceApi serviceApi;
+    private boolean isWriter = false;
+    private long postId = 0;
 
     TextView title, spot, time, created_at, status, name, content;
     LinearLayout background, inside;
@@ -68,7 +72,7 @@ public class friend_viewActivity extends AppCompatActivity {
         inside = findViewById(R.id.friend_view_bottom_in);
 
         Intent intent = getIntent();
-        long postId = intent.getExtras().getLong("recruitId");
+        postId = intent.getExtras().getLong("recruitId");
 
         init(postId);
     }
@@ -85,8 +89,16 @@ public class friend_viewActivity extends AppCompatActivity {
                 Data data = result.getData();
                 Log.d("retrofit", "Data fetch success");
 
+                // if(data.getWriters().getUser_id() == data.getUser_id()) isWriter = true;
                 title.setText(data.getTitle());
-                spot.setText(data.getSpot());
+
+                String s = data.getSpot();
+                if (s == "gusia") spot.setText("구시아");
+                else if (s == "fiftieth") spot.setText("50주년");
+                else if (s == "nuri") spot.setText("누리관");
+                else if (s == "shalom") spot.setText("샬롬");
+                else if (s == "gyo") spot.setText("교직원식당");
+
                 time.setText(data.getStart_time() + "-" + data.getEnd_time());
                 created_at.setText(data.getCreated_at());
                 content.setText(data.getContent());
@@ -121,11 +133,29 @@ public class friend_viewActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if(isWriter == true) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.menu_article, menu);
+        }
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
                 finish();
                 return true;
+            }
+            case R.id.edit: {
+                Intent intent = new Intent(friend_viewActivity.this, friend_writeActivity.class);
+                intent.putExtra("edit", true);
+                intent.putExtra("postId", postId);
+                startActivity(intent);
+                finish();
+            }
+            case R.id.delete: {
             }
         }
         return super.onOptionsItemSelected(item);

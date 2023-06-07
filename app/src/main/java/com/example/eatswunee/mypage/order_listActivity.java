@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.eatswunee.R;
+import com.example.eatswunee.server.Data;
 import com.example.eatswunee.server.Result;
 import com.example.eatswunee.server.RetrofitClient;
 import com.example.eatswunee.server.ServiceApi;
@@ -42,12 +43,10 @@ public class order_listActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_ios_new_24);
 
-
-        // 추후 수정 필요
-        init(1);
+        init();
 
         // RecyclerView
-        mRecyclerView = (RecyclerView) findViewById(R.id.shopbag_RecyclerView);
+        mRecyclerView = (RecyclerView) findViewById(R.id.order_list_RecyclerView);
         mRecyclerView.addItemDecoration(new RecyclerViewDecoration(50));
 
         /* initiate recyclerView */
@@ -55,17 +54,20 @@ public class order_listActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
     }
 
-    private void init(long orderId) {
+    private void init() {
 
         retrofitClient = RetrofitClient.getInstance();
         serviceApi = RetrofitClient.getServiceApi();
 
-        serviceApi.getData("order", orderId).enqueue(new Callback<Result>() {
+        serviceApi.getOrderList().enqueue(new Callback<Result>() {
             @Override
             public void onResponse(Call<Result> call, Response<Result> response) {
                 Result result = response.body();
+                Data data = result.getData();
 
-                adapter = new MyListAdapter(result.getData());
+                adapter = new MyListAdapter(data.getMenusList()); // 여기!!!!!!!
+                
+                adapter = new MyListAdapter(order_listActivity.this);
                 mRecyclerView.setAdapter(adapter);
             }
 

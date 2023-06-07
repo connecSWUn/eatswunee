@@ -118,6 +118,10 @@ public class Data {
     private List<reviews> reviewsList;
 
     /* 주문 내역 조회 */
+    /*
+    @SerializedName("orders")
+    private orders orders;
+     */
     @SerializedName("order_num")
     @Expose
     private String order_num;

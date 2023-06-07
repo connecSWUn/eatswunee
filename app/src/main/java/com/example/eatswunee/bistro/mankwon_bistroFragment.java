@@ -1,10 +1,13 @@
 package com.example.eatswunee.bistro;
 
+import static androidx.viewpager2.widget.ViewPager2.ORIENTATION_HORIZONTAL;
+
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.example.eatswunee.R;
 import com.example.eatswunee.bistro.recyclerView.MyBistroAdapter;
+import com.example.eatswunee.bistro.recyclerView.MyViewPagerAdapter;
 import com.example.eatswunee.server.Data;
 import com.example.eatswunee.server.Result;
 import com.example.eatswunee.server.RetrofitClient;
@@ -25,7 +29,9 @@ public class mankwon_bistroFragment extends Fragment {
 
     private View v;
     private RecyclerView mRecyclerView;
-    private MyBistroAdapter adapter;
+    private MyBistroAdapter bistroAdapter;
+    private MyViewPagerAdapter viewPagerAdapter;
+    private ViewPager2 viewPager;
 
     private RetrofitClient retrofitClient;
     private ServiceApi serviceApi;
@@ -40,7 +46,8 @@ public class mankwon_bistroFragment extends Fragment {
 
         init(3);
 
-        mRecyclerView = v.findViewById(R.id.shopbag_RecyclerView);
+        mRecyclerView = v.findViewById(R.id.total_RecyclerView);
+        viewPager = v.findViewById(R.id.view_pager);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(gridLayoutManager);
@@ -58,9 +65,19 @@ public class mankwon_bistroFragment extends Fragment {
             public void onResponse(Call<Result> call, Response<Result> response) {
                 Result result = response.body();
                 Data data = result.getData();
-                adapter = new MyBistroAdapter(data.getMenusList());
 
-                mRecyclerView.setAdapter(adapter);
+                /*
+                if(data.getMenusList() == null) {
+                    viewPager.setVisibility(View.GONE);
+                } else {
+                    viewPagerAdapter = new MyViewPagerAdapter(data.getOrdersList());
+                    viewPager.setAdapter(viewPagerAdapter);
+                    viewPager.setOrientation(ORIENTATION_HORIZONTAL);
+                }
+                 */
+
+                bistroAdapter = new MyBistroAdapter(data.getMenusList());
+                mRecyclerView.setAdapter(bistroAdapter);
             }
 
             @Override

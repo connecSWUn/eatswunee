@@ -165,6 +165,7 @@
                 android:id="@+id/profile_img"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
+                android:background="@drawable/circle_profile"
                 android:src="@drawable/mypage_profile" />
 
             <TextView

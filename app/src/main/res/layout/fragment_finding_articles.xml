@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="15dp"
     tools:context=".community.finding_articlesFragment">
 
     <LinearLayout
@@ -14,7 +13,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/finding_RecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
+            android:layout_height="match_parent"
+            android:paddingLeft="25dp"
+            android:paddingTop="10dp"
+            android:paddingRight="20dp" />
     </LinearLayout>
 </FrameLayout>

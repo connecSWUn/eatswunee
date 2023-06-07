@@ -6,15 +6,22 @@
     android:padding="15dp"
     tools:context=".bistro.mankwon_bistroFragment">
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="vertical" >
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/shopbag_RecyclerView"
+        <LinearLayout
+            android:descendantFocusability="blocksDescendants"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/mankwon_RecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 </FrameLayout>

@@ -43,10 +43,10 @@ public class MyReviewActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_ios_new_24);
 
-        init(1);
+        init();
 
         // RecyclerView
-        mRecyclerView = (RecyclerView) findViewById(R.id.shopbag_RecyclerView);
+        mRecyclerView = (RecyclerView) findViewById(R.id.my_review_RecyclerView);
 
         /* initiate recyclerView */
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -74,12 +74,12 @@ public class MyReviewActivity extends AppCompatActivity {
     }
 
 
-    private void init(long userId) {
+    private void init() {
 
         retrofitClient = RetrofitClient.getInstance();
         serviceApi = RetrofitClient.getServiceApi();
 
-        serviceApi.getData("mypage", "reviews", userId).enqueue(new Callback<Result>() {
+        serviceApi.getReviews().enqueue(new Callback<Result>() {
             @Override
             public void onResponse(Call<Result> call, Response<Result> response) {
                 Result result = response.body();

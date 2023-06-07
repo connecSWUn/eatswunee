@@ -38,13 +38,13 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/shopbag_RecyclerView"
+        android:id="@+id/order_list_RecyclerView"
         android:layout_width="0dp"
         android:layout_height="550dp"
+        android:layout_marginTop="16dp"
         android:paddingLeft="30dp"
         android:paddingRight="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

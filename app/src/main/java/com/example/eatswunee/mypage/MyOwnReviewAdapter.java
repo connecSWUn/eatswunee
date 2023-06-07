@@ -17,6 +17,8 @@ import com.example.eatswunee.R;
 import com.example.eatswunee.server.reviews;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -24,14 +26,14 @@ import java.util.List;
 public class MyOwnReviewAdapter extends RecyclerView.Adapter<MyOwnReviewAdapter.ViewHolder> {
 
     private List<reviews> reviewsList;
-    ImageView profile, review_photo;
+    ImageView review_photo;
 
     public MyOwnReviewAdapter(List<reviews> reviewsList) { this.reviewsList = reviewsList; }
 
     @NonNull
     @Override
     public MyOwnReviewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_review_photo, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_my_review_photo, parent, false);
         return new MyOwnReviewAdapter.ViewHolder(view);
     }
 
@@ -44,6 +46,7 @@ public class MyOwnReviewAdapter extends RecyclerView.Adapter<MyOwnReviewAdapter.
     @Override
     public int getItemCount() { return reviewsList.size(); }
 
+
     class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView restaurant_name, menu_name, content, created_at;
@@ -53,11 +56,11 @@ public class MyOwnReviewAdapter extends RecyclerView.Adapter<MyOwnReviewAdapter.
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            restaurant_name = (TextView) itemView.findViewById(R.id.my_review_res_name);
-            menu_name = (TextView) itemView.findViewById(R.id.my_review_menu_name);
-            content = (TextView) itemView.findViewById(R.id.my_review_context);
-            created_at = (TextView) itemView.findViewById(R.id.my_review_date);
-            star_rate = (RatingBar) itemView.findViewById(R.id.my_review_rate);
+            restaurant_name = (TextView) itemView.findViewById(R.id.my_photoR_res_name);
+            menu_name = (TextView) itemView.findViewById(R.id.my_photoR_menu_name);
+            content = (TextView) itemView.findViewById(R.id.my_photoR_content);
+            created_at = (TextView) itemView.findViewById(R.id.my_photoR_date);
+            star_rate = (RatingBar) itemView.findViewById(R.id.my_photoR_rate);
             review_img = (ImageView) itemView.findViewById(R.id.my_review_photo);
         }
 
@@ -67,35 +70,44 @@ public class MyOwnReviewAdapter extends RecyclerView.Adapter<MyOwnReviewAdapter.
             content.setText(reviews.getReview_content());
             created_at.setText(reviews.getReview_created_at());
             star_rate.setRating((float) reviews.getMenu_review_rating());
-            new DownloadFilesTask().execute(reviews.getReview_image_url());
+
+            if(reviews.getReview_image_url() == null) { review_img.setVisibility(View.GONE); }
+            else { new ImageLoadTask(reviews.getReview_image_url(), review_img).execute(); }
         }
     }
 
-    class DownloadFilesTask extends AsyncTask<String, Void, Bitmap> {
+    public class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
+
+        private String url;
+        private ImageView imageView;
+
+        public ImageLoadTask(String url, ImageView imageView) {
+            this.url = url;
+            this.imageView = imageView;
+        }
+
         @Override
-        protected Bitmap doInBackground(String... strings) {
-            Bitmap bmp = null;
+        protected Bitmap doInBackground(Void... params) {
             try {
-                String img_url = strings[0]; //url of the image
-                URL url = new URL(img_url);
-                bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
+                URL urlConnection = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection) urlConnection
+                        .openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                Bitmap myBitmap = BitmapFactory.decodeStream(input);
+                return myBitmap;
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-            return bmp;
+            return null;
         }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
 
         @Override
         protected void onPostExecute(Bitmap result) {
-            review_photo.setImageBitmap(result);
+            super.onPostExecute(result);
+            imageView.setImageBitmap(result);
         }
+
     }
 }

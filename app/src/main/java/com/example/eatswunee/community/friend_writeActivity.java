@@ -46,6 +46,8 @@ public class friend_writeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_write);
 
+        retrofitClient = RetrofitClient.getInstance();
+        serviceApi = RetrofitClient.getServiceApi();
 
         spot = (Spinner) findViewById(R.id.spinner_spot);
 
@@ -56,12 +58,34 @@ public class friend_writeActivity extends AppCompatActivity {
         article_title = findViewById(R.id.editText_title);
         article_content = findViewById(R.id.write_content);
 
-        Intent intent = getIntent();
-        writer_id = intent.getExtras().getLong("writer_id");
-
         done.setOnClickListener(new doneBtnOnClickListener());
         start_time_btn.setOnClickListener(new startOnClickListener());
         end_time_btn.setOnClickListener(new endOnClickListener());
+
+        Intent intent = getIntent();
+        if(intent.getExtras().getBoolean("edit") == true) {
+            long postId = intent.getExtras().getLong("postId");
+            serviceApi.getData("recruit", postId).enqueue(new Callback<Result>() {
+                @Override
+                public void onResponse(Call<Result> call, Response<Result> response) {
+                    Result result = response.body();
+                    Data data = result.getData();
+                    Log.d("retrofit", "Data fetch success");
+
+                    article_title.setText(data.getTitle());
+                    article_content.setText(data.getContent());
+                    spot.setSelection(((ArrayAdapter) spot.getAdapter()).getPosition(data.getSpot()));
+                    start_time_btn.setText(data.getStart_time());
+                    end_time_btn.setText(data.getEnd_time());
+
+                }
+
+                @Override
+                public void onFailure(Call<Result> call, Throwable t) {
+                    t.printStackTrace();
+                }
+            });
+        }
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,10 +100,6 @@ public class friend_writeActivity extends AppCompatActivity {
     public class doneBtnOnClickListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
-
-            retrofitClient = RetrofitClient.getInstance();
-            serviceApi = RetrofitClient.getServiceApi();
-
 
             title = article_title.getText().toString();
             recruitStatus = "CONNECTING";

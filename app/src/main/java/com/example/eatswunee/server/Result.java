@@ -3,6 +3,8 @@ package com.example.eatswunee.server;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Result {
 
     @SerializedName("data")
@@ -10,7 +12,7 @@ public class Result {
     private Data data;
     @SerializedName("post")
     @Expose
-    private Post post;
+    private List<Post> postList;
 
     /* 게시글 등록 API */
     @SerializedName("title")
@@ -41,10 +43,13 @@ public class Result {
         this.data = data;
     }
 
-    public Post getPost() { return post; }
+    public List<Post> getPostList() {
+        return postList;
+    }
 
-    public void setPost(Post post) { this.post = post; }
-
+    public void setPostList(List<Post> postList) {
+        this.postList = postList;
+    }
 
     /* 게시글 등록 API */
 

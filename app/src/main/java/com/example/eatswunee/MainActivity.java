@@ -20,15 +20,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.eatswunee.community.articlesActivity;
-import com.example.eatswunee.mypage.profile_editActivity;
 import com.example.eatswunee.server.Data;
 import com.example.eatswunee.server.Result;
 import com.example.eatswunee.server.RetrofitClient;
 import com.example.eatswunee.server.ServiceApi;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -39,6 +43,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "MainActivity";
 
     private BottomNavigationView bottomNavigationView; // 바텀 네비게이션 뷰
     private DrawerLayout mDrawerLayout;
@@ -56,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        FirebaseApp.initializeApp(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.review_toolbar);
         setSupportActionBar(toolbar);
@@ -80,11 +88,10 @@ public class MainActivity extends AppCompatActivity {
 
                 int id = item.getItemId();
 
-                if(id == R.id.item_info){
+                if (id == R.id.item_info) {
                     Intent intent = new Intent(MainActivity.this, articlesActivity.class);
                     startActivity(intent);
-                }
-                else if(id == R.id.item_report){
+                } else if (id == R.id.item_report) {
 
                 }
 
@@ -118,6 +125,25 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token = task.getResult();
+
+                        // Log and toast
+                        String msg = getString(R.string.msg_token_fmt, token);
+                        Log.d(TAG, msg);
+                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     @Override
