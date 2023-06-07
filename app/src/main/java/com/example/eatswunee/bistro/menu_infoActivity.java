@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.eatswunee.MainActivity;
 import com.example.eatswunee.R;
+import com.example.eatswunee.bistro.recyclerView.MyBistroAdapter;
 import com.example.eatswunee.community.friend_viewActivity;
 import com.example.eatswunee.server.Data;
 import com.example.eatswunee.server.Result;
@@ -31,6 +32,8 @@ import com.example.eatswunee.server.sqlite.DBManager;
 import com.example.eatswunee.shopbagActivity;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -132,7 +135,7 @@ public class menu_infoActivity extends AppCompatActivity {
                 menuPrice.setText(String.valueOf(data.getMenuPrice()));
                 putBtn.setText(data.getMenuPrice()  + "원 담기");
 
-                //new DownloadFilesTask().execute(data.getMenuImg());
+                new ImageLoadTask(data.getMenuImg(), menuImage).execute();
             }
 
             @Override
@@ -142,32 +145,39 @@ public class menu_infoActivity extends AppCompatActivity {
         });
     }
 
-    class DownloadFilesTask extends AsyncTask<String, Void, Bitmap> {
+    public class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
+
+        private String url;
+        private ImageView imageView;
+
+        public ImageLoadTask(String url, ImageView imageView) {
+            this.url = url;
+            this.imageView = imageView;
+        }
+
         @Override
-        protected Bitmap doInBackground(String... strings) {
-            Bitmap bmp = null;
+        protected Bitmap doInBackground(Void... params) {
             try {
-                String img_url = strings[0]; //url of the image
-                URL url = new URL(img_url);
-                bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
+                URL urlConnection = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection) urlConnection
+                        .openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                Bitmap myBitmap = BitmapFactory.decodeStream(input);
+                return myBitmap;
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-            return bmp;
+            return null;
         }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
 
         @Override
         protected void onPostExecute(Bitmap result) {
-            menuImage.setImageBitmap(result);
+            super.onPostExecute(result);
+            imageView.setImageBitmap(result);
         }
+
     }
 
     @Override

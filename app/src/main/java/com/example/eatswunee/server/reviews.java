@@ -10,6 +10,8 @@ import java.util.List;
 
 public class reviews {
 
+    /* 메뉴 리뷰 조회 */
+
     @SerializedName("reviewId")
     @Expose
     private long reviewId;

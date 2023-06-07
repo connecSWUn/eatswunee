@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.eatswunee.R;
 import com.example.eatswunee.bistro.menu_infoActivity;
 import com.example.eatswunee.community.ServiceItemClickListener;
+import com.example.eatswunee.mypage.MyOwnReviewAdapter;
 import com.example.eatswunee.server.Data;
 import com.example.eatswunee.server.Post;
 import com.example.eatswunee.server.menus;
@@ -23,6 +24,8 @@ import com.example.eatswunee.server.orders;
 import com.example.eatswunee.server.restaurants;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -31,7 +34,6 @@ import java.util.List;
 public class MyBistroAdapter extends RecyclerView.Adapter<MyBistroAdapter.ViewHolder> {
 
     private List<menus> menusList;
-    ImageView menu_image;
 
     public MyBistroAdapter(List<menus> menusList) { this.menusList = menusList; }
 
@@ -68,7 +70,7 @@ public class MyBistroAdapter extends RecyclerView.Adapter<MyBistroAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView restaurant_name, menu_name, menu_price, menu_avg_rating;
-
+        ImageView menu_image;
         ServiceItemClickListener serviceItemClickListener;
 
         public ViewHolder(@NonNull View itemView) {
@@ -88,7 +90,7 @@ public class MyBistroAdapter extends RecyclerView.Adapter<MyBistroAdapter.ViewHo
             menu_avg_rating.setText(String.valueOf(menus.getMenuRating()));
             menu_name.setText(menus.getMenuName());
             menu_price.setText(menus.getMenuPrice());
-            new DownloadFilesTask().execute(menus.getMenuImg());
+            new ImageLoadTask(menus.getMenuImg(), menu_image).execute();
         }
 
         @Override
@@ -97,32 +99,38 @@ public class MyBistroAdapter extends RecyclerView.Adapter<MyBistroAdapter.ViewHo
         }
     }
 
-    class DownloadFilesTask extends AsyncTask<String, Void, Bitmap> {
+    public class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
+
+        private String url;
+        private ImageView imageView;
+
+        public ImageLoadTask(String url, ImageView imageView) {
+            this.url = url;
+            this.imageView = imageView;
+        }
+
         @Override
-        protected Bitmap doInBackground(String... strings) {
-            Bitmap bmp = null;
+        protected Bitmap doInBackground(Void... params) {
             try {
-                String img_url = strings[0]; //url of the image
-                URL url = new URL(img_url);
-                bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
+                URL urlConnection = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection) urlConnection
+                        .openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                Bitmap myBitmap = BitmapFactory.decodeStream(input);
+                return myBitmap;
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-            return bmp;
+            return null;
         }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
 
         @Override
         protected void onPostExecute(Bitmap result) {
-            // doInBackground 에서 받아온 total 값 사용 장소
-            menu_image.setImageBitmap(result);
+            super.onPostExecute(result);
+            imageView.setImageBitmap(result);
         }
+
     }
 }

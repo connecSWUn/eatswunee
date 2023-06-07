@@ -3,6 +3,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="search">검색</string>
 
+    <!-- chatting -->
+    <string name="msg_token_fmt" translatable="false">토큰 : %s</string>
+
     <!-- bistro name -->
     <string name="total">전체</string>
     <string name="phoini">포아이니</string>

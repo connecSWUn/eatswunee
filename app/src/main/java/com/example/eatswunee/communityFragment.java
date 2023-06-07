@@ -31,8 +31,6 @@ public class communityFragment extends Fragment {
     Button writeBtn;
     View v;
 
-    private long writer_id = 1;
-
     private RecyclerView mRecyclerView;
     private MyCommunityAdapter adapter;
 
@@ -137,7 +135,7 @@ public class communityFragment extends Fragment {
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(getActivity(), friend_writeActivity.class);
-            intent.putExtra("writer_id", writer_id);
+            intent.putExtra("edit", false);
             startActivity(intent);
         }
     }

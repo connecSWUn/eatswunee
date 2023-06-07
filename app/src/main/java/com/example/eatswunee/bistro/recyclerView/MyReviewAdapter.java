@@ -17,6 +17,8 @@ import com.example.eatswunee.R;
 import com.example.eatswunee.server.reviews;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -24,7 +26,6 @@ import java.util.List;
 public class MyReviewAdapter extends RecyclerView.Adapter<MyReviewAdapter.ViewHolder> {
 
     private List<reviews> reviewsList;
-    ImageView profile;
 
     public MyReviewAdapter(List<reviews> reviewsList) { this.reviewsList = reviewsList; }
 
@@ -48,6 +49,7 @@ public class MyReviewAdapter extends RecyclerView.Adapter<MyReviewAdapter.ViewHo
     class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView name, context, date;
+        ImageView profile;
         RatingBar star_rate;
 
         public ViewHolder(@NonNull View itemView) {
@@ -65,36 +67,42 @@ public class MyReviewAdapter extends RecyclerView.Adapter<MyReviewAdapter.ViewHo
             context.setText(reviews.getReviewContent());
             date.setText(reviews.getCreatedAt());
             star_rate.setRating(reviews.getMenuRating());
-            new DownloadFilesTask().execute(reviews.getWriter().getProfileUrl());
+            new ImageLoadTask(reviews.getWriter().getProfileUrl(), profile).execute();
         }
     }
 
-    class DownloadFilesTask extends AsyncTask<String, Void, Bitmap> {
+    public class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
+
+        private String url;
+        private ImageView imageView;
+
+        public ImageLoadTask(String url, ImageView imageView) {
+            this.url = url;
+            this.imageView = imageView;
+        }
+
         @Override
-        protected Bitmap doInBackground(String... strings) {
-            Bitmap bmp = null;
+        protected Bitmap doInBackground(Void... params) {
             try {
-                String img_url = strings[0]; //url of the image
-                URL url = new URL(img_url);
-                bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
+                URL urlConnection = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection) urlConnection
+                        .openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                Bitmap myBitmap = BitmapFactory.decodeStream(input);
+                return myBitmap;
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-            return bmp;
+            return null;
         }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
 
         @Override
         protected void onPostExecute(Bitmap result) {
-            // doInBackground 에서 받아온 total 값 사용 장소
-            profile.setImageBitmap(result);
+            super.onPostExecute(result);
+            imageView.setImageBitmap(result);
         }
+
     }
 }

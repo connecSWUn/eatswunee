@@ -35,6 +35,18 @@ public interface ServiceApi {
     @GET("/mypage")
     Call<Result> getProfile();
 
+    /* 작성 글 목록 조회 */
+    @GET("/recruit/writer/{recruitStatus}")
+    Call<Result> getArticles(@Path("recruitStatus") String recruitStatus);
+
+    /* 마이페이지 주문 목록 조회 */
+    @GET("/mypage/order")
+    Call<Result> getOrderList();
+
+    /* 마이페이지 리뷰 목록 조회 */
+    @GET("/mypage/reviews")
+    Call<Result> getReviews();
+
     /* 로그인 */
     @POST("/login/user")
     Call<Result> postData(@Body AccountLoginDto accountLoginDto);

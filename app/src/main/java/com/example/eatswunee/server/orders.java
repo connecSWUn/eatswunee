@@ -7,14 +7,18 @@ import java.util.List;
 
 public class orders {
 
+    /* 식당별 메뉴 리스트 조회 */
     @SerializedName("orderId")
     @Expose
     private int orderId;
     @SerializedName("orderNum")
     @Expose
-    private long orderNum;
+    private int orderNum;
+    @SerializedName("restaurantId")
+    @Expose
+    private long restaurantId;
     @SerializedName("expectedWatingTime")
-    private expectedWatingTime expectedWatingTime = null;
+    private int expectedWatingTime;
 
     public int getOrderId() {
         return orderId;
@@ -24,22 +28,29 @@ public class orders {
         this.orderId = orderId;
     }
 
-    public long getOrderNum() {
+    public int getOrderNum() {
         return orderNum;
     }
 
-    public void setOrderNum(long orderNum) {
+    public void setOrderNum(int orderNum) {
         this.orderNum = orderNum;
     }
 
-    public expectedWatingTime getExpectedWatingTime() {
+    public long getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(long restaurantId) {
+        this.restaurantId = restaurantId;
+    }
+
+    public int getExpectedWatingTime() {
         return expectedWatingTime;
     }
 
-    public void setExpectedWatingTime(expectedWatingTime expectedWatingTime) {
+    public void setExpectedWatingTime(int expectedWatingTime) {
         this.expectedWatingTime = expectedWatingTime;
     }
-
 
     /* 주문 내역 조회 : 주문 */
     @SerializedName("restaurant_name")
@@ -84,5 +95,38 @@ public class orders {
 
     public void setMenusList(List<menus> menusList) {
         this.menusList = menusList;
+    }
+
+
+    /* 마이페이지 주문 목록 조회 */
+    @SerializedName("order_id")
+    private long order_id;
+    @SerializedName("order_created_at")
+    private String order_created_at;
+    @SerializedName("order_total_price")
+    private String order_total_price;
+
+    public long getOrder_id() {
+        return order_id;
+    }
+
+    public void setOrder_id(long order_id) {
+        this.order_id = order_id;
+    }
+
+    public String getOrder_created_at() {
+        return order_created_at;
+    }
+
+    public void setOrder_created_at(String order_created_at) {
+        this.order_created_at = order_created_at;
+    }
+
+    public String getOrder_total_price() {
+        return order_total_price;
+    }
+
+    public void setOrder_total_price(String order_total_price) {
+        this.order_total_price = order_total_price;
     }
 }

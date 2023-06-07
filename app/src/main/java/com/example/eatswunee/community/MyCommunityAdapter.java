@@ -38,7 +38,6 @@ public class MyCommunityAdapter extends RecyclerView.Adapter<MyCommunityAdapter.
         holder.setItem(item);
 
         holder.serviceItemClickListener = new ServiceItemClickListener() {
-
             @Override
             public void onItemClickListener(View v, int position) {
                 Long recruitId = items.get(position).getRecruitId();

@@ -7,6 +7,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,6 +24,10 @@ import com.example.eatswunee.server.Data;
 import com.example.eatswunee.server.Result;
 import com.example.eatswunee.server.RetrofitClient;
 import com.example.eatswunee.server.ServiceApi;
+
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -125,7 +132,7 @@ public class ReviewActivity extends AppCompatActivity {
 
 
                 menu_name.setText(data.getMenuName());
-                //menu_image.setImageResource(data.getMenuImg());
+                new ImageLoadTask(data.getMenuImg(), menu_image).execute();
                 star_rate.setText(String.valueOf(data.getMenuAvgRating()));
 
                 score5Cnt.setText(String.valueOf(data.getReviewRating().getScore5Cnt()));
@@ -143,5 +150,40 @@ public class ReviewActivity extends AppCompatActivity {
                 t.printStackTrace();
             }
         });
+    }
+
+    public class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
+
+        private String url;
+        private ImageView imageView;
+
+        public ImageLoadTask(String url, ImageView imageView) {
+            this.url = url;
+            this.imageView = imageView;
+        }
+
+        @Override
+        protected Bitmap doInBackground(Void... params) {
+            try {
+                URL urlConnection = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection) urlConnection
+                        .openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                Bitmap myBitmap = BitmapFactory.decodeStream(input);
+                return myBitmap;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            super.onPostExecute(result);
+            imageView.setImageBitmap(result);
+        }
+
     }
 }
