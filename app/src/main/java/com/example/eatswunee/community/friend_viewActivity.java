@@ -1,5 +1,6 @@
 package com.example.eatswunee.community;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -14,22 +15,27 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.eatswunee.MainActivity;
+import com.example.eatswunee.server.chat.ChatActivity;
 import com.example.eatswunee.R;
 import com.example.eatswunee.server.Data;
 import com.example.eatswunee.server.Result;
 import com.example.eatswunee.server.RetrofitClient;
 import com.example.eatswunee.server.ServiceApi;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import okhttp3.WebSocket;
+import okhttp3.WebSocketListener;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,17 +44,23 @@ public class friend_viewActivity extends AppCompatActivity {
 
     private RetrofitClient retrofitClient;
     private ServiceApi serviceApi;
-    private boolean isWriter = false;
+    boolean isWriter = false;
     private long postId = 0;
+    private String user_id;
+    private String writer_id;
 
     TextView title, spot, time, created_at, status, name, content;
     LinearLayout background, inside;
     ImageView profile;
+    Button chat_btn, chat_list_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_view);
+
+        retrofitClient = RetrofitClient.getInstance();
+        serviceApi = RetrofitClient.getServiceApi();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.friend_view_toolbar);
         setSupportActionBar(toolbar);
@@ -67,9 +79,12 @@ public class friend_viewActivity extends AppCompatActivity {
         name = findViewById(R.id.view_name);
         content = findViewById(R.id.view_content);
         profile = findViewById(R.id.view_profile);
+        chat_btn = findViewById(R.id.chat_btn);
+        chat_list_btn = findViewById(R.id.chat_list_btn);
 
         background = findViewById(R.id.friend_view_bottom_back);
         inside = findViewById(R.id.friend_view_bottom_in);
+        chat_btn.setOnClickListener(new chatOnClickListener());
 
         Intent intent = getIntent();
         postId = intent.getExtras().getLong("recruitId");
@@ -79,9 +94,6 @@ public class friend_viewActivity extends AppCompatActivity {
 
     private void init(long postId) {
 
-        retrofitClient = RetrofitClient.getInstance();
-        serviceApi = RetrofitClient.getServiceApi();
-
         serviceApi.getData("recruit", postId).enqueue(new Callback<Result>() {
             @Override
             public void onResponse(Call<Result> call, Response<Result> response) {
@@ -89,7 +101,16 @@ public class friend_viewActivity extends AppCompatActivity {
                 Data data = result.getData();
                 Log.d("retrofit", "Data fetch success");
 
-                // if(data.getWriters().getUser_id() == data.getUser_id()) isWriter = true;
+                boolean user_is_writer = data.isUser_is_writer();
+
+                if(user_is_writer) {
+                    chat_list_btn.setVisibility(View.VISIBLE);
+                    background.setVisibility(View.GONE);
+
+                    invalidateOptionsMenu();
+                }
+
+                writer_id = data.getWriters().getUser_id();
                 title.setText(data.getTitle());
 
                 String s = data.getSpot();
@@ -134,7 +155,7 @@ public class friend_viewActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if(isWriter == true) {
+        if(chat_list_btn.getVisibility() == View.VISIBLE) {
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.menu_article, menu);
         }
@@ -149,13 +170,29 @@ public class friend_viewActivity extends AppCompatActivity {
                 return true;
             }
             case R.id.edit: {
+
                 Intent intent = new Intent(friend_viewActivity.this, friend_writeActivity.class);
                 intent.putExtra("edit", true);
                 intent.putExtra("postId", postId);
                 startActivity(intent);
-                finish();
+                return true;
             }
-            case R.id.delete: {
+            case R.id.delete: { // 게시글 삭제
+                serviceApi.postDelete(postId).enqueue(new Callback<Result>() {
+                    @Override
+                    public void onResponse(Call<Result> call, Response<Result> response) {
+                        if(response.isSuccessful()) {
+                            Toast.makeText(friend_viewActivity.this, "삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<Result> call, Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
+
+                return true;
             }
         }
         return super.onOptionsItemSelected(item);
@@ -187,6 +224,50 @@ public class friend_viewActivity extends AppCompatActivity {
         protected void onPostExecute(Bitmap result) {
             // doInBackground 에서 받아온 total 값 사용 장소
             profile.setImageBitmap(result);
+        }
+    }
+
+    private class chatOnClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            serviceApi.getExist(postId).enqueue(new Callback<Result>() {
+                @Override
+                public void onResponse(Call<Result> call, Response<Result> response) {
+                    Result result = response.body();
+                    Data data = result.getData();
+
+                    if (data.isExist_chatroom() == true) {
+                        Intent intent = new Intent(friend_viewActivity.this, ChatActivity.class);
+                        intent.putExtra("recruitId", postId);
+                        intent.putExtra("messageType", "TALK");
+                        startActivity(intent);
+                    } else if (data.isExist_chatroom() == false) {
+                        serviceApi.makeChat(postId).enqueue(new Callback<Result>() {
+                            @Override
+                            public void onResponse(Call<Result> call, Response<Result> response) {
+                                Result result = response.body();
+                                Data data = result.getData();
+
+                                long chat_id = data.getChat_room_id();
+                                Intent intent = new Intent(friend_viewActivity.this, ChatActivity.class);
+                                intent.putExtra("recruitId", postId);
+                                intent.putExtra("messageType", "ENTER");
+                                startActivity(intent);
+                            }
+
+                            @Override
+                            public void onFailure(Call<Result> call, Throwable t) {
+
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Result> call, Throwable t) {
+
+                }
+            });
         }
     }
 }

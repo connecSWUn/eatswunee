@@ -42,6 +42,12 @@ public class communityFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        init("ALL");
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

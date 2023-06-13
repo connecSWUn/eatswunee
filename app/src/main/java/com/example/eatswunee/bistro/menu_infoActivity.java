@@ -71,6 +71,7 @@ public class menu_infoActivity extends AppCompatActivity {
         // 메뉴 따라 텍스트 반영
         RestaurantName = findViewById(R.id.info_bistro_name);
         menuName = findViewById(R.id.info_menu_name);
+        menuImage = findViewById(R.id.info_menu_image);
         menuRating = findViewById(R.id.info_star_rate);
         menuPrice = findViewById(R.id.info_price);
         menuCnt = findViewById(R.id.menu_info_pcs);
@@ -132,7 +133,7 @@ public class menu_infoActivity extends AppCompatActivity {
                 RestaurantName.setText(data.getRestaurantName());
                 menuName.setText(data.getMenuName());
                 menuRating.setText(String.valueOf(data.getMenuRating()));
-                menuPrice.setText(String.valueOf(data.getMenuPrice()));
+                menuPrice.setText(data.getMenuPrice() + "원");
                 putBtn.setText(data.getMenuPrice()  + "원 담기");
 
                 new ImageLoadTask(data.getMenuImg(), menuImage).execute();

@@ -35,6 +35,19 @@ public class Result {
     private long writer_id;
 
 
+    /* 작성 글 조회 API */
+    @SerializedName("post_total_cnt")
+    @Expose
+    private int post_total_cnt;
+
+    public int getPost_total_cnt() {
+        return post_total_cnt;
+    }
+
+    public void setPost_total_cnt(int post_total_cnt) {
+        this.post_total_cnt = post_total_cnt;
+    }
+
     public Data getData() {
         return data;
     }

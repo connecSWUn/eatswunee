@@ -27,6 +27,7 @@ import com.example.eatswunee.server.Data;
 import com.example.eatswunee.server.Result;
 import com.example.eatswunee.server.RetrofitClient;
 import com.example.eatswunee.server.ServiceApi;
+import com.example.eatswunee.server.chat.chat_listActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -91,8 +92,9 @@ public class MainActivity extends AppCompatActivity {
                 if (id == R.id.item_info) {
                     Intent intent = new Intent(MainActivity.this, articlesActivity.class);
                     startActivity(intent);
-                } else if (id == R.id.item_report) {
-
+                } else if (id == R.id.item_chat) {
+                    Intent intent = new Intent(MainActivity.this, chat_listActivity.class);
+                    startActivity(intent);
                 }
 
                 return true;

@@ -39,16 +39,16 @@ public class found_articlesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        v =  inflater.inflate(R.layout.fragment_found_articles, container, false);
+        v =  inflater.inflate(R.layout.fragment_finding_articles, container, false);
 
-        mRecyclerView = v.findViewById(R.id.found_RecyclerView);
+        mRecyclerView = v.findViewById(R.id.finding_RecyclerView);
         mRecyclerView.addItemDecoration(new found_articlesFragment.RecyclerViewDecoration(20));
-
-        init("COMPLETED");
 
         /* initiate recyclerView */
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+
+        init("COMPLETED");
 
         return v;
     }
@@ -77,13 +77,12 @@ public class found_articlesFragment extends Fragment {
             @Override
             public void onResponse(Call<Result> call, Response<Result> response) {
                 Result result = response.body();
+                Data data = result.getData();
                 Log.d("retrofit", "Data fetch success");
                 /* initiate adapter */
 
-                if(result.getPostList() != null) {
-                    adapter = new MyArticlesAdapter(result.getPostList());
-                    mRecyclerView.setAdapter(adapter);
-                }
+                adapter = new MyArticlesAdapter(data.getPostsList());
+                mRecyclerView.setAdapter(adapter);
             }
 
             @Override

@@ -47,11 +47,11 @@ public class finding_articlesFragment extends Fragment {
         mRecyclerView = v.findViewById(R.id.finding_RecyclerView);
         mRecyclerView.addItemDecoration(new finding_articlesFragment.RecyclerViewDecoration(20));
 
-        init("ONGOING");
-
         /* initiate recyclerView */
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+
+        init("ONGOING");
 
         return v;
     }
@@ -81,13 +81,12 @@ public class finding_articlesFragment extends Fragment {
             @Override
             public void onResponse(Call<Result> call, Response<Result> response) {
                 Result result = response.body();
+                Data data = result.getData();
                 Log.d("retrofit", "Data fetch success");
                 /* initiate adapter */
 
-                if(result.getPostList() != null) {
-                    adapter = new MyArticlesAdapter(result.getPostList());
-                    mRecyclerView.setAdapter(adapter);
-                }
+                adapter = new MyArticlesAdapter(data.getPostsList());
+                mRecyclerView.setAdapter(adapter);
             }
 
             @Override
