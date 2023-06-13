@@ -125,13 +125,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView2"
             android:layout_width="match_parent"
-            android:layout_height="515dp"
+            android:layout_height="430dp"
             android:paddingLeft="25dp"
             android:paddingRight="20dp" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="100dp" />
 
     </LinearLayout>
 

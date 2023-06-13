@@ -52,10 +52,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8">
 
-        <ImageView
-            android:id="@+id/imageView13"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/articles_profile"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             app:srcCompat="@drawable/mypage_profile" />
 
         <LinearLayout
@@ -67,7 +67,7 @@
             android:paddingLeft="10dp">
 
             <TextView
-                android:id="@+id/textView29"
+                android:id="@+id/articles_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="5dp"
@@ -76,7 +76,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textView31"
+                android:id="@+id/articles_cnt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="전체 글(1)"
@@ -84,7 +84,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/button8"
+            android:id="@+id/articles_write_btn"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:background="@drawable/article_btn_background"

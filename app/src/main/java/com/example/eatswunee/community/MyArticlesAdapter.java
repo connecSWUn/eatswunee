@@ -1,5 +1,6 @@
 package com.example.eatswunee.community;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +12,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.eatswunee.R;
 import com.example.eatswunee.server.Post;
+import com.example.eatswunee.server.posts;
 
 import java.util.List;
 
 public class MyArticlesAdapter extends RecyclerView.Adapter<MyArticlesAdapter.ViewHolder> {
 
-    private List<Post> postList;
+    private List<posts> postsList;
 
-    public MyArticlesAdapter(List<Post> postList) { this.postList = postList; }
+    public MyArticlesAdapter(List<posts> postsList) { this.postsList = postsList; }
 
     @NonNull
     @Override
@@ -29,17 +31,28 @@ public class MyArticlesAdapter extends RecyclerView.Adapter<MyArticlesAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull MyArticlesAdapter.ViewHolder holder, int position) {
-        Post item = postList.get(position);
+        posts item = postsList.get(position);
         holder.setItem(item);
+
+        holder.serviceItemClickListener = new ServiceItemClickListener() {
+            @Override
+            public void onItemClickListener(View v, int position) {
+                Long recruitId = postsList.get(position).getPostId();
+                Intent intent = new Intent(v.getContext(), friend_viewActivity.class);
+                intent.putExtra("recruitId", recruitId);
+                v.getContext().startActivity(intent);
+            }
+        };
     }
 
     @Override
-    public int getItemCount() { return postList.size(); }
+    public int getItemCount() { return postsList.size(); }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView title, place, app_time, post_date, status;
         private ImageView statusImg;
+        ServiceItemClickListener serviceItemClickListener;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -51,28 +64,33 @@ public class MyArticlesAdapter extends RecyclerView.Adapter<MyArticlesAdapter.Vi
             post_date = (TextView) itemView.findViewById(R.id.my_photoR_date);
             status = (TextView) itemView.findViewById(R.id.com_status);
 
-            // itemView.setOnClickListener(this);
+            itemView.setOnClickListener(this);
         }
 
-        void setItem(Post item) {
-            title.setText(item.getPost_title());
-            place.setText(item.getPost_spot());
-            app_time.setText(item.getPost_start_time() + "-" + item.getPost_end_time());
-            post_date.setText(item.getPost_created_at());
+        void setItem(posts item) {
+            title.setText(item.getPostTitle());
+            place.setText(item.getPostSpot());
+            app_time.setText(item.getPostStartTime() + "-" + item.getPostEndTime());
+            post_date.setText(item.getPostCreatedAt());
 
-            if(item.getPost_recruit_status() == "ONGOING") {
+            if(item.getPostRecruitStatus() == "ONGOING") {
                 status.setText("찾는 중...");
                 statusImg.setImageResource(R.drawable.baseline_search_24);
                 status.setBackgroundResource(R.drawable.community_state_finding);
-            } else if (item.getPost_recruit_status() == "CONNECTING") {
+            } else if (item.getPostRecruitStatus() == "CONNECTING") {
                 status.setText("연락 중...");
                 statusImg.setImageResource(R.drawable.baseline_question_answer_24);
                 status.setBackgroundResource(R.drawable.community_state_talking);
-            } else if (item.getPost_recruit_status() == "COMPLETED") {
+            } else if (item.getPostRecruitStatus() == "COMPLETED") {
                 status.setText("구했어요!");
                 statusImg.setImageResource(R.drawable.baseline_handshake_24);
                 status.setBackgroundResource(R.drawable.community_state_done);
             }
+        }
+
+        @Override
+        public void onClick(View v) {
+            this.serviceItemClickListener.onItemClickListener(v, getLayoutPosition());
         }
     }
 }

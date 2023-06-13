@@ -101,7 +101,7 @@ public class profile_editActivity extends AppCompatActivity {
                 Log.d("retrofit", "Data fetch success");
 
                 nickname.setText(data.getUser_name());
-                user_id.setText(data.getUser_id());
+                user_id.setText(data.getLoginId());
                 new DownloadFilesTask().execute(data.getUser_profile_url());
             }
 

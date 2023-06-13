@@ -7,7 +7,7 @@ public class writer {
 
     @SerializedName("user_id")
     @Expose
-    private long user_id;
+    private String user_id;
     @SerializedName("user_name")
     @Expose
     private String user_name;
@@ -26,11 +26,11 @@ public class writer {
     private String profileUrl;
 
 
-    public long getUser_id() {
+    public String getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(long user_id) {
+    public void setUser_id(String user_id) {
         this.user_id = user_id;
     }
 

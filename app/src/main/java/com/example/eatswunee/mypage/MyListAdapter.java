@@ -24,11 +24,13 @@ import java.util.List;
 
 public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder> {
 
-    private List<menus> menusList;
+    private List<orders> ordersList;
     Context context;
 
-    public MyListAdapter(List<menus> menusList) { this.menusList = menusList; }
-    public MyListAdapter(Context context) { this.context = context; }
+    public MyListAdapter(Context context, List<orders> ordersList) {
+        this.context = context;
+        this.ordersList = ordersList;
+    }
 
     @NonNull
     @Override
@@ -39,12 +41,12 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        menus item = menusList.get(position);
+        orders item = ordersList.get(position);
         holder.reviewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(((Activity)context), review_writeActivity.class);
-                ((Activity)context).startActivity(intent);
+                Intent intent = new Intent(context, review_writeActivity.class);
+                context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         });
 
@@ -52,7 +54,7 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
     }
 
     @Override
-    public int getItemCount() { return menusList.size(); }
+    public int getItemCount() { return ordersList.size(); }
 
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -71,16 +73,17 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
             reviewBtn = (Button) itemView.findViewById(R.id.list_review_btn);
         }
 
-        void setItem(menus item) {
-            bistro_name.setText(item.getRestaurant_name());
-            menu_name.setText(item.getMenu_name());
-            price.setText(item.getMenu_price());
-            cnt.setText(item.getMenu_cnt());
-            total_price.setText(item.getMenu_total_price());
-            date.setText(item.getOrder_created_at());
+        void setItem(orders item) {
+            bistro_name.setText("[" + item.getRestaurantName() + "]");
+            menu_name.setText(item.getMenuName());
+            price.setText(String.valueOf(item.getMenuPrice()));
+            cnt.setText(String.valueOf(item.getMenuCnt()));
+            total_price.setText(String.valueOf(item.getMenuTotalPrice()));
+            date.setText(item.getOrderCreatedAt());
 
-            if(item.getIs_user_write_review() == true) {
+            if(item.isUserWriteReview() == true) {
                 reviewBtn.setEnabled(false);
+                reviewBtn.setBackgroundResource(R.drawable.order_list_btn_unclickable);
                 reviewBtn.setText("리뷰 작성 완료");
             } else {
                 reviewBtn.setEnabled(true);

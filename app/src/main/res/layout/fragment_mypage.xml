@@ -161,11 +161,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView27">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_img"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:background="@drawable/circle_profile"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
                 android:src="@drawable/mypage_profile" />
 
             <TextView

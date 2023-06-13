@@ -15,14 +15,11 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.eatswunee.MainActivity;
 import com.example.eatswunee.R;
 import com.example.eatswunee.server.Data;
 import com.example.eatswunee.server.Result;
 import com.example.eatswunee.server.RetrofitClient;
 import com.example.eatswunee.server.ServiceApi;
-
-import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -78,6 +75,7 @@ public class friend_writeActivity extends AppCompatActivity {
                     start_time_btn.setText(data.getStart_time());
                     end_time_btn.setText(data.getEnd_time());
 
+                    done.setText("수정");
                 }
 
                 @Override
@@ -118,7 +116,7 @@ public class friend_writeActivity extends AppCompatActivity {
             serviceApi.postArticle(article).enqueue(new Callback<Result>() {
                 @Override
                 public void onResponse(Call<Result> call, Response<Result> response) {
-                    if(response.isSuccessful()) {
+                    if (response.isSuccessful()) {
                         Result result = response.body();
                         Log.d("article", "POST Success");
 
@@ -140,6 +138,7 @@ public class friend_writeActivity extends AppCompatActivity {
             });
 
             finish();
+            overridePendingTransition(0,0);
         }
     }
 

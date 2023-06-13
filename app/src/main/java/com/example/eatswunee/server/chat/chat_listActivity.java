@@ -1,4 +1,4 @@
-package com.example.eatswunee.mypage;
+package com.example.eatswunee.server.chat;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.eatswunee.R;
+import com.example.eatswunee.mypage.MyListAdapter;
+import com.example.eatswunee.mypage.order_listActivity;
 import com.example.eatswunee.server.Data;
 import com.example.eatswunee.server.Result;
 import com.example.eatswunee.server.RetrofitClient;
@@ -21,10 +23,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class order_listActivity extends AppCompatActivity {
+public class chat_listActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
-    private MyListAdapter adapter;
+    private MyChatListAdapter adapter;
 
     private RetrofitClient retrofitClient;
     private ServiceApi serviceApi;
@@ -32,9 +34,9 @@ public class order_listActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_order_list);
+        setContentView(R.layout.activity_chat_list);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.order_list_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.chat_list_toolbar);
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();
@@ -43,11 +45,11 @@ public class order_listActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_ios_new_24);
 
-        // RecyclerView
-        mRecyclerView = (RecyclerView) findViewById(R.id.order_list_RecyclerView);
-        mRecyclerView.addItemDecoration(new RecyclerViewDecoration(50));
-
         init();
+
+        // RecyclerView
+        mRecyclerView = (RecyclerView) findViewById(R.id.chat_list_recyclerView);
+        mRecyclerView.addItemDecoration(new RecyclerViewDecoration(50));
 
         /* initiate recyclerView */
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -59,13 +61,13 @@ public class order_listActivity extends AppCompatActivity {
         retrofitClient = RetrofitClient.getInstance();
         serviceApi = RetrofitClient.getServiceApi();
 
-        serviceApi.getOrderList().enqueue(new Callback<Result>() {
+        serviceApi.getChatList().enqueue(new Callback<Result>() {
             @Override
             public void onResponse(Call<Result> call, Response<Result> response) {
                 Result result = response.body();
                 Data data = result.getData();
 
-                adapter = new MyListAdapter(getApplicationContext(), data.getOrdersList());
+                adapter = new MyChatListAdapter(data.getChatRoomsList());
                 mRecyclerView.setAdapter(adapter);
             }
 

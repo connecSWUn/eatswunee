@@ -66,15 +66,13 @@ public class mankwon_bistroFragment extends Fragment {
                 Result result = response.body();
                 Data data = result.getData();
 
-                /*
-                if(data.getMenusList() == null) {
+                if(data.getOrdersList() == null) {
                     viewPager.setVisibility(View.GONE);
                 } else {
-                    viewPagerAdapter = new MyViewPagerAdapter(data.getOrdersList());
+                    viewPagerAdapter = new MyViewPagerAdapter(data.getHomeOrdersList());
                     viewPager.setAdapter(viewPagerAdapter);
                     viewPager.setOrientation(ORIENTATION_HORIZONTAL);
                 }
-                 */
 
                 bistroAdapter = new MyBistroAdapter(data.getMenusList());
                 mRecyclerView.setAdapter(bistroAdapter);

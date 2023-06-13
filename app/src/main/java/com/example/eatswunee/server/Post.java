@@ -27,26 +27,6 @@ public class Post {
     @Expose
     private String endTime;
 
-    /* 작성 게시물 조회 */
-    @SerializedName("post_title")
-    @Expose
-    private String post_title;
-    @SerializedName("post_spot")
-    @Expose
-    private String post_spot;
-    @SerializedName("post_start_time")
-    @Expose
-    private String post_start_time;
-    @SerializedName("post_end_time")
-    @Expose
-    private String post_end_time;
-    @SerializedName("post_created_at")
-    @Expose
-    private String post_created_at;
-    @SerializedName("post_recruit_status")
-    @Expose
-    private String post_recruit_status;
-
 
     public Long getRecruitId() {
         return recruitId;
@@ -104,53 +84,4 @@ public class Post {
         this.endTime = endTime;
     }
 
-    /* 작성 글 조회 */
-
-    public String getPost_title() {
-        return post_title;
-    }
-
-    public void setPost_title(String post_title) {
-        this.post_title = post_title;
-    }
-
-    public String getPost_spot() {
-        return post_spot;
-    }
-
-    public void setPost_spot(String post_spot) {
-        this.post_spot = post_spot;
-    }
-
-    public String getPost_start_time() {
-        return post_start_time;
-    }
-
-    public void setPost_start_time(String post_start_time) {
-        this.post_start_time = post_start_time;
-    }
-
-    public String getPost_end_time() {
-        return post_end_time;
-    }
-
-    public void setPost_end_time(String post_end_time) {
-        this.post_end_time = post_end_time;
-    }
-
-    public String getPost_created_at() {
-        return post_created_at;
-    }
-
-    public void setPost_created_at(String post_created_at) {
-        this.post_created_at = post_created_at;
-    }
-
-    public String getPost_recruit_status() {
-        return post_recruit_status;
-    }
-
-    public void setPost_recruit_status(String post_recruit_status) {
-        this.post_recruit_status = post_recruit_status;
-    }
 }

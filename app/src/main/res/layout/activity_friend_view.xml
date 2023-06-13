@@ -6,6 +6,20 @@
     android:layout_height="match_parent"
     android:background="#FAF9F7">
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/chat_list_btn"
+        android:layout_width="0dp"
+        android:layout_height="62dp"
+        android:background="#F2B089"
+        android:text="채팅 목록 (0)"
+        android:textColor="#D75509"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <LinearLayout
         android:id="@+id/linearLayout20"
         android:layout_width="wrap_content"
@@ -48,7 +62,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginRight="10dp"
         android:background="#FAF9F7"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:theme="@style/ThemeOverlay.AppCompat.Light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -213,7 +227,7 @@
             android:paddingRight="5dp">
 
             <Button
-                android:id="@+id/button7"
+                android:id="@+id/chat_btn"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_weight="20"
