@@ -47,7 +47,6 @@ public class friend_viewActivity extends AppCompatActivity {
     boolean isWriter = false;
     private long postId = 0;
     private String user_id;
-    private String writer_id;
 
     TextView title, spot, time, created_at, status, name, content;
     LinearLayout background, inside;
@@ -89,6 +88,21 @@ public class friend_viewActivity extends AppCompatActivity {
         Intent intent = getIntent();
         postId = intent.getExtras().getLong("recruitId");
 
+        serviceApi.getProfile().enqueue(new Callback<Result>() {
+            @Override
+            public void onResponse(Call<Result> call, Response<Result> response) {
+                Result result = response.body();
+                Data data = result.getData();
+
+                user_id = data.getUser_id();
+            }
+
+            @Override
+            public void onFailure(Call<Result> call, Throwable t) {
+
+            }
+        });
+
         init(postId);
     }
 
@@ -110,7 +124,6 @@ public class friend_viewActivity extends AppCompatActivity {
                     invalidateOptionsMenu();
                 }
 
-                writer_id = data.getWriters().getUser_id();
                 title.setText(data.getTitle());
 
                 String s = data.getSpot();
@@ -238,8 +251,7 @@ public class friend_viewActivity extends AppCompatActivity {
 
                     if (data.isExist_chatroom() == true) {
                         Intent intent = new Intent(friend_viewActivity.this, ChatActivity.class);
-                        intent.putExtra("recruitId", postId);
-                        intent.putExtra("messageType", "TALK");
+                        intent.putExtra("chatRoomId", Long.valueOf(user_id + "0" + postId));
                         startActivity(intent);
                     } else if (data.isExist_chatroom() == false) {
                         serviceApi.makeChat(postId).enqueue(new Callback<Result>() {
@@ -250,8 +262,7 @@ public class friend_viewActivity extends AppCompatActivity {
 
                                 long chat_id = data.getChat_room_id();
                                 Intent intent = new Intent(friend_viewActivity.this, ChatActivity.class);
-                                intent.putExtra("recruitId", postId);
-                                intent.putExtra("messageType", "ENTER");
+                                intent.putExtra("chatRoomId", chat_id);
                                 startActivity(intent);
                             }
 

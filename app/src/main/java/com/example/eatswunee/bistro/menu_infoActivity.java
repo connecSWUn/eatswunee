@@ -9,21 +9,16 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.eatswunee.MainActivity;
 import com.example.eatswunee.R;
-import com.example.eatswunee.bistro.recyclerView.MyBistroAdapter;
-import com.example.eatswunee.community.friend_viewActivity;
 import com.example.eatswunee.server.Data;
 import com.example.eatswunee.server.Result;
 import com.example.eatswunee.server.RetrofitClient;
@@ -31,10 +26,8 @@ import com.example.eatswunee.server.ServiceApi;
 import com.example.eatswunee.server.sqlite.DBManager;
 import com.example.eatswunee.shopbagActivity;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import retrofit2.Call;
@@ -73,7 +66,7 @@ public class menu_infoActivity extends AppCompatActivity {
         menuName = findViewById(R.id.info_menu_name);
         menuImage = findViewById(R.id.info_menu_image);
         menuRating = findViewById(R.id.info_star_rate);
-        menuPrice = findViewById(R.id.info_price);
+        menuPrice = findViewById(R.id.info_price1);
         menuCnt = findViewById(R.id.menu_info_pcs);
         putBtn = findViewById(R.id.put_btn);
 
@@ -100,7 +93,7 @@ public class menu_infoActivity extends AppCompatActivity {
                 int price = Integer.parseInt((String) menuPrice.getText());
 
                 menuCnt.setText(String.valueOf(cnt + 1));
-                putBtn.setText((price * (cnt + 1)) + "원 담기");
+                putBtn.setText((price * (cnt + 1)) + " 원 담기");
             }
         });
 
@@ -113,7 +106,7 @@ public class menu_infoActivity extends AppCompatActivity {
                 if(cnt == 1) Toast.makeText(menu_infoActivity.this, "최소 수량입니다.", Toast.LENGTH_SHORT).show();
                 else {
                     menuCnt.setText(String.valueOf(cnt - 1));
-                    putBtn.setText((price * (cnt - 1)) + "원 담기");
+                    putBtn.setText((price * (cnt - 1)) + " 원 담기");
                 }
             }
         });
@@ -133,8 +126,8 @@ public class menu_infoActivity extends AppCompatActivity {
                 RestaurantName.setText(data.getRestaurantName());
                 menuName.setText(data.getMenuName());
                 menuRating.setText(String.valueOf(data.getMenuRating()));
-                menuPrice.setText(data.getMenuPrice() + "원");
-                putBtn.setText(data.getMenuPrice()  + "원 담기");
+                menuPrice.setText(String.valueOf(data.getMenuPrice()));
+                putBtn.setText(data.getMenuPrice() + " 원 담기");
 
                 new ImageLoadTask(data.getMenuImg(), menuImage).execute();
             }

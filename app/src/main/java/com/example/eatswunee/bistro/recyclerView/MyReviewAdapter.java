@@ -32,7 +32,7 @@ public class MyReviewAdapter extends RecyclerView.Adapter<MyReviewAdapter.ViewHo
     @NonNull
     @Override
     public MyReviewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_review, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_review_photo, parent, false);
         return new ViewHolder(view);
     }
 
@@ -49,7 +49,7 @@ public class MyReviewAdapter extends RecyclerView.Adapter<MyReviewAdapter.ViewHo
     class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView name, context, date;
-        ImageView profile;
+        ImageView profile, review_photo;
         RatingBar star_rate;
 
         public ViewHolder(@NonNull View itemView) {
@@ -60,6 +60,7 @@ public class MyReviewAdapter extends RecyclerView.Adapter<MyReviewAdapter.ViewHo
             context = (TextView) itemView.findViewById(R.id.shopbag_price);
             date = (TextView) itemView.findViewById(R.id.my_photoR_date);
             star_rate = (RatingBar) itemView.findViewById(R.id.my_photoR_rate);
+            review_photo = (ImageView) itemView.findViewById(R.id.my_review_photo);
         }
 
         void setItem(reviews reviews) {
@@ -68,6 +69,7 @@ public class MyReviewAdapter extends RecyclerView.Adapter<MyReviewAdapter.ViewHo
             date.setText(reviews.getCreatedAt());
             star_rate.setRating(reviews.getMenuRating());
             new ImageLoadTask(reviews.getWriter().getProfileUrl(), profile).execute();
+            new ImageLoadTask(reviews.getReviewImgsList().get(0), review_photo).execute();
         }
     }
 

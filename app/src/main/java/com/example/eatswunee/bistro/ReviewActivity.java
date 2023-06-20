@@ -141,8 +141,21 @@ public class ReviewActivity extends AppCompatActivity {
                 score2Cnt.setText(String.valueOf(data.getReviewRating().getScore2Cnt()));
                 score1Cnt.setText(String.valueOf(data.getReviewRating().getScore1Cnt()));
 
+                double five = (double) data.getReviewRating().getScore5Cnt();
+                double four = (double) data.getReviewRating().getScore4Cnt();
+                double three = (double) data.getReviewRating().getScore3Cnt();
+                double two = (double) data.getReviewRating().getScore2Cnt();
+                double one = (double) data.getReviewRating().getScore1Cnt();
+                double total = (double) data.getReviewCnt();
+
+                score5.setProgress((int) (five / total * 100));
+                score4.setProgress((int) (four / total * 100));
+                score3.setProgress((int) (three / total * 100));
+                score2.setProgress((int) (two / total * 100));
+                score1.setProgress((int) (one / total * 100));
+
                 review_num.setText("리뷰 " + data.getReviewCnt());
-                review_title.setText("리뷰(" + data.getReviewCnt() + ")");
+                review_title.setText("리뷰 (" + data.getReviewCnt() + ")");
             }
 
             @Override

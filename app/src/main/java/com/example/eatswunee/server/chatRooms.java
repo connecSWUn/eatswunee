@@ -14,6 +14,9 @@ public class chatRooms {
     @SerializedName("senderNickname")
     @Expose
     private String senderNickname;
+    @SerializedName("recruitId")
+    @Expose
+    private long recruitId;
     @SerializedName("senderProfileImgUrl")
     @Expose
     private String senderProfileImgUrl;
@@ -46,6 +49,14 @@ public class chatRooms {
 
     public void setSenderNickname(String senderNickname) {
         this.senderNickname = senderNickname;
+    }
+
+    public long getRecruitId() {
+        return recruitId;
+    }
+
+    public void setRecruitId(long recruitId) {
+        this.recruitId = recruitId;
     }
 
     public String getSenderProfileImgUrl() {

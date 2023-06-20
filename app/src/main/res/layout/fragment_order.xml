@@ -13,26 +13,6 @@
         android:layout_height="match_parent"
         android:background="#FAF9F7">
 
-        <EditText
-            android:id="@+id/editTextTextPersonName"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="24dp"
-            android:background="@drawable/search_background"
-            android:drawableLeft="@drawable/search"
-            android:drawablePadding="5dp"
-            android:ems="10"
-            android:hint="@string/search"
-            android:inputType="textPersonName"
-            android:paddingLeft="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView21"
-            tools:textColorHint="#8045210D" />
-
         <LinearLayout
             android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
@@ -41,7 +21,7 @@
             android:layout_weight="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName">
+            app:layout_constraintTop_toBottomOf="@+id/textView21">
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/myPagetabLayout"
@@ -58,7 +38,7 @@
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="450dp"
             android:layout_marginEnd="2dp"
             android:layout_weight="8"
             app:layout_constraintEnd_toEndOf="parent"

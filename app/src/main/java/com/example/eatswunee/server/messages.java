@@ -1,5 +1,7 @@
 package com.example.eatswunee.server;
 
+import android.text.Editable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -17,6 +19,13 @@ public class messages {
     @SerializedName("message_is_read")
     @Expose
     private boolean message_is_read;
+
+    public messages(String message_created_at, String message_sender, String message_content, boolean message_is_read) {
+        this.message_created_at = message_created_at;
+        this.message_sender = message_sender;
+        this.message_content = message_content;
+        this.message_is_read = message_is_read;
+    }
 
     public String getMessage_created_at() {
         return message_created_at;

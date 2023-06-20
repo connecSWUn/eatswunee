@@ -76,9 +76,9 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
         void setItem(orders item) {
             bistro_name.setText("[" + item.getRestaurantName() + "]");
             menu_name.setText(item.getMenuName());
-            price.setText(String.valueOf(item.getMenuPrice()));
-            cnt.setText(String.valueOf(item.getMenuCnt()));
-            total_price.setText(String.valueOf(item.getMenuTotalPrice()));
+            price.setText(item.getMenuPrice() + "원");
+            cnt.setText(item.getMenuCnt() + "개");
+            total_price.setText(item.getMenuTotalPrice() + "원");
             date.setText(item.getOrderCreatedAt());
 
             if(item.isUserWriteReview() == true) {

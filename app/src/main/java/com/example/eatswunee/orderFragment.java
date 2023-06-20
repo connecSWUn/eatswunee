@@ -3,13 +3,18 @@ package com.example.eatswunee;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.example.eatswunee.bistro.MyPageAdapter;
+import com.example.eatswunee.bistro.total_bistroFragment;
 import com.google.android.material.tabs.TabLayout;
 
 
@@ -19,6 +24,8 @@ public class orderFragment extends Fragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private int tabCurrentIdx = 0;
+
+    EditText search_bar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); }

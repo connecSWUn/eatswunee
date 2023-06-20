@@ -25,7 +25,7 @@
             android:text="이미 계정이 있으신가요?" />
 
         <Button
-            android:id="@+id/button10"
+            android:id="@+id/register_login_btn"
             android:layout_width="55dp"
             android:layout_height="wrap_content"
             android:background="#00ff0000"
@@ -93,7 +93,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/is_id"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:background="@drawable/profile_background"
@@ -169,7 +169,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/buttondbl"
+            android:id="@+id/is_nick"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:background="@drawable/profile_background"

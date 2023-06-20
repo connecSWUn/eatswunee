@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -48,6 +50,16 @@ public class MyChatListAdapter extends RecyclerView.Adapter<MyChatListAdapter.Vi
     public void onBindViewHolder(@NonNull MyChatListAdapter.ViewHolder holder, int position) {
         chatRooms item = items.get(position);
         holder.setItem(item);
+
+        holder.serviceItemClickListener = new ServiceItemClickListener() {
+            @Override
+            public void onItemClickListener(View v, int position) {
+                long chatRoomId = items.get(position).getChatRoom();
+                Intent intent = new Intent(v.getContext(), ChatActivity.class);
+                intent.putExtra("chatRoomId", chatRoomId);
+                v.getContext().startActivity(intent);
+            }
+        };
     }
 
     @Override
@@ -56,10 +68,11 @@ public class MyChatListAdapter extends RecyclerView.Adapter<MyChatListAdapter.Vi
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView title, nickname, message, date;
         private ImageView profile;
+        ServiceItemClickListener serviceItemClickListener;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -70,6 +83,7 @@ public class MyChatListAdapter extends RecyclerView.Adapter<MyChatListAdapter.Vi
             date = itemView.findViewById(R.id.chat_list_date);
             profile = itemView.findViewById(R.id.chat_list_profile);
 
+            itemView.setOnClickListener(this);
         }
 
         void setItem(chatRooms item) {
@@ -79,6 +93,11 @@ public class MyChatListAdapter extends RecyclerView.Adapter<MyChatListAdapter.Vi
             date.setText(item.getLastChatCreatedAt());
 
             new ImageLoadTask(item.getSenderProfileImgUrl(), profile).execute();
+        }
+
+        @Override
+        public void onClick(View v) {
+            this.serviceItemClickListener.onItemClickListener(v, getLayoutPosition());
         }
     }
 

@@ -67,7 +67,7 @@ public class phoini_bistroFragment extends Fragment {
                 Result result = response.body();
                 Data data = result.getData();
 
-                if(data.getOrdersList() == null) {
+                if(data.getHomeOrdersList() == null) {
                     viewPager.setVisibility(View.GONE);
                 } else {
                     viewPagerAdapter = new MyViewPagerAdapter(data.getHomeOrdersList());

@@ -1,5 +1,6 @@
 package com.example.eatswunee.server.chat;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,22 +17,24 @@ import java.util.List;
 public class chatAdapter extends RecyclerView.Adapter<chatAdapter.ViewHolder> {
 
     private List<messages> messagesList;
+    Context context;
     private String user_name;
 
     final int TYPE_MY = 0;
     final int TYPE_OTHER = 1;
 
-    public chatAdapter(String user_name, List<messages> messagesList) {
+    public chatAdapter(String user_name, List<messages> messagesList, Context context) {
         this.user_name = user_name;
         this.messagesList = messagesList;
+        this.context = context;
     }
 
     @Override
     public int getItemViewType(int position) {
         if(messagesList.get(position).getMessage_sender().equals(user_name)) {
-            return TYPE_MY;
-        } else {
             return TYPE_OTHER;
+        } else {
+            return TYPE_MY;
         }
     }
 
@@ -39,8 +42,8 @@ public class chatAdapter extends RecyclerView.Adapter<chatAdapter.ViewHolder> {
     @Override
     public chatAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view =  null;
-        if(viewType == TYPE_MY) view = LayoutInflater.from(view.getContext()).inflate(R.layout.chat_my_message, parent, false);
-        else view = LayoutInflater.from(view.getContext()).inflate(R.layout.chat_other_message, parent, false);
+        if(viewType == TYPE_MY) view = LayoutInflater.from(context).inflate(R.layout.chat_my_message, parent, false);
+        else view = LayoutInflater.from(context).inflate(R.layout.chat_other_message, parent, false);
 
         return new ViewHolder(view);
     }
@@ -55,6 +58,11 @@ public class chatAdapter extends RecyclerView.Adapter<chatAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() { return messagesList.size(); }
+
+    public void addChat(messages messages) {
+        messagesList.add(messages);
+        notifyItemInserted(messagesList.size() - 1);
+    }
 
 
     class ViewHolder extends RecyclerView.ViewHolder {
