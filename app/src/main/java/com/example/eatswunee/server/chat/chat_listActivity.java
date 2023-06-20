@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -49,7 +50,31 @@ public class chat_listActivity extends AppCompatActivity {
 
         // RecyclerView
         mRecyclerView = (RecyclerView) findViewById(R.id.chat_list_recyclerView);
-        mRecyclerView.addItemDecoration(new RecyclerViewDecoration(50));
+        //mRecyclerView.addItemDecoration(new RecyclerViewDecoration(50));
+
+        /* initiate recyclerView */
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.chat_list_toolbar);
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_ios_new_24);
+
+        init();
+
+        // RecyclerView
+        mRecyclerView = (RecyclerView) findViewById(R.id.chat_list_recyclerView);
+        //mRecyclerView.addItemDecoration(new RecyclerViewDecoration(50));
 
         /* initiate recyclerView */
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));

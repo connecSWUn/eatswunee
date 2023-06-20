@@ -34,15 +34,6 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="55dp"
-            android:layout_height="36dp"
-            android:background="@drawable/list_button_background"
-            android:text="보기"
-            android:textColor="#D75509"
-            android:textSize="15sp"
-            android:textStyle="normal" />
     </LinearLayout>
 
     <View

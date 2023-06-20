@@ -22,6 +22,8 @@ import com.example.eatswunee.server.Result;
 import com.example.eatswunee.server.RetrofitClient;
 import com.example.eatswunee.server.ServiceApi;
 
+import org.checkerframework.checker.units.qual.C;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -48,6 +50,9 @@ public class total_bistroFragment extends Fragment {
         // Inflate the layout for this fragment
         v =  inflater.inflate(R.layout.fragment_total_bistro, container, false);
 
+        retrofitClient = RetrofitClient.getInstance();
+        serviceApi = RetrofitClient.getServiceApi();
+
         init(0);
 
         mRecyclerView = v.findViewById(R.id.total_RecyclerView);
@@ -61,16 +66,13 @@ public class total_bistroFragment extends Fragment {
 
     private void init(long restaurantId) {
 
-        retrofitClient = RetrofitClient.getInstance();
-        serviceApi = RetrofitClient.getServiceApi();
-
         serviceApi.getData("gusia", restaurantId).enqueue(new Callback<Result>() {
             @Override
             public void onResponse(Call<Result> call, Response<Result> response) {
                 Result result = response.body();
                 Data data = result.getData();
 
-                if(data.getOrdersList() == null) {
+                if(data.getHomeOrdersList() == null) {
                     viewPager.setVisibility(View.GONE);
                 } else {
                     viewPagerAdapter = new MyViewPagerAdapter(data.getHomeOrdersList());

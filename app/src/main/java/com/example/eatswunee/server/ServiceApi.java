@@ -1,17 +1,24 @@
 package com.example.eatswunee.server;
 
 import com.example.eatswunee.community.article;
+import com.google.gson.JsonObject;
 
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ServiceApi {
     /* Get 방식 - @GET(URI) */
@@ -53,23 +60,40 @@ public interface ServiceApi {
     Call<Result> getExist(@Path("recruitId") long recruitId);
 
     /* 채팅방 입장 */
-    @GET("/chat/enter/{recruitId}")
-    Call<Result> enterChat(@Path("recruitId") long recruitId);
+    @GET("/chat/enter/{chatRoomId}")
+    Call<Result> enterChat(@Path("chatRoomId") long chatRoomId);
 
     /* 채팅방 만들기 */
     @GET("/chat/create/{recruitId}")
     Call<Result> makeChat(@Path("recruitId") long recruitId);
 
-    @GET("/user/chat")
+    @GET("/user/chatroom/list")
     Call<Result> getChatList();
+
+    @GET("/gusia/search/{restaurantId}/{keyword}")
+    Call<Result> getSearch(@Path("restaurantId") long restaurantId, @Path("keyword") String keyword);
 
     /* 게시글 삭제 */
     @DELETE("/recruit/delete/{postId}")
     Call<Result> postDelete(@Path("postId") long postId);
+    @DELETE("/mypage/review/delete/{reviewId}")
+    Call<Result> reviewDelete(@Path("reviewId") long reviewId);
 
     /* 로그인 */
     @POST("/login/user")
     Call<Result> postData(@Body AccountLoginDto accountLoginDto);
+
+    /* 회원가입 */
+    @POST("/signup/user")
+    Call<Result> postRegister(@Body AccountRegisterDto accountRegisterDto);
+    @GET("mypage/duplicated/loginId/{loginId}")
+    Call<Result> isIdDuplicated(@Path("loginId") String loginId);
+    @GET("mypage/duplicated/{nickname}")
+    Call<Result> isNicknameDuplicated(@Path("nickname") String nickname);
+
+    /* 주문 */
+    @POST("/gusia/order/save")
+    Call<Result> postOrder(@Body JSONObject JSONObject);
 
     @POST("/recruit/save")
     Call<Result> postArticle(@Body article article);

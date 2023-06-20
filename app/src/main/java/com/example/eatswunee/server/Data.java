@@ -314,7 +314,7 @@ public class Data {
     @SerializedName("sender_name")
     @Expose
     private String sender_name;
-    @SerializedName("commands")
+    @SerializedName("messages")
     private List<messages> messagesList;
 
     public String getRecruitStatus() {
@@ -373,11 +373,11 @@ public class Data {
         this.sender_name = sender_name;
     }
 
-    public List<messages> getCommandsList() {
+    public List<messages> getMessagesList() {
         return messagesList;
     }
 
-    public void setCommandsList(List<messages> messagesList) {
+    public void setMessagesList(List<messages> messagesList) {
         this.messagesList = messagesList;
     }
 
@@ -406,7 +406,17 @@ public class Data {
         this.chatRoomsList = chatRoomsList;
     }
 
+    /* 중복 확인 */
+    @SerializedName("is_duplicated")
+    private boolean is_duplicated;
 
+    public boolean isIs_duplicated() {
+        return is_duplicated;
+    }
+
+    public void setIs_duplicated(boolean is_duplicated) {
+        this.is_duplicated = is_duplicated;
+    }
 
     public long getPost_id() {
         return post_id;

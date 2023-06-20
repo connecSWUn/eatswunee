@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,10 +29,9 @@ public class LoginActivity extends AppCompatActivity {
 
     private RetrofitClient retrofitClient;
     private ServiceApi serviceApi;
-
     String user_id, user_pw;
     TextInputEditText id_input, password_input;
-    Button login_btn;
+    Button login_btn, join_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         id_input = findViewById(R.id.idInput);
         password_input = findViewById(R.id.passwordInput);
         login_btn = findViewById(R.id.login_btn);
+        join_btn = findViewById(R.id.register_button);
 
         retrofitClient = RetrofitClient.getInstance();
         serviceApi = RetrofitClient.getServiceApi();
@@ -78,5 +80,14 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+
+        join_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 }

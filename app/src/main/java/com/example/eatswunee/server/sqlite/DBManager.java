@@ -130,4 +130,13 @@ public class DBManager extends SQLiteOpenHelper {
             Log.d("sqlite", "delete successfully");
         }
     }
+
+    /**
+     * 데이터 전체 삭제
+     */
+    public void deleteAllData() {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.execSQL("DELETE FROM " + TABLE_NAME);
+    }
 }

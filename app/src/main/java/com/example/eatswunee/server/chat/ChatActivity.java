@@ -20,14 +20,20 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.eatswunee.R;
+import com.example.eatswunee.community.MyCommunityAdapter;
 import com.example.eatswunee.mypage.MyListAdapter;
 import com.example.eatswunee.server.Data;
 import com.example.eatswunee.server.Result;
 import com.example.eatswunee.server.RetrofitClient;
 import com.example.eatswunee.server.ServiceApi;
+import com.example.eatswunee.server.messages;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -39,15 +45,16 @@ import retrofit2.Response;
 public class ChatActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
-    private MyListAdapter adapter;
+    private chatAdapter adapter;
 
     private RetrofitClient retrofitClient;
     private OkHttpClient client;
     private WebSocket ws;
     private ServiceApi serviceApi;
-    private long postId = 0;
+    long chatRoomId;
     private String user_id;
     private String messageType;
+    private int isSend = 0;
 
     TextView title, date, spot, time, status, nickname, start_message;
     EditText message;
@@ -60,6 +67,14 @@ public class ChatActivity extends AppCompatActivity {
 
         retrofitClient = RetrofitClient.getInstance();
         serviceApi = RetrofitClient.getServiceApi();
+
+        client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url("ws://43.201.201.163:8080/ws/chat")
+                .build();
+        WebSocketListener listener = new WebSocketListener();
+        ws = client.newWebSocket(request, listener);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.chat_toolbar);
         setSupportActionBar(toolbar);
@@ -82,16 +97,7 @@ public class ChatActivity extends AppCompatActivity {
         sendBtn = findViewById(R.id.send_btn);
 
         Intent intent = getIntent();
-        postId = intent.getExtras().getLong("recruitId");
-        messageType = intent.getExtras().getString("messageType");
-
-        client = new OkHttpClient();
-
-        Request request = new Request.Builder()
-                .url("ws://43.201.201.163:8080/ws/chat")
-                .build();
-        WebSocketListener listener = new WebSocketListener();
-        ws = client.newWebSocket(request, listener);
+        chatRoomId = intent.getExtras().getLong("chatRoomId");
 
         // RecyclerView
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
@@ -114,16 +120,16 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        init(postId);
+        init(chatRoomId);
 
         /* initiate recyclerView */
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
     }
 
-    private void init(long postId) {
+    private void init(long chatRoomId) {
 
-        serviceApi.enterChat(postId).enqueue(new Callback<Result>() {
+        serviceApi.enterChat(chatRoomId).enqueue(new Callback<Result>() {
             @Override
             public void onResponse(Call<Result> call, Response<Result> response) {
                 Result result = response.body();
@@ -137,7 +143,7 @@ public class ChatActivity extends AppCompatActivity {
                 nickname.setText(data.getSender_name());
                 start_message.setText(data.getSender_name() + "님과의 대화를 시작합니다.");
 
-                if(data.getRecruit_status() == "ONGOING") {
+                if (data.getRecruit_status() == "ONGOING") {
                     status.setText("찾는 중...");
                     status.setBackgroundResource(R.drawable.community_state_finding);
                 } else if (data.getRecruit_status() == "CONNECTING") {
@@ -147,6 +153,13 @@ public class ChatActivity extends AppCompatActivity {
                     status.setText("구했어요!");
                     status.setBackgroundResource(R.drawable.community_state_done);
                 }
+
+                /* initiate adapter */
+                adapter = new chatAdapter(data.getSender_name(), data.getMessagesList(), getApplicationContext());
+
+                mRecyclerView.setAdapter(adapter);
+                mRecyclerView.scrollToPosition(adapter.getItemCount() - 1);
+
             }
 
             @Override
@@ -157,17 +170,38 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private final class WebSocketListener extends okhttp3.WebSocketListener {
+
         private static final int NORMAL_CLOSURE_STATUS = 1000;
 
         @Override
         public void onOpen(@NonNull WebSocket webSocket, @NonNull okhttp3.Response response) {
             super.onOpen(webSocket, response);
-
         }
 
         @Override
         public void onMessage(@NonNull WebSocket webSocket, @NonNull String text) {
             super.onMessage(webSocket, text);
+            Log.d("message", text);
+
+            Calendar cal = Calendar.getInstance();
+            String year = String.valueOf(cal.get(Calendar.YEAR));
+            String month = String.valueOf(cal.get(Calendar.MONTH) + 1);
+            String day = String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
+            String hour = String.valueOf(cal.get(Calendar.HOUR));
+            String minute = String.valueOf(cal.get(Calendar.MINUTE));
+            String second = String.valueOf(cal.get(Calendar.SECOND));
+            if(cal.get(Calendar.YEAR) < 10) { year = "0" + cal.get(Calendar.YEAR); }
+            if((cal.get(Calendar.MONTH) + 1) < 10) { month = "0" + (cal.get(Calendar.MONTH) + 1); }
+            if(cal.get(Calendar.DAY_OF_MONTH) < 10) { day = "0" + cal.get(Calendar.DAY_OF_MONTH); }
+            if(cal.get(Calendar.HOUR) < 10) { hour = "0" + cal.get(Calendar.HOUR); }
+            if(cal.get(Calendar.MINUTE) < 10) { minute = "0" + cal.get(Calendar.MINUTE); }
+            if(cal.get(Calendar.SECOND) < 10) { second = "0" + cal.get(Calendar.SECOND); }
+
+            String created_at = year + "." + month + "." + day + " " + hour + ":"
+                    + minute + ":" + second;
+            messages messages = new messages(created_at, "sender", text, true);
+            adapter.addChat(messages);
+            mRecyclerView.scrollToPosition(adapter.getItemCount() - 1);
         }
 
         @Override
@@ -190,6 +224,7 @@ public class ChatActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home: {
                 finish();
+                isSend = 0;
                 return true;
             }
         }
@@ -216,17 +251,83 @@ public class ChatActivity extends AppCompatActivity {
     private class sendOnClickListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
-            JSONObject object = new JSONObject();
-            try {
-                object.put("messageType", messageType);
-                object.put("chatRoomId", Long.valueOf(user_id + "0" + postId));
-                object.put("senderId", Long.valueOf(user_id));
-                object.put("message", message.getText());
 
-                ws.send(object.toString());
+            if(isSend == 0) {
+                JSONObject object = new JSONObject();
+                try {
 
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
+                    object.put("messageType", "ENTER");
+                    object.put("chatRoomId", Long.valueOf(chatRoomId));
+                    object.put("senderId", Long.valueOf(user_id));
+                    object.put("message", message.getText());
+
+                    Log.d("chat", object.toString());
+                    ws.send(object.toString());
+
+                    Calendar cal = Calendar.getInstance();
+                    String year = String.valueOf(cal.get(Calendar.YEAR));
+                    String month = String.valueOf(cal.get(Calendar.MONTH) + 1);
+                    String day = String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
+                    String hour = String.valueOf(cal.get(Calendar.HOUR));
+                    String minute = String.valueOf(cal.get(Calendar.MINUTE));
+                    String second = String.valueOf(cal.get(Calendar.SECOND));
+                    if(cal.get(Calendar.YEAR) < 10) { year = "0" + cal.get(Calendar.YEAR); }
+                    if((cal.get(Calendar.MONTH) + 1) < 10) { month = "0" + (cal.get(Calendar.MONTH) + 1); }
+                    if(cal.get(Calendar.DAY_OF_MONTH) < 10) { day = "0" + cal.get(Calendar.DAY_OF_MONTH); }
+                    if(cal.get(Calendar.HOUR) < 10) { hour = "0" + cal.get(Calendar.HOUR); }
+                    if(cal.get(Calendar.MINUTE) < 10) { minute = "0" + cal.get(Calendar.MINUTE); }
+                    if(cal.get(Calendar.SECOND) < 10) { second = "0" + cal.get(Calendar.SECOND); }
+
+                    String created_at = year + "." + month + "." + day + " " + hour + ":"
+                            + minute + ":" + second;
+                    messages messages = new messages(created_at, "sender", String.valueOf(message.getText()), false);
+                    adapter.addChat(messages);
+                    mRecyclerView.scrollToPosition(adapter.getItemCount() - 1);
+
+                    message.setText("");
+                    isSend++;
+
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            else {
+                JSONObject object = new JSONObject();
+                try {
+
+                    object.put("messageType", "TALK");
+                    object.put("chatRoomId", Long.valueOf(chatRoomId));
+                    object.put("senderId", Long.valueOf(user_id));
+                    object.put("message", message.getText());
+
+                    Log.d("chat", object.toString());
+                    ws.send(object.toString());
+
+                    Calendar cal = Calendar.getInstance();
+                    String year = String.valueOf(cal.get(Calendar.YEAR));
+                    String month = String.valueOf(cal.get(Calendar.MONTH) + 1);
+                    String day = String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
+                    String hour = String.valueOf(cal.get(Calendar.HOUR));
+                    String minute = String.valueOf(cal.get(Calendar.MINUTE));
+                    String second = String.valueOf(cal.get(Calendar.SECOND));
+                    if(cal.get(Calendar.YEAR) < 10) { year = "0" + cal.get(Calendar.YEAR); }
+                    if((cal.get(Calendar.MONTH) + 1) < 10) { month = "0" + (cal.get(Calendar.MONTH) + 1); }
+                    if(cal.get(Calendar.DAY_OF_MONTH) < 10) { day = "0" + cal.get(Calendar.DAY_OF_MONTH); }
+                    if(cal.get(Calendar.HOUR) < 10) { hour = "0" + cal.get(Calendar.HOUR); }
+                    if(cal.get(Calendar.MINUTE) < 10) { minute = "0" + cal.get(Calendar.MINUTE); }
+                    if(cal.get(Calendar.SECOND) < 10) { second = "0" + cal.get(Calendar.SECOND); }
+
+                    String created_at = year + "." + month + "." + day + " " + hour + ":"
+                            + minute + ":" + second;
+                    messages messages = new messages(created_at, "sender", String.valueOf(message.getText()), false);
+                    adapter.addChat(messages);
+                    mRecyclerView.scrollToPosition(adapter.getItemCount() - 1);
+
+                    message.setText("");
+
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }

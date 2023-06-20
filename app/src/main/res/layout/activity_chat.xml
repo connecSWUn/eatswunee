@@ -151,15 +151,14 @@
         app:layout_constraintTop_toBottomOf="@+id/view12" />
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:id="@+id/linearLayout25"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
         android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView">
+        tools:layout_editor_absoluteX="229dp">
 
         <EditText
             android:id="@+id/chat_box"
@@ -190,12 +189,14 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
-        android:layout_height="365dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="2dp"
         android:paddingLeft="20dp"
         android:paddingTop="10dp"
         android:paddingRight="20dp"
-        app:stackFromEnd="true"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout25"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/start_message" />
+        app:layout_constraintTop_toBottomOf="@+id/start_message"
+        app:stackFromEnd="true" />
 </androidx.constraintlayout.widget.ConstraintLayout>

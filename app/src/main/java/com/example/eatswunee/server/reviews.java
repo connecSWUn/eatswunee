@@ -18,9 +18,9 @@ public class reviews {
     @SerializedName("createdAt")
     @Expose
     private String createdAt;
-    @SerializedName("reveiewContent")
+    @SerializedName("reviewContent")
     @Expose
-    private String reveiewContent;
+    private String reviewContent;
     @SerializedName("menuRating")
     @Expose
     private int menuRating;
@@ -67,11 +67,11 @@ public class reviews {
     }
 
     public String getReviewContent() {
-        return reveiewContent;
+        return reviewContent;
     }
 
     public void setReviewContent(String reviewContent) {
-        this.reveiewContent = reveiewContent;
+        this.reviewContent = reviewContent;
     }
 
     public int getMenuRating() {

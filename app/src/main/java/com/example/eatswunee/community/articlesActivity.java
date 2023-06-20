@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -69,6 +70,16 @@ public class articlesActivity extends AppCompatActivity {
         write = findViewById(R.id.articles_write_btn);
 
         init();
+
+        write.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(articlesActivity.this, friend_writeActivity.class);
+                intent.putExtra("edit", false);
+                startActivity(intent);
+            }
+        });
+
 
         //피드 구성하는 탭레이아웃 + 뷰페이저
         tabLayout.addTab(tabLayout.newTab().setText("찾는 중"));
