@@ -38,7 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        retrofitClient = RetrofitClient.getInstance();
+        //retrofitClient = RetrofitClient.getInstance();
         serviceApi = RetrofitClient.getServiceApi();
 
         idInput = findViewById(R.id.idInput);

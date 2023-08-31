@@ -37,7 +37,7 @@ public class RetrofitClient {
         public Response intercept(Chain chain) throws IOException {
 
             Request newRequest  = chain.request().newBuilder()
-                    .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY4NzgxMDI1Mn0.Pehg7SodmD7eovGFgL_QU4b0FY8zjoJHfEcUv9GKJss")
+                    .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY5MzkxOTkyMH0.TWDok0XDMru-GCafpU4hCwt3uL8QCm1sximZJIApwJo")
                     .build();
             Log.d("login", token);
             Log.d("login", "access success");

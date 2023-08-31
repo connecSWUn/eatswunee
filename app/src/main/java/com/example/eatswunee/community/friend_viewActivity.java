@@ -27,6 +27,7 @@ import com.example.eatswunee.server.Data;
 import com.example.eatswunee.server.Result;
 import com.example.eatswunee.server.RetrofitClient;
 import com.example.eatswunee.server.ServiceApi;
+import com.example.eatswunee.server.chat.chat_listActivity;
 
 import org.json.JSONObject;
 
@@ -104,6 +105,8 @@ public class friend_viewActivity extends AppCompatActivity {
         });
 
         init(postId);
+
+        chat_list_btn.setOnClickListener(new chatListOnClickListener());
     }
 
     private void init(long postId) {
@@ -125,15 +128,8 @@ public class friend_viewActivity extends AppCompatActivity {
                 }
 
                 title.setText(data.getTitle());
-
-                String s = data.getSpot();
-                if (s == "gusia") spot.setText("구시아");
-                else if (s == "fiftieth") spot.setText("50주년");
-                else if (s == "nuri") spot.setText("누리관");
-                else if (s == "shalom") spot.setText("샬롬");
-                else if (s == "gyo") spot.setText("교직원식당");
-
-                time.setText(data.getStart_time() + "-" + data.getEnd_time());
+                spot.setText(data.getSpot());
+                time.setText(data.getStart_time() + " - " + data.getEnd_time());
                 created_at.setText(data.getCreated_at());
                 content.setText(data.getContent());
                 name.setText(data.getWriters().getUser_name());
@@ -279,6 +275,14 @@ public class friend_viewActivity extends AppCompatActivity {
 
                 }
             });
+        }
+    }
+
+    private class chatListOnClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(friend_viewActivity.this, chat_listActivity.class);
+            startActivity(intent);
         }
     }
 }
