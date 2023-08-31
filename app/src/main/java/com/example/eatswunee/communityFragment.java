@@ -225,6 +225,8 @@ public class communityFragment extends Fragment {
             fiftieth.setSelected(false);
             shalom.setSelected(false);
             gyo.setSelected(true);
+
+            //init("gyo");
         }
     }
 }

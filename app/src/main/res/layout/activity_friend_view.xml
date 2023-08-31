@@ -11,7 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="62dp"
         android:background="#F2B089"
-        android:text="채팅 목록 (0)"
+        android:text="채팅 목록 (3)"
         android:textColor="#D75509"
         android:textSize="22sp"
         android:textStyle="bold"

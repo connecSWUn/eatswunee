@@ -53,7 +53,7 @@ public class MyViewPagerAdapter extends RecyclerView.Adapter<MyViewPagerAdapter.
 
         void setItem(homeOrders item) {
             order_num.setText(String.valueOf(item.getOrderNum()));
-            waiting_time.setText(item.getExpectedWatingTime() + " 분");
+            waiting_time.setText(item.getExpectedWaitingTime() + " 분");
         }
     }
 }

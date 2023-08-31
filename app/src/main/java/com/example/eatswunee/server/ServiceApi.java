@@ -1,6 +1,7 @@
 package com.example.eatswunee.server;
 
 import com.example.eatswunee.community.article;
+import com.example.eatswunee.mypage.review_content;
 import com.google.gson.JsonObject;
 
 import org.json.JSONObject;
@@ -76,8 +77,12 @@ public interface ServiceApi {
     /* 게시글 삭제 */
     @DELETE("/recruit/delete/{postId}")
     Call<Result> postDelete(@Path("postId") long postId);
+
+    /* 리뷰 */
     @DELETE("/mypage/review/delete/{reviewId}")
     Call<Result> reviewDelete(@Path("reviewId") long reviewId);
+    @DELETE("/mypage/review/save")
+    Call<Result> postReview(@Body review_content review_content);
 
     /* 로그인 */
     @POST("/login/user")

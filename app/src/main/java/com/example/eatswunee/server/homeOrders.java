@@ -14,9 +14,9 @@ public class homeOrders {
     @SerializedName("restaurantId")
     @Expose
     private int restaurantId;
-    @SerializedName("expectedWatingTime")
+    @SerializedName("expectedWaitingTime")
     @Expose
-    private int expectedWatingTime;
+    private int expectedWaitingTime;
 
     public long getOrderId() {
         return orderId;
@@ -42,11 +42,11 @@ public class homeOrders {
         this.restaurantId = restaurantId;
     }
 
-    public int getExpectedWatingTime() {
-        return expectedWatingTime;
+    public int getExpectedWaitingTime() {
+        return expectedWaitingTime;
     }
 
-    public void setExpectedWatingTime(int expectedWatingTime) {
-        this.expectedWatingTime = expectedWatingTime;
+    public void setExpectedWaitingTime(int expectedWaitingTime) {
+        this.expectedWaitingTime = expectedWaitingTime;
     }
 }

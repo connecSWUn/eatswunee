@@ -76,7 +76,7 @@ public class MyCommunityAdapter extends RecyclerView.Adapter<MyCommunityAdapter.
         void setItem(Post item) {
             title.setText(item.getTitle());
             place.setText(item.getSpot());
-            app_time.setText(item.getStartTime() + "-" + item.getEndTime());
+            app_time.setText(item.getStartTime() + " - " + item.getEndTime());
             post_date.setText(item.getCreatedAt());
 
             if(item.getRecruitStatus() == "ONGOING") {

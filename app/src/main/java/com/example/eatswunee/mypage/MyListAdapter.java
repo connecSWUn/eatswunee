@@ -46,6 +46,9 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, review_writeActivity.class);
+                intent.putExtra("restaurant_name", item.getRestaurantName());
+                intent.putExtra("menu_name", item.getMenuName());
+                intent.putExtra("menu_id", item.getOrderMenuId());
                 context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         });
